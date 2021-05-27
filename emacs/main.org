@@ -1,0 +1,28 @@
+#+TITLE: Main Emacs Configuration
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
+
+Define all files that include emacs configuration code
+
+#+begin_src emacs-lisp
+  
+  (add-to-list 'load-path (concat user-emacs-directory "lisp"))
+  (require 'package-management)
+  (require 'helpinfo)
+  (require 'appearance)
+  (require 'completion)
+  (require 'keybinding)
+  (require 'projects)
+  (require 'organization)
+  (require 'code)
+  
+#+end_src
+
+Make sure that automatically saved configuration is stored in a different file
+
+#+begin_src emacs-lisp
+    
+  (setq custom-file (concat user-emacs-directory "customization.el"))
+  (if (file-exists-p custom-file)
+      (load custom-file))
+  
+#+end_src

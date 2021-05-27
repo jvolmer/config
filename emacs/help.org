@@ -1,0 +1,39 @@
+#+TITLE: Improve getting help
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/helpinfo.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'helpinfo)
+  
+#+end_src
+
+
+* Improve help readability
+
+Get advanced help for functions, variables and keys (and commands if there is a ~describe-command~ function).
+
+#+begin_src emacs-lisp
+  
+  (use-package helpful
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
+  
+#+end_src
+
+* Helpers
+
+Show commands I ran in a separate buffer
+
+#+begin_src emacs-lisp
+  
+  (use-package command-log-mode)
+  
+#+end_src
+
+Toggle command-log mode in all buffers with ~global-command-log-mode~. Show it with ~clm/toggle-command-log-buffer~ (~C-c o~).

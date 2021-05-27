@@ -1,0 +1,131 @@
+#+TITLE: Use emacs as an IDE
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/code.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'code)
+  
+#+end_src
+
+Activate it
+
+#+begin_src emacs-lisp
+  
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :custom
+    (lsp-keymap-prefix "C-c l")
+    :config
+    (lsp-enable-which-key-integration t))
+  
+#+end_src
+
+** Features
+
+*** Completion
+ ~completion-at-point~
+ 
+*** Signatures
+Shows them in echo area a bottom
+Cycle through with ~M-p~ and ~M-n~
+
+*** Navigation
+~lsp-find-reference~ (~C-c l g r~)
+~lsp-find-definition~ (~C-c l g g~)
+
+*** Refactoring
+~lsp-rename~ (~C-c l r r~)
+
+*** Formatting
+~lsp-format-buffer~ (~C-c l = =~)
+Configurable via ~lsp-<language>-format~
+There can be better packages for each language individually
+
+*** Diagnostics
+using flymake
+- List: ~flymake-show-diagnostics-buffer~
+- Show warnings/errors at point ~C-h .~
+
+*** Actions
+~lsp-execute-code-action~ ( ~C-c l a a~)
+
+* Improved completion
+
+#+begin_src emacs-lisp
+  
+  (use-package company
+    :after lsp-mode ;; use this for lsp completion, otherwise ivy
+    :hook company-mode
+    :bind (:map company-active-map
+                ("<tab>" . company-complete-selection)
+           :map lsp-mode-map
+                ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0))
+  
+#+end_src
+
+Nicer interface (with symbols)
+
+#+begin_src emacs-lisp
+  
+  (use-package company-box
+    :hook company-mode)
+  
+#+end_src
+
+* Higher level UI features
+
+#+begin_src emacs-lisp
+  
+  (use-package lsp-ui
+    :hook lsp-mode
+    :custom
+    (lsp-ui-doc-position 'bottom))
+  
+#+end_src
+
+There are different modules:
+- lsp-ui-sideline: shows information of symbols on the current line, also flycheck diagnostics and code actions
+- lsp-ui-peek: peek to definition or reference ~lsp-ui-peek-find-references~ (~C-c l G r~)
+- lsp-ui-doc: shows object documentation at point in a child frame (go in and out of frame with ~lsp-ui-doc-(un)focus-frame~ 
+- lsp-ui-imenu
+
+There are a lot of options and things you can toggle, have a look at https://github.com/emacs-lsp/lsp-iu. Toogles can also be changed with ~C-c l T~.
+
+* Treemacs
+
+#+begin_src emacs-lisp
+  
+  (use-package lsp-treemacs
+    :after lsp)
+  
+#+end_src
+
+See file system with ~treemacs~
+
+See symbols with ~lsp-treemacs-symbols~
+
+Possibly treemacs-projectile can be interesting.
+
+* Search symbol in project
+
+Search e.g. for class name in project with ~lsp-ivy~
+
+#+begin_src emacs-lisp
+  
+  (use-package lsp-ivy)
+  
+#+end_src
+
+* Specific language
+
+You need to install the language server for the particular language you use, have a look at https://emacs-lsp.github.io/lsp-mode/page/languages/
+
+#+begin_src emacs-lisp
+  
+  (use-package rust-mode
+    :hook (rust-mode . lsp))
+  
+#+end_src

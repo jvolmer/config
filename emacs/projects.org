@@ -1,0 +1,83 @@
+#+TITLE: Setup projects
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/projects.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'projects)
+  
+#+end_src
+
+* Projectile
+
+#+begin_src emacs-lisp
+  
+  (use-package projectile
+    :diminish projectile-mode
+    :config (projectile-mode)
+    :custom
+    (projectile-completion-system 'ivy)
+    (projectile-project-search-path
+     '("~/code/projects"
+       "~/code/projects/arduino"
+       "~/config"))
+    ;; after selecting project start dired
+    (projectile-switch-project-action #'projectile-dired)
+    :bind-keymap ("C-c p" . projectile-command-map))
+  
+#+end_src
+
+Provide additional actions in ivy with ~M-o~
+
+#+begin_src emacs-lisp
+  
+  (use-package counsel-projectile
+  :config (counsel-projectile-mode))
+
+#+end_src
+
+Commands:
++----------------------------+-----------+----------------------------+
+| Command                    | Key       | D2escription               |
++----------------------------+-----------+----------------------------+
+| projectile-find-file       | C-c p f   |Find file in project        |
+|                            |           |directory                   |
++----------------------------+-----------+----------------------------+
+| projectile-switch-project  | C-c p p   |                            |
++----------------------------+-----------+----------------------------+
+| projectile-run-project     | C-c p u   |                            |
++----------------------------+-----------+----------------------------+
+| projectile-test-project    | C-c p P   |                            |
++----------------------------+-----------+----------------------------+
+| projectile-edit-dir-locals | C-c p E   |Create file with variables  |
+|                            |           |for this project, e.g. for  |
+|                            |           |command for                 |
+|                            |           |projectile-run-project. This|
+|                            |           |file is then loaded for each|
+|                            |           |file in the repo per buffer.|
+|                            |           |                            |
+|                            |           |                            |
+|                            |           |                            |
++----------------------------+-----------+----------------------------+
+| counsel-projectile-rg      | C-c p s r |Ripgrep search through all  |
+|                            |           |files in the directory      |
++----------------------------+-----------+----------------------------+
+
+* Magit
+
+Open magit 
+#+begin_src emacs-lisp
+  
+  (use-package magit
+    :custom
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+  
+#+end_src
+
+Call ~magit-status~ with ~C-x g~
+
+In magit
+- get help in there with ~?~
+- TAB on files shows diffs
+- ~s~ and ~u~ to (un)stage file / hunk / hunk-part (define region for part with C-SPC mark C-SPC)
+
+  For direct interaction with github or gitlab, forge can be an interesting package.

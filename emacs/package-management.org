@@ -1,0 +1,110 @@
+#+TITLE: Package Management
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/package-management.el
+
+Make this configuration available under name ~package-management~
+
+#+begin_src emacs-lisp
+  
+  (provide 'package-management)
+  
+#+end_src
+
+* Basic package management
+
+Use basic package management functions
+
+#+begin_src emacs-lisp
+  
+  (require 'package)
+  
+#+end_src
+
+Define package archives
+
+#+begin_src emacs-lisp
+  
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+  
+#+end_src
+
+Initialize packages and refresh package list contents if no archive exists yet
+
+#+begin_src emacs-lisp
+    
+  (package-initialize)
+  
+  (unless package-archive-contents
+    (package-refresh-contents))
+  
+#+end_src
+
+* Easier package management with use-package
+
+** Configuration
+
+Install it
+
+#+begin_src emacs-lisp
+  
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+  
+#+end_src
+
+Load it
+
+#+begin_src emacs-lisp
+  
+  (require 'use-package)
+  
+#+end_src
+
+Make sure that if a package is called with use-package and it does not exist, it is downloaded automatically.
+(Alternatively you could define ~:ensure t~ for each package individually.)
+
+#+begin_src emacs-lisp
+  
+  (setq use-package-always-ensure t)
+
+#+end_src
+
+
+** Example usage of use-package
+
+#+begin_src emacs-lisp :tangle no
+  
+  (use-package <package-name>
+  
+    :custom ;; set values of customizable variables
+    (<variable> <value>)
+    (<variable> <value>)
+  
+    :bind ;; define keybindings
+    (("<key>" . <command>)
+     ("<key>" . <command>)
+     ([remap <command>] . <command>)) ;; remap keys
+    :map <internal-map> ;; bind key to keymap of loaded package
+    ("<key>" . <command>)
+    ("<key>" . <command>)
+  
+    :bind-keymap ;; define keybindings for a specific keymap (except for the just loaded package, see :map above for that)
+    ("<key>" . keymap)
+  
+    :init ;; executed before package is loaded
+  
+    :config ;; execute after package is loaded
+  
+    :hook ;; load this package when inside specific modes
+    (<mode> <mode> ...)
+  
+    :commands (<command> <command> ...) ;; activate package when one of there commands is executed
+  
+    :diminish <package-name>-mode ;; hide mode from mode-line
+  
+    :after <package> ;; load this package after <package> is loaded
+    
+    )
+  
+#+end_src

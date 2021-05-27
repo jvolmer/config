@@ -1,0 +1,128 @@
+#+TITLE: Customize keybindings
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/keybinding.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'keybinding)
+  
+#+end_src
+
+* Help
+
+#+begin_src emacs-lisp
+  
+  (use-package which-key
+    :diminish which-key-mode
+    :init (which-key-mode)
+    :custom
+    (which-key-idle-delay 0.3))
+  
+#+end_src
+
+See all personal keybindings with ~describe-personal-keybindings~
+
+* Set keybindings
+
+Use ESCAPE for quitting everywhere
+
+#+begin_src emacs-lisp
+  
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+#+end_src
+
+Set keybindings only in specific keymap (e.g. a mode)
+
+#+begin_src emacs-lisp :tangle no
+  
+  (define-key <keymap> (kbd "<key>") '<command>)
+  
+#+end_src
+
+* General package
+
+Convenient method for binding keys, e.g. create your own leader-key and its menu
+
+#+begin_src emacs-lisp
+  
+(use-package general
+  :config
+  (general-create-definer ec/leader-key
+    :prefix "C-c")
+
+  ;; make my own menu
+  (ec/leader-key
+   "w" '(:ignore t :which-key "window")
+   "wt" '(transpose-frame :which-key "transpose")
+   "ws" '(:ignore t :which-key "size")
+   "wsh" '(hydra-horizontal-window-size/body :which-key "horizontal")
+   "wsv" '(hydra-vertical-window-size/body :which-key "vertical")
+   "wsb" '(balance-windows :which-key "balance")
+   "wss" '(shrink-window-if-larger-than-buffer :which-key "fit-to-size")))
+
+#+end_src
+
+Define keys (equivalent to ~global-set-key~)
+
+#+begin_src emacs-lisp :tangle no
+  
+  (general-define-key
+   "<key>" '<command>
+   "<key>" '<command>)
+  
+#+end_src
+
+Define keys in a specific keymap
+
+#+begin_src emacs-lisp :tangle no
+  
+   (general-define-key
+    :keymap '<map>
+    "<key>" '<command>)
+  
+   OR
+  
+   (general-define <map>
+    "<key>" '<command>)
+  
+#+end_src
+
+* Hydra
+
+Tie related commands together into a family of short bindings that can be called easily successively
+
+#+begin_src emacs-lisp
+  
+  (use-package hydra)
+  
+#+end_src
+
+Define hydras
+
+#+begin_src emacs-lisp
+  
+  (defhydra hydra-horizontal-window-size ()
+    "scale text"
+    ("k" shrink-window-horizontally "shrink")
+    ("l" enlarge-window-horizontally "enlarge")
+    ("q" nil "quit" :exit t))
+  
+  (defhydra hydra-vertical-window-size ()
+    "scale text"
+    ("k" (enlarge-window -1) "shrink")
+    ("l" enlarge-window "enlarge")
+    ("q" nil "quit" :exit t))
+  
+#+end_src
+
+Entry point for the definitions is ~<hydra-name>/body~.
+You can directly define a keybinding for each ~defhydra~ with ~(<keymap> "<key>")~ in the brackets.
+
+* Behavior changes
+
+#+begin_src emacs-lisp
+  
+  (use-package evil-nerd-commenter
+    :bind ("M-;" . evilnc-comment-or-uncomment-lines))
+  
+#+end_src

@@ -1,0 +1,111 @@
+#+TITLE: Improve appearance
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/appearance.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'appearance)
+  
+#+end_src
+
+* Frame
+
+Define a theme. Switch themes with ~counsel-load-theme~, more themes are e.g. available with package doom-themes.
+
+#+begin_src emacs-lisp
+  
+  (load-theme 'cyberpunk t)
+
+#+end_src
+
+Set up visible bell
+
+#+begin_src emacs-lisp
+  
+  (setq visible-bell t)
+
+#+end_src
+
+* Menu and toolbar
+
+Disable them
+
+#+begin_src emacs-lisp
+  
+  (menu-bar-mode -1)           ; Disable the menu bar
+  (tool-bar-mode -1)           ; Disable the toolbar
+  (scroll-bar-mode -1)         ; Disable visible scrollbar
+  
+#+end_src
+
+* Fringe
+
+Give some breathing room
+
+#+begin_src emacs-lisp
+  
+  (set-fringe-mode 10)
+  
+#+end_src
+
+Add line numbers, except in some modes
+
+#+begin_src emacs-lisp
+  
+  (dolist (mode '(org-mode-hook
+                  compilation-mode-hook
+                  treemacs-mode-hook
+                  term-mode-hook
+                  shell-mode-hook))
+    (add-hook mode (lambda() (display-line-numbers-mode 0))))
+  
+#+end_src
+
+* Mode line
+
+#+begin_src emacs-lisp
+  
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1))
+  
+#+end_src
+
+Show column and line number in mode line
+
+#+begin_src emacs-lisp
+  
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+  
+#+end_src
+
+* Window
+
+Disable unnecessary stuff
+
+#+begin_src emacs-lisp
+  
+  (setq inhibit-startup-message t)
+  (tooltip-mode -1)
+  
+#+end_src
+
+Define fonts for default,  fixed and variable pitch types
+
+#+begin_src emacs-lisp
+  
+  (defvar ec/default-font-size 110)
+  (set-face-attribute 'default nil :font "Fira Code Retina" :height ec/default-font-size)
+  (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height ec/default-font-size)
+  (set-face-attribute 'variable-pitch nil :font "Cantarell" :height ec/default-font-size :weight 'regular)
+  
+#+end_src
+
+Use rainbow brackets and emphasize open-close brackets in all programming modes
+
+#+begin_src emacs-lisp
+  
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode)
+    :config (show-paren-mode 1))
+  
+#+end_src

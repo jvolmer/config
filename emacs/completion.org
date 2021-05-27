@@ -1,0 +1,61 @@
+#+TITLE: Define completion packages
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/completion.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'completion)
+  
+#+end_src
+
+* Ivy
+
+#+begin_src emacs-lisp
+  
+  (use-package ivy
+  :diminish
+  :bind (("C-s" . swiper) ;; add keybindings, but also other stuff
+         :map ivy-minibuffer-map ;; specific to a mode
+         ("TAB" . ivy-alt-done)	
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill))
+  :config (ivy-mode 1))
+
+#+end_src
+
+In an  list provided by ivy, ~ivy-dispatching-done~ (~M-o~) gives all available actions for one entry.
+
+Put current list in a new buffer with ~ivy-occur~ (~C-c C-o~). Here, use ~o~ for actions, ~q~ to close.
+
+* Counsel
+
+Counsel provides ivy-enhanced versions of comman emacs commands. (Ivy, swiper and counsel are very narrowly intertwinded)
+
+#+begin_src emacs-lisp
+  
+  (use-package counsel
+    :bind (("M-x" . counsel-M-x)
+           ("C-x b" . counsel-ibuffer)
+           ("C-x C-f" . counsel-find-file)
+           :map minibuffer-local-map
+           ("C-r" . 'counsel-minibuffer-history)))
+  
+#+end_src
+
+* Ivy rich
+
+Provide more information in ivy and counsel lists, e.g. short description of functions for ~C-h f~.
+
+#+begin_src emacs-lisp
+  
+  (use-package ivy-rich
+    :config (ivy-rich-mode 1))
+  
+#+end_src
