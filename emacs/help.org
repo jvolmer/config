@@ -7,6 +7,10 @@
   
 #+end_src
 
+In help buffer
+
+| l | go back to previous help topic |
+| r | go forward to next help topic  |
 
 * Improve help readability
 

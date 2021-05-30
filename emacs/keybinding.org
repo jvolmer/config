@@ -19,7 +19,11 @@
   
 #+end_src
 
-See all personal keybindings with ~describe-personal-keybindings~
+| describe-personal-keybindings | see all personal bindings      |
+| describe-mode                 | show current buffer modes      |
+|                               | (including keys)               |
+| describe-bindings             | show all bindings              |
+| which-key-show-keymap         | show bindings of specified map |
 
 * Set keybindings
 

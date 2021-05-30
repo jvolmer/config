@@ -1,0 +1,152 @@
+#+TITLE: File management
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/file-management.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'file-management)
+  
+#+end_src
+
+#+begin_src emacs-lisp
+  
+  (require 'dired-x)
+  (use-package dired
+    :ensure nil ;; because comes directly with emacs
+    :commands (dired dired-jump)
+    :bind (("C-x C-j" . dired-jump)
+           :map dired-mode-map
+           ("j" . dired-next-line)
+           ("k" . dired-previous-line)
+           ("h" . dired-up-directory)
+           ("l" . dired-find-file)
+           ("g" . dired-goto-file)
+           ("r" . revert-buffer)
+           ("e" . dired-do-kill-lines))
+    :custom
+    ;; define ls flags
+    (dired-listing-switches "-agho --group-directories-first")) 
+  
+#+end_src
+
+Open
+
+| C-x d       | Open dired (choose where) |
+| C-x C-j (C) | Open dired in directory of current buffer |
+
+** Navigation
+
+| k/j (C) | up/down (or n/p)                                |
+| h/l (C) | go up/down in hierarchy (or ^/RET)              |
+| g (C)   | go to specific file                             |
+| o       | open buffer in another window                   |
+| S-o     | open buffer in another window but dont focus it |
+| v       | open buffer in view mode                        |
+| i       | Show sub-dir at end of this buffer              |
+| &       | Launch external program on file                 |
+
+** Mark
+
+| m     | Mark a file                                  |
+| u     | Unmark                                       |
+| t     | invert marks                                 |
+| U     | Unmark everything                            |
+| %     | Use commands with regex                      |
+| *     | Mark with specific pattern, e.g.             |
+|       | . for file extensions                        |
+|       | / for directories                            |
+|       | * for executables                            |
+
+** View
+
+| e (C) | dont show marked files                           |
+| r (C) | revert buffer                                    |
+| s     | toggle between alphabetic and dat/time order     |
+| (     | toggle show only file names (without extra info) |
+
+** Copying and renaming
+
+Does not need marking
+
+| Key | Description                                          |
+|-----+------------------------------------------------------|
+| C   | Copy (Can also copy several files to some directory) |
+| R   | Rename / Move                                        |
+| % R | Rename based on regular expression                   |
+|     | (e.g. ^test, old-\& -> test1.org to old-test1.org)   |
+|     | could also use groups                                |
+
+If 2 windows are open, it defaults to copy to other open dired window folder
+
+** Deleting
+
+| Key | Desciption            |
+|-----+-----------------------|
+| D   | Delete marked file    |
+| d   | Mar file for deletion |
+| x   | Execute deletion of marks |
+
+Set ~delete-by-moving-to-trash~ to true to move to trash instead of deleting
+
+** Archives
+
+| Z | Compress or uncompress to .tar.gz                          |
+| c | Compress selection to specific file (.zip will create zip) |
+
+Modify zip command or add one more to list ~dired-compress-files-alist~
+
+** Others
+
+| T       | Touch                                                 |
+| M       | Change file mode (Interface not that good)            |
+| O       | Change file owner                                     |
+| G       | Change file group                                     |
+| S       | Create symbolic link to this file                     |
+| L       | Load an Emacs Lisp file into Emacs                    |
+| C-x C-q | Edit dired buffer interactively                       |
+|         | could then use normal search and replace for renaming |
+
+* Appearance
+
+Add file icons
+
+#+begin_src emacs-lisp 
+  
+  (use-package all-the-icons-dired
+    :hook (dired-mode . all-the-icons-dired-mode))
+  
+#+end_src
+
+Don't show dotfiles
+
+#+begin_src emacs-lisp
+  
+  (use-package dired-hide-dotfiles
+    :hook (dired-mode . dired-hide-dotfiles-mode)
+    :bind (:map dired-mode-map
+                ("H" . dired-hide-dotfiles-mode)))
+  
+#+end_src
+
+* Behavior
+
+Stay in same buffer when using these bindings for navigation:
+
+#+begin_src emacs-lisp
+      
+      (use-package dired-single
+        :bind (:map dired-mode-map
+               ("h" . dired-single-up-directory)
+               ("l" . dired-single-buffer)))
+      
+#+end_src
+
+Open files with specific programs
+
+#+begin_src emacs-lisp
+  
+  (use-package dired-open
+    :custom
+    (dired-open-extensions '(("png" . "feh")
+                             ("mkv" . "mpv"))))
+  
+#+end_src

@@ -11,6 +11,7 @@ Define all files that include emacs configuration code
   (require 'appearance)
   (require 'completion)
   (require 'keybinding)
+  (require 'file-management)
   (require 'projects)
   (require 'organization)
   (require 'code)
