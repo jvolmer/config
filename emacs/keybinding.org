@@ -81,7 +81,7 @@ Define keys in a specific keymap
 #+begin_src emacs-lisp :tangle no
   
    (general-define-key
-    :keymap '<map>
+    :keymaps '<map>
     "<key>" '<command>)
   
    OR

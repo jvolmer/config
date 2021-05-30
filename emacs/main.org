@@ -15,6 +15,7 @@ Define all files that include emacs configuration code
   (require 'projects)
   (require 'organization)
   (require 'code)
+  (require 'terminal)
   
 #+end_src
 
