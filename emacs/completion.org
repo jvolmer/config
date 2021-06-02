@@ -26,7 +26,7 @@
          :map ivy-reverse-i-search-map
          ("C-k" . ivy-previous-line)
          ("C-d" . ivy-reverse-i-search-kill))
-  :config (ivy-mode 1))
+  :init (ivy-mode 1))
 
 #+end_src
 
@@ -58,6 +58,7 @@ Provide more information in ivy and counsel lists, e.g. short description of fun
 #+begin_src emacs-lisp
   
   (use-package ivy-rich
-    :config (ivy-rich-mode 1))
+    :after ivy
+    :init (ivy-rich-mode 1))
   
 #+end_src

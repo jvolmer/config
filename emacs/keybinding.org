@@ -10,13 +10,13 @@
 * Help
 
 #+begin_src emacs-lisp
-  
-  (use-package which-key
-    :diminish which-key-mode
-    :init (which-key-mode)
-    :custom
-    (which-key-idle-delay 0.3))
-  
+    
+    (use-package which-key
+      :demand
+      :diminish which-key-mode
+      :custom (which-key-idle-delay 0.3)
+      :init (which-key-mode))
+    
 #+end_src
 
 | describe-personal-keybindings | see all personal bindings      |
@@ -49,21 +49,22 @@ Convenient method for binding keys, e.g. create your own leader-key and its menu
 
 #+begin_src emacs-lisp
   
-(use-package general
-  :config
-  (general-create-definer ec/leader-key
-    :prefix "C-c")
-
-  ;; make my own menu
-  (ec/leader-key
-   "w" '(:ignore t :which-key "window")
-   "wt" '(transpose-frame :which-key "transpose")
-   "ws" '(:ignore t :which-key "size")
-   "wsh" '(hydra-horizontal-window-size/body :which-key "horizontal")
-   "wsv" '(hydra-vertical-window-size/body :which-key "vertical")
-   "wsb" '(balance-windows :which-key "balance")
-   "wss" '(shrink-window-if-larger-than-buffer :which-key "fit-to-size")))
-
+  (use-package general
+    :demand
+    :config
+    (general-create-definer ec/leader-key
+      :prefix "C-c")
+  
+    ;; make my own menu
+    (ec/leader-key
+     "w" '(:ignore t :which-key "window")
+     "wt" '(transpose-frame :which-key "transpose")
+     "ws" '(:ignore t :which-key "size")
+     "wsh" '(hydra-horizontal-window-size/body :which-key "horizontal")
+     "wsv" '(hydra-vertical-window-size/body :which-key "vertical")
+     "wsb" '(balance-windows :which-key "balance")
+     "wss" '(shrink-window-if-larger-than-buffer :which-key "fit-to-size")))
+  
 #+end_src
 
 Define keys (equivalent to ~global-set-key~)
@@ -96,9 +97,9 @@ Define keys in a specific keymap
 Tie related commands together into a family of short bindings that can be called easily successively
 
 #+begin_src emacs-lisp
-  
-  (use-package hydra)
-  
+    
+    (use-package hydra)
+    
 #+end_src
 
 Define hydras

@@ -66,8 +66,10 @@ Make sure that if a package is called with use-package and it does not exist, it
 
 #+begin_src emacs-lisp
   
-  (setq use-package-always-ensure t)
-
+  (setq use-package-always-ensure t) ;; always download package if not exists
+  (setq use-package-always-defer t)  ;; dont load at startup unless you demand it explicitly
+  (setq use-package-verbose t)       ;; show loaded packages in Message buffer
+  
 #+end_src
 
 
@@ -104,7 +106,8 @@ Make sure that if a package is called with use-package and it does not exist, it
     :diminish <package-name>-mode ;; hide mode from mode-line
   
     :after <package> ;; load this package after <package> is loaded
-    
+  
+    :demand ;; force loading at startup (overriding :bind or :mode or :commands for lazy loading)
     )
   
 #+end_src

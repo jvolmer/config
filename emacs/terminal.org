@@ -1,8 +1,6 @@
 #+TITLE: Terminal modes
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/terminal.el
 
-
-
 #+begin_src emacs-lisp
   
   (provide 'terminal)
@@ -16,6 +14,7 @@ Written in elisp
 #+begin_src emacs-lisp
   
   (use-package term
+    :commands term
     :custom
     (explicit-shell-file-name "bash")
     ;; look for bash prompt
@@ -85,8 +84,6 @@ Can run elisp commands directly in the shell
        :keymap 'eshell-mode-map "C-r" 'counsel-esh-history)
     )
     
-    (use-package eshell-git-prompt)
-    
     (use-package eshell
       :hook (eshell-first-time-mode . ec/configure-eshell)
       :config
@@ -95,6 +92,10 @@ Can run elisp commands directly in the shell
         (setq eshell-destroy-buffer-when-process-dies t)
         ;; open these in term-mode
         (setq eshell-visual-commands '("htop" "zsh" "vim"))))
+    
+    (use-package eshell-git-prompt
+      :after eshell)
+    
     
 #+end_src
 

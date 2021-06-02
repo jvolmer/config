@@ -19,6 +19,7 @@ Get advanced help for functions, variables and keys (and commands if there is a 
 #+begin_src emacs-lisp
   
   (use-package helpful
+    :commands (helpful-callable helpful-variable helpful-command helpful-key)
     :custom
     (counsel-describe-function-function #'helpful-callable)
     (counsel-describe-variable-function #'helpful-variable)
@@ -36,7 +37,8 @@ Show commands I ran in a separate buffer
 
 #+begin_src emacs-lisp
   
-  (use-package command-log-mode)
+  (use-package command-log-mode
+    :commands command-log-mode)
   
 #+end_src
 

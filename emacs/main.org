@@ -1,6 +1,14 @@
 #+TITLE: Main Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 
+Reduce the number of times the garbage collector runs during startup by setting the threshould high
+
+#+begin_src emacs-lisp
+  
+    (setq gc-cons-threshold (* 50 1000 1000))
+
+#+end_src
+
 Define all files that include emacs configuration code
 
 #+begin_src emacs-lisp
@@ -27,4 +35,27 @@ Make sure that automatically saved configuration is stored in a different file
   (if (file-exists-p custom-file)
       (load custom-file))
   
+#+end_src
+
+Show how long startup takes
+
+#+begin_src emacs-lisp
+    
+  (defun efs/display-startup-time ()
+    (message "Emacs loaded in %s with %d garbage collections."
+             (format "%.2f seconds"
+                     (float-time
+                      (time-subtract after-init-time before-init-time)))
+             gcs-done))
+  
+  (add-hook 'emacs-startup-hook #'efs/display-startup-time)
+  
+#+end_src
+
+Bring garbadge collection threshold down
+
+#+begin_src emacs-lisp
+  
+    (setq gc-cons-threshold (* 2 1000 1000))
+
 #+end_src

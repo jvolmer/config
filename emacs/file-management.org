@@ -132,12 +132,13 @@ Don't show dotfiles
 Stay in same buffer when using these bindings for navigation:
 
 #+begin_src emacs-lisp
-      
-      (use-package dired-single
-        :bind (:map dired-mode-map
-               ("h" . dired-single-up-directory)
-               ("l" . dired-single-buffer)))
-      
+  
+  (use-package dired-single
+    :commands (dired dired-jump)
+    :bind (:map dired-mode-map
+           ("h" . dired-single-up-directory)
+           ("l" . dired-single-buffer)))
+  
 #+end_src
 
 Open files with specific programs
@@ -145,6 +146,7 @@ Open files with specific programs
 #+begin_src emacs-lisp
   
   (use-package dired-open
+    :commands (dired dired-jump)
     :custom
     (dired-open-extensions '(("png" . "feh")
                              ("mkv" . "mpv"))))

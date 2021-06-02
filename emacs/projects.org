@@ -31,8 +31,9 @@ Provide additional actions in ivy with ~M-o~
 #+begin_src emacs-lisp
   
   (use-package counsel-projectile
-  :config (counsel-projectile-mode))
-
+    :after projectile
+    :init (counsel-projectile-mode))
+  
 #+end_src
 
 Commands:
@@ -68,6 +69,7 @@ Open magit
 #+begin_src emacs-lisp
   
   (use-package magit
+    :commands magit-status
     :custom
     (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
   

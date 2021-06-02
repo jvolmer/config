@@ -65,6 +65,7 @@ Add line numbers, except in some modes
 #+begin_src emacs-lisp
   
   (use-package doom-modeline
+    :demand
     :init (doom-modeline-mode 1))
   
 #+end_src
@@ -106,6 +107,6 @@ Use rainbow brackets and emphasize open-close brackets in all programming modes
   
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode)
-    :config (show-paren-mode 1))
+    :init (show-paren-mode 1))
   
 #+end_src
