@@ -138,12 +138,9 @@ You need to install the language server for the particular language you use, hav
 #+begin_src emacs-lisp
   
   (use-package rust-mode
-    :mode "\\.rs\\'"
     :hook (rust-mode . lsp))
   
   (use-package ccls
-    :mode "\\.cpp\\'"
-    :hook ((c-mode c++-mode objc-mode cuda-mode) .
-           (lambda () (require 'ccls) (lsp))))
+    :hook ((c-mode c++-mode objc-mode cuda-mode) . lsp))
   
 #+end_src

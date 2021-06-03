@@ -12,22 +12,22 @@
 #+begin_src emacs-lisp
   
   (use-package ivy
-  :diminish
-  :bind (("C-s" . swiper) ;; add keybindings, but also other stuff
-         :map ivy-minibuffer-map ;; specific to a mode
-         ("TAB" . ivy-alt-done)	
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :init (ivy-mode 1))
-
+    :diminish
+    :bind (("C-s" . swiper) ;; add keybindings, but also other stuff
+           :map ivy-minibuffer-map ;; specific to a mode
+           ("TAB" . ivy-alt-done)	
+           ("C-l" . ivy-alt-done)
+           ("C-j" . ivy-next-line)
+           ("C-k" . ivy-previous-line)
+           :map ivy-switch-buffer-map
+           ("C-k" . ivy-previous-line)
+           ("C-l" . ivy-done)
+           ("C-d" . ivy-switch-buffer-kill)
+           :map ivy-reverse-i-search-map
+           ("C-k" . ivy-previous-line)
+           ("C-d" . ivy-reverse-i-search-kill))
+    :init (ivy-mode 1))
+  
 #+end_src
 
 In an  list provided by ivy, ~ivy-dispatching-done~ (~M-o~) gives all available actions for one entry.
@@ -75,6 +75,6 @@ Sort candidates to prefer last used and frequently used once
   
   (use-package ivy-prescient
     :after prescient
-    :init (ivy-prescient-mode 1))
+    :config (ivy-prescient-mode 1))
   
 #+end_src

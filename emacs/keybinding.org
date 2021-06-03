@@ -97,9 +97,10 @@ Define keys in a specific keymap
 Tie related commands together into a family of short bindings that can be called easily successively
 
 #+begin_src emacs-lisp
-    
-    (use-package hydra)
-    
+      
+      (use-package hydra
+        :defer)
+      
 #+end_src
 
 Define hydras
