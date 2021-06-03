@@ -8,24 +8,25 @@
 #+end_src
 
 #+begin_src emacs-lisp
-  
-  (require 'dired-x)
-  (use-package dired
-    :ensure nil ;; because comes directly with emacs
-    :commands (dired dired-jump)
-    :bind (("C-x C-j" . dired-jump)
-           :map dired-mode-map
-           ("j" . dired-next-line)
-           ("k" . dired-previous-line)
-           ("h" . dired-up-directory)
-           ("l" . dired-find-file)
-           ("g" . dired-goto-file)
-           ("r" . revert-buffer)
-           ("e" . dired-do-kill-lines))
-    :custom
-    ;; define ls flags
-    (dired-listing-switches "-agho --group-directories-first")) 
-  
+    
+    (require 'dired-x)
+    (use-package dired
+      :ensure nil ;; because comes directly with emacs
+      :commands (dired dired-jump)
+      :bind (("C-x C-j" . dired-jump)
+             :map dired-mode-map
+             ("j" . dired-next-line)
+             ("k" . dired-previous-line)
+             ("h" . dired-up-directory)
+             ("l" . dired-find-file)
+             ("g" . dired-goto-file)
+             ("r" . revert-buffer)
+             ("e" . dired-do-kill-lines)
+             ("<RET>" . dired-open-file))
+      :custom
+      ;; define ls flags
+      (dired-listing-switches "-agho --group-directories-first"))
+    
 #+end_src
 
 Open
@@ -144,11 +145,13 @@ Stay in same buffer when using these bindings for navigation:
 Open files with specific programs
 
 #+begin_src emacs-lisp
-  
-  (use-package dired-open
-    :commands (dired dired-jump)
-    :custom
-    (dired-open-extensions '(("png" . "feh")
-                             ("mkv" . "mpv"))))
-  
+      
+      (use-package dired-open
+        :commands (dired dired-jump)
+        :custom
+        (dired-open-extensions '(("png" . "feh")
+                                 ("mkv" . "mpv")
+                                 ("mp3" . "vlc")
+                                 ("m3u" . "vlc"))))
+      
 #+end_src
