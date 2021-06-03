@@ -77,6 +77,15 @@ Nicer interface (with symbols)
   
 #+end_src
 
+Integration with prescient to sort proposals prefering last and frequently used ones
+
+#+begin_src emacs-lisp
+  
+  (use-package company-prescient
+    :hook (company-mode . company-prescient-mode))
+  
+#+end_src
+
 * Higher level UI features
 
 #+begin_src emacs-lisp

@@ -1,3 +1,3 @@
 #+TITLE: My Emacs Configuration
 
-I followed [[https://github.com/daviwil][David Wilson]]'s [[https://www.youtube.com/playlist?list=PLEoMzSkcN8oPH1au7H6B7bBJ4ZO7BXjSZ]["Emacs From Scratch" youtube series]] to create to, check it out if you are interested.
+I followed [[https://github.com/daviwil][David Wilson]]'s [[https://www.youtube.com/playlist?list=PLEoMzSkcN8oPH1au7H6B7bBJ4ZO7BXjSZ]["Emacs From Scratch" youtube series]] to create it, check it out if you are interested.

@@ -62,3 +62,19 @@ Provide more information in ivy and counsel lists, e.g. short description of fun
     :init (ivy-rich-mode 1))
   
 #+end_src
+
+* Prescient
+
+Sort candidates to prefer last used and frequently used once
+
+#+begin_src emacs-lisp
+  
+  (use-package prescient
+    :after counsel
+    :config (prescient-persist-mode 1))
+  
+  (use-package ivy-prescient
+    :after prescient
+    :init (ivy-prescient-mode 1))
+  
+#+end_src
