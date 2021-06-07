@@ -153,7 +153,7 @@ For each task or appointment entry (has to be a heading)
 | org-todo         | C-c C-t   | Toggle status                     |
 |                  | (S-arrow) |                                   |
 | org-schedule     |           | Schedule date (S- for nav)        |
-| org-deadline     |           | Sets deadline (reminds you        |
+| org-deadline     | C-c C-d   | Sets deadline (reminds you        |
 |                  |           | org-deadline-warning-days before) |
 | org-time-stamp   |           | Add timestamp                     |
 | org-set-tags     | C-c C-q   | Add tags                          |
@@ -168,14 +168,13 @@ Repeated date: e.g. every year <date +1y>
 Set agenda file locations (Filenames will show up in agenda-list)
 
 #+begin_src emacs-lisp
-  
-  (with-eval-after-load 'org  
-    (setq org-directory "~/documents/orgFiles/")
-    (setq org-agenda-files
-          '("Tasks.org" "Birthdays.org" ""))
-    (setq org-refile-targets
-          '(("Archive.org" :maxlevel . 1))))
-  
+    
+    (with-eval-after-load 'org  
+      (setq org-agenda-files
+            '("~/documents/orgFiles/Tasks.org"))
+      (setq org-refile-targets
+            '(("Archive.org" :maxlevel . 1))))
+    
 #+end_src
 
 ** Workflows
@@ -203,7 +202,8 @@ Define TODO states and  workflows (left of "|" are acive states)
             ("@home" . ?h)
             ("@work" . ?w)
             ("agenda" . ?a)
-            ("planning" . ?p))))
+            ("planning" . ?p)))
+    (setq org-agenda-tags-column 100))
   
 #+end_src
 

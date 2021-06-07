@@ -1,3 +1,18 @@
 #+TITLE: My Emacs Configuration
 
 I followed [[https://github.com/daviwil][David Wilson]]'s [[https://www.youtube.com/playlist?list=PLEoMzSkcN8oPH1au7H6B7bBJ4ZO7BXjSZ]["Emacs From Scratch" youtube series]] to create it, check it out if you are interested.
+
+* Install once
+
+** emacs
+
+- org
+- cyberpunk-theme
+- all-the-icons and run all-the-icons-install-fonts
+- transpose-frame
+
+** system
+
+- Cantarell
+- Fira Code Retina
+- ripgrep
