@@ -1,0 +1,42 @@
+#+TITLE: Window Management
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/windows.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'windows)
+  
+#+end_src
+
+* Windows
+
+
+
+* Tabs
+Enable tab bar with ~tab-bar-mode~
+Commands at ~C-x t~
+
+| tab-next                   | C-TAB     | Move to next tab          |
+| tab-previous               | C-S-TAB   | Move to previous tab      |
+| tab-bar-select-tab-by-name | C-x t RET | Select tab by name        |
+|                            |           |                           |
+| tab-rename                 | C-x t r   | Rename current tab        |
+| tab-move                   | C-x t m   | Move current tab to right |
+|                            |           | left with negative prefix |
+|                            |           |                           |
+| tab-new                    | C-x t 2   | Create new tab            |
+| switch-to-buffer-other-tab | C-x t b   | Switch to other buffer    |
+| dired-other-tab            | C-x t d   | Switch to dired           |
+| find-file-other-tab        | C-x t f   | Open file                 |
+|                            |           |                           |
+| tab-close                  | C-x t 0   | Close current tab         |
+| tab-close-other            | C-x t 1   | Close all other tabs      |
+| tab-bar-undo-close-tab     |           | Reopen last closed tab    |
+|                            |           |                           |
+
+#+begin_src emacs-lisp
+  
+  (setq tab-bar-new-tab-choice "*scratch*")
+  (setq tab-bar-close-button-show nil
+        tab-bar-new-button-show nil)
+  
+#+end_src
