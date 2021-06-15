@@ -43,3 +43,15 @@ Show commands I ran in a separate buffer
 #+end_src
 
 Toggle command-log mode in all buffers with ~global-command-log-mode~. Show it with ~clm/toggle-command-log-buffer~ (~C-c o~).
+
+* My org files
+
+#+begin_src emacs-lisp
+  
+  (defun ec/open-org-files()
+    (interactive)
+    (counsel-find-file "~/config/emacs/"))
+  
+  (general-define-key "C-c h" 'ec/open-org-files)
+  
+#+end_src
