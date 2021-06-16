@@ -152,7 +152,7 @@ For each task or appointment entry (has to be a heading)
 |------------------+-----------+-----------------------------------|
 | org-todo         | C-c C-t   | Toggle status                     |
 |                  | (S-arrow) |                                   |
-| org-schedule     |           | Schedule date (S- for nav)        |
+| org-schedule     | C-c C-s   | Schedule date (S- for nav)        |
 | org-deadline     | C-c C-d   | Sets deadline (reminds you        |
 |                  |           | org-deadline-warning-days before) |
 | org-time-stamp   |           | Add timestamp                     |
