@@ -145,13 +145,14 @@ Stay in same buffer when using these bindings for navigation:
 Open files with specific programs
 
 #+begin_src emacs-lisp
-      
-      (use-package dired-open
-        :commands (dired dired-jump)
-        :custom
-        (dired-open-extensions '(("png" . "feh")
-                                 ("mkv" . "mpv")
-                                 ("mp3" . "vlc")
-                                 ("m3u" . "vlc"))))
-      
+        
+        (use-package dired-open
+          :commands (dired dired-jump)
+          :custom
+          (dired-open-extensions '(("png" . "feh")
+                                   ("mkv" . "mpv")
+                                   ("mp3" . "vlc")
+                                   ("m3u" . "vlc")
+                                   ("mp4" . "vlc"))))
+        
 #+end_src

@@ -9,9 +9,66 @@
 
 * Windows
 
+| split-window-below                  | C-x 2 | Split horizontally  |
+| split-window-right                  | C-x 3 | Split vertically    |
+|                                     |       |                     |
+| delete-window                       | C-x 0 | Close current       |
+| delete-other-window                 | C-x 1 | Close all other     |
+|                                     |       |                     |
+| shrink-window-horizontally          | C-x { |                     |
+| enlarge-window-horizontally         | C-x } |                     |
+| shrink-window                       |       | Vertically          |
+| shrink-window-if-larger-than-buffer | C-x - | Vertically          |
+| balance-windows                     | C-x + | Balance size of all |
 
+** Other window
+
+| other-window             | C-x o     | Select next visible |
+|                          |           |                     |
+| find-file-other-window   | C-x 4 f   | Open in other       |
+| dired-other-window       | C-x 4 d   |                     |
+| dired-jump-other-window  | C-x 4 C-j | At file location    |
+|                          |           |                     |
+| scroll-other-window      | M-pgdn    |                     |
+|                          | C-M-v     |                     |
+| scroll-other-window-down | M-pgup    |                     |
+|                          | C-S-M-v   |                     |
+
+** Select specific window
+
+Shows number of window in modeline
+ 
+#+begin_src emacs-lisp
+  
+  (use-package winum
+    :config (winum-mode))
+  
+#+end_src
+
+~C-x w <window number>~
+
+** Window configuration
+Move to window left/right/above/below: ~windmove-up/down/left/right~
+Swap buffers in windows: ~windmove-swap-states-up/down/left/right~
+#+begin_src emacs-lisp
+  
+  (windmove-default-keybindings 'meta)
+  (windmove-swap-states-default-keybindings '(control meta))
+  
+#+end_src
+
+Undo and redo window configurations with ~winner-mode~
+#+begin_src emacs-lisp
+  
+  (winner-mode)
+  
+#+end_src
+
+| winner-undo | C-c left  |
+| winner-redo | C-c right |
 
 * Tabs
+
 Enable tab bar with ~tab-bar-mode~
 Commands at ~C-x t~
 
