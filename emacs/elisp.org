@@ -1,0 +1,272 @@
+#+TITLE: Emacs Lisp
+
+Lisp syntax is primarily composed of lists, symbols and values.
+
+* Basics
+
+Interactive Emacs Lisp REPL: ~ielm~
+Get type of something with ~type-of~
+
+** Evaluation
+
+Form: Any lisp object that can be evaluated
+Integer result gives you different representations: decimal (octal hexa character)
+
+*** Self-evaluating
+Primitive data types
+
+#+begin_src emacs-lisp
+  
+  42
+  
+  "Hello"
+  
+  [1 2 (+ 1 2)]
+  
+#+end_src
+
+*** Evaluating to some value
+Lists, variables and functions (Symbols)
+
+#+begin_src emacs-lisp
+  
+  buffer-file-name
+  
+  (+ 300 11)
+  
+#+end_src
+
+Make them self-evaluating with adding ' beforehand
+
+When evaluating lists, it always expects a function as first argument, the rest are the inputs to this function
+
+*** No evalation possible
+E.g. some results of other evaluations
+
+#+begin_src emacs-lisp
+  
+  #<buffer *scratch*>
+  
+#+end_src
+
+** Symbols
+
+Evaluate to something different than themselves
+Can contain alphanumeric characters plus many more ~- + = *  / _ ~ ! @ $ % ^ & : < > { } ?~
+There are separate namespaces for variables and functions, therefore you can have the same name for a variable and a function
+
+* Types
+
+** Boolean
+True and false are symbols
+#+begin_src emacs-lisp
+  
+  (type-of t)   ;; symbol
+  (type-of nil) ;; symbol
+  
+#+end_src
+
+** Numbers
+
+- ~eq~ Are the two parameters the same object?
+- ~eql~ Are the two parameters same object or same number?
+- ~equal~ Are the two parameters equivalent?
+
+  #+begin_src emacs-lisp
+    
+        (setq test-val '(1 2 3))
+    
+    (eq 1 1)                  ;; t
+    (eq 3.1 3.1)              ;; nil
+    (eq "thing" "thing")      ;; nil
+    (eq '(1 2 3) '(1 2 3))    ;; nil
+    (eq test-val test-val)    ;; t
+    
+    (eql 1 1)                 ;; t
+    (eql 3.1 3.1)             ;; t
+    (eql "thing" "thing")     ;; nil
+    (eql '(1 2 3) '(1 2 3))   ;; nil
+    (eql test-val test-val)   ;; t
+    
+    (equal 1 1)               ;; t
+    (equal 3.1 3.1)           ;; t
+    (equal "thing" "thing")   ;; t
+    (equal '(1 2 3) '(1 2 3)) ;; t
+    (equal test-val test-val) ;; t
+    
+    ;; Attention
+    (equal 1.0 1.)            ;; nil (1. is integer but 1.0 is float)
+    
+  #+end_src
+
+  1. != 1.0
+
+~+ - * / % mod 1+ 1-~
+~truncate round floor ceiling~
+~integerp floatp numberp zerop~
+~= < > <= >= max min~ (can be applied to more than 2 parameters)
+
+** Characters
+Characters are really just integers that are interpreted as characters
+#+begin_src emacs-lisp
+  
+  ;; ASCII
+  ?A ;; 65
+  ?a ;; 97
+  ?\n ;; 10
+  ?\t ;; 9
+  
+  ;; Unicode
+  ?\N{U+E0}    ;; 224
+  ?\u00e0      ;; 224
+  ?\U000000E0  ;; 224
+  ?\N{LATIN SMALL LETTER A WITH GRAVE} ;; 224
+  
+  ;; Control and meta char syntax
+  ?\C-c        ;; 3
+  (kbd "C-c")  ;; "^C"
+  ?\M-x        ;; 134217848
+  (kbd "M-x")  ;; [134217848]
+  
+#+end_src
+
+*** Comparisons
+#+begin_src emacs-lisp
+  
+  (char-equal ?A ?A)
+  (char-equal ?A 65)
+  (char-equal ?A ?a)
+  
+  case-fold-search
+  (setq case-fold-search nil)
+  (setq case-fold-search t)
+  
+#+end_src
+
+** Sequences
+Strings, lists and arrays (check with ~sequencep~)
+~length~ - get length
+~elt <sequence> <index>~ - get element at index (for lists you can get -1 element)
+
+~nil~ is considered an empty list
+
+*** Strings
+Strings are arrays of charachters
+#+begin_src emacs-lisp
+  
+  (make-string 5 ?!) ;; !!!!
+  (string ?H ?e ?l ?l ?o ?!) ;; "Hello!"
+  
+#+end_src
+
+Predicates: ~stringp string-or-null-p char-or-string-p~
+Comparisons: ~string= string< string>~
+Operations: ~substring, concat, split-string~
+
+Split by whitespace or ! but don't show empty strings
+#+begin_src emacs-lisp
+  
+  (split-string "Hello System Crafters!" "[ !]" t)
+  
+#+end_src
+
+Formatting
+
+#+begin_src emacs-lisp
+  
+  (format "Hello %d %s!" 100 "System Crafters")
+  (message "This is %d" 5)
+  
+#+end_src
+
+*** Lists
+Lists are build out of "cons cells" - pair of values
+#+begin_src emacs-lisp
+  
+  (cons 1 2)     ;; '(1 . 2)
+  (car '(1 . 2)) ;; 1
+  (cdr '(1 . 2)) ;; 2
+  
+#+end_src
+~setcar~, ~setcdr~
+
+List is chain of cons
+#+begin_src emacs-lisp
+  
+  (cons 1 (cons 2 (cons 3 (cons 4 nil)))) ;; (1 2 3 4)
+  (cons 1 '(2 3 4)) ;; (1 2 3 4)
+  (append '(1 2 3) '(4))
+  
+#+end_src
+
+~(list 1 2 3)~ creates a list (equivalent to ~'(1 2 3)~
+~(car <list>)~ Get first argument
+
+**** Alist
+Key-Value pairs
+#+begin_src emacs-lisp
+  
+  (setq some-alist '((one . 1)
+                     (two . 2)
+                     (three . 3)))
+  
+  (alist-get 'one   some-alist)  ;; 1
+  (assq 'one   some-alist)  ;; '(one . 1)
+  (rassq 1     some-alist)  ;; '(one . 1)
+  
+#+end_src
+
+No function to change them directly
+
+**** Plist
+Key-Value pairs in a flat list
+
+#+begin_src emacs-lisp
+  
+  (plist-get '(one 1 two 2) 'one) ;; 1
+  (plist-put '(one 1 two 2) 'three 3)
+  
+#+end_src
+
+*** Arrays
+Sequences of values that are arranged continously in memory
+#+begin_src emacs-lisp
+  
+  (setq array [1 2 3 4])
+  (aset array 1 5)
+  
+#+end_src
+Strings are arrays
+
+* Conditions
+When evaluating expressions, everything except the value ~nil~ and the empty list ~'()~ is true
+*** Operators
+- ~not~ - inverts truth value of argument
+- ~and~ - returns last value if expressions are truthy
+- ~or~ - returns the first value that is truthy (others after that will not be evaluated - short circuit)
+- ~xor~ - returns the first value that is truthy (doesn't shor-circuit)
+
+*** If-expression
+
+True branch is a single expression, false branch can be multiple expressions (can use ~progn~ for several expressions in true branch)
+Returns the value of the last form evaluated
+
+#+begin_src emacs-lisp
+  
+  (if nil 5
+    ;; You can add an arbitrary number of forms in the "false" branch
+    (message "Doing some extra stuff here")
+    (+ 2 2))
+  ;; 4
+  
+#+end_src
+
+*** When and unless
+~when~ - Evaluate following forms when expression evaluates to ~t~
+~unless~ - Evaluate following forms when expression evaluates to ~nil~
+
+*** Cond expression
+Switch-case / match
+
+* Loops
+~while~, ~dotimes (count <N>)~, ~dolist (item '("one" "two"))~
