@@ -73,7 +73,7 @@ Nicer interface (with symbols)
   
 #+end_src
 
-Integration with prescient to sort proposals prefering last and frequently used ones
+Integration with prescient to sort proposals prefering last and frequently used ones (no filtering)
 
 #+begin_src emacs-lisp
   

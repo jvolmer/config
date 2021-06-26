@@ -75,6 +75,21 @@ Sort candidates to prefer last used and frequently used once
   
   (use-package ivy-prescient
     :after prescient
-    :config (ivy-prescient-mode 1))
+    :config
+    (ivy-prescient-mode 1)
+    (prescient-persist-mode 1)) ;; persist over sessions
   
 #+end_src
+
+Works for
+- ~counsel-M-x~
+- ~counsel-find-file~
+- ~counsel-describe-variable~
+Not for
+- ~counsel-switch-buffer~ (Want to keep buffer behavior)
+
+Exclude certain commands from sorting with ~ivy-prescient-sort-commands~
+
+Does sorting by length, checkout var ~prescient-sort-length-enable~
+
+Does also filtering, check var ~prescient-filter-method~ and disable it with setting ~ivy-prescient-enable-filtering~ to nil.
