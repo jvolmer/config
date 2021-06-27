@@ -1,0 +1,74 @@
+#+TITLE: Movement and Selection
+
+* Movement
+
+~f~ forward
+~b~ backward
+~n~ next
+~p~ previous
+~a~ start
+~e~ end
+
+** By column (character)  or line
+
+*** left -right
+| forward-char  | C-f |
+| backward-char | C-b |
+
+| move-beginning-of-line | C-a |
+| move-end-of-line       | C-e |
+
+*** up-down
+| next-line     | C-n |
+| previous-line | C-p |
+
+| beginning-of-buffer | M-< |
+| end-of-buffer       | M-> |
+
+*** To specific line or colum
+| goto-line      | M-g M-g |
+| move-to-column | M-g TAB |
+
+** By by larger text structures
+
+*** Words
+(hypens, points,... are seen as wordseparators)
+
+| forward-word  | M-f |
+| backward-word | M-b |
+
+*** Paragraphs
+any section of text that is separated by blank lines - see ~paragraph-start~ var
+
+| forward-paragrph   | M-} |
+| backward-paragraph | M-{ |
+
+Behavior overwritten by org-mode
+| org-forward-element  | M-} |
+| org-backward-element | M-{ |
+
+*** Sentences
+see ~sentence-end~ var; if normal pattern aren't found it defaults to paragraph boundaries
+
+| forward-sentence  | M-e |
+| backward-sentence | M-a |
+
+** By Pages
+
+*** Scrolling PageUp and Down
+
+| scroll-up-command   | C-v | to next page     |
+| scroll-down-command | M-v | to previous page |
+
+*** Centering point
+
+| recenter-to-bottom | C-l   | puts point in the center of window |
+|                    |       | cy: point at top - point at bottom |
+| reposition-windw   | C-M-l | put whole block at point to center |
+
+** By search
+
+| isearch-forward  | C-s |
+| isearch-backward | C-r |
+
+Repeat it to move forward or backward to next finding
