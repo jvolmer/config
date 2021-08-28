@@ -15,10 +15,10 @@ Define all files that include emacs configuration code
   
   (add-to-list 'load-path (concat user-emacs-directory "lisp"))
   (require 'package-management)
-  (require 'helpinfo)
-  (require 'appearance)
-  (require 'windows)
   (require 'completion)
+  (require 'appearance)
+  (require 'helpinfo)
+  (require 'windows)
   (require 'keybinding)
   (require 'file-management)
   (require 'projects)

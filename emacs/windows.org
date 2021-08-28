@@ -97,3 +97,39 @@ Commands at ~C-x t~
         tab-bar-new-button-show nil)
   
 #+end_src
+
+* Perspectives
+
+Have seperate workspaces: Each one has its own buffer list and window configuration
+
+#+begin_src emacs-lisp
+  
+  (use-package perspective
+    :bind (("C-x k" . persp-kill-buffer*) ;; kill buffer only in this perspective
+           ("C-x b" . persp-ivy-switch-buffer)) ;; to only show buffers in current perspective
+    :custom (persp-initial-frame-name "start")
+    :init (persp-mode))
+  
+#+end_src
+
+A perspective does not own a buffer, a buffer can be part of several perspectives.
+
+Perspective actions
+| C-x x s | persp-switch | open a perspective or create new one            |
+| C-x x r | persp-rename | Rename perspective                              |
+| C-x x n | persp-next   | switch to next perspective (also with C-x x ->) |
+| C-x x p | persp-prev   | switch to previous perspective                  |
+| C-x x 1 |              | switch to first perspective (1 - 10)            |
+| C-x x c | persp-kill   | kill perspective and all its buffers            |
+
+Buffer actions
+| C-x x b   | persp-switch-to-buffer | choose buffer from all perspectives and         |
+|           |                        | switch to perspective that owns buffer          |
+| C-x x a   | persp-add-buffer       | select buffer to add to current perspective     |
+|           |                        | (don't switch to it)                            |
+| C-x x A   | persp-set-buffer       | select buffer to move to current perspective    |
+|           |                        | (don't switch, remove from all other persps)    |
+| C-u C-x b |                        | select buffer to add to current perspective     |
+|           |                        | and switch                                      |
+
+| C-x x k   | persp-remove           | remove buffer from perspective                  |
