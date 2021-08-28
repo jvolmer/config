@@ -72,3 +72,49 @@ see ~sentence-end~ var; if normal pattern aren't found it defaults to paragraph 
 | isearch-backward | C-r |
 
 Repeat it to move forward or backward to next finding
+
+* Selection
+
+point: location of cursor
+mark: another location in file
+region: selection of text, area between active mark and the point
+
+| C-SPC or C-@ | set mark         |
+| C-g          | cancel selection |
+
+** Region
+- set active mark and move point
+- hold shift and move point
+- from deactivated mark to point: =C-x C-x=
+- use mouse
+- specialized marking commands
+
+ Commands:
+ =upcase-region= and =downcase-region= convert all characters to upper or lower case
+ =eval-region= evaluate
+ Have a look at all commands that end with =-region=
+
+** Specialized Marking Commands
+You can press them repeatedly to select more
+
+| M-@     | mark-word      |                                                         |
+| C-M-@   | mark-sexp      | set mark at end of current s-expression in Elisp buffer |
+| M-h     | mark-paragraph |                                                         |
+| C-M-h   | mark-defun     |                                                         |
+| C-x h   | mark-buffer    |                                                         |
+
+** Mark Ring
+History list of all deactivated marks
+
+Deactive mark
+- Typing text
+- Running editing command that affects the region
+- =C-g=
+- Instantly create deactivated mark with C-SPC C-SPC
+
+Jump back to mark with =C-u C-SPC=
+Will cycle through locations
+You can set the number of locations that the kill ring stores with =mark-ring-max=, default 16 (=global-mark-ring-max=)
+
+There is a local and a global mark ring, deactivating a mark in a buffer will write that to both rings
+Jump back to mark in global ring with =C-x C-SPC= (=pop-global-mark=)
