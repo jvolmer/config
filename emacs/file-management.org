@@ -156,3 +156,15 @@ Open files with specific programs
                                    ("mp4" . "vlc"))))
         
 #+end_src
+
+pdfs
+
+#+begin_src emacs-lisp
+  
+  (use-package pdf-tools
+    :magic ("%PDF" . pdf-view-mode) ;; activates if file starts with pdf
+    :config
+    (pdf-tools-install :no-query)
+    (setq-default pdf-view-display-size 'fit-width))
+  
+#+end_src
