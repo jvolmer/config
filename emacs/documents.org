@@ -1,0 +1,31 @@
+#+TITLE: Documents
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/documents.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'documents)
+  
+#+end_src
+
+* Latex
+
+#+begin_src emacs-lisp
+  
+  (use-package auctex
+    :hook tex-mode
+    :custom (TeX-auto-save t))
+  
+#+end_src
+
+* Pdf
+
+#+begin_src emacs-lisp
+  
+  (use-package pdf-tools
+    :magic ("%PDF" . pdf-view-mode) ;; activates if file starts with pdf
+    :config
+    (pdf-tools-install :no-query)
+    (auto-revert-mode)
+    (setq-default pdf-view-display-size 'fit-width))
+  
+#+end_src
