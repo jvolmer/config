@@ -1,0 +1,34 @@
+#+TITLE: Communication
+
+* ERC for IRC connection
+Log in with =erc-tls=
+Need server name and your nickname
+
+Join channel =/join <channelname>=
+Create new buffer for that channel with name = channelname
+Leave channel with =/part [<channelname>]=
+List available channels =/list=
+
+Details of a user with =/whois <name>=
+Send private message with =/query <name>= in new buffer
+Configure my login with =/query NickServ=
+Single private message =/msg <name> <message>=
+
+Change nickname with =/nick <newname>=
+
+Quit with =/quit [<good by message>]=
+Reconnect with =/reconnect=
+
+#+begin_src emacs-lisp
+  
+    (setq erc-server "irc.libera.chat"
+          erc-nick "juvo"
+          erc-user-full-name "Julia Volmer"
+          erc-track-shorten-start 8    ;; channel names with activities will show up in modeline
+          erc-autojoin-channel-alist '(("irc.libera.chat" "#systemcrafters" "#emacs"))
+          erc-kill-buffer-on-part t
+          erc-auto-query 'bury)        ;; bury buffer if somebody sends a message to you
+                                       ;; which creates a new buffer
+  
+  
+#+end_src
