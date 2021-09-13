@@ -14,12 +14,11 @@ Activate it
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
     :custom
-    (lsp-keymap-prefix "C-c l")
+    (lsp-keymap-prefix "C-c l")  
     :config
     (lsp-enable-which-key-integration t))
   
 #+end_src
-
 ** Features
 
 *** Completion
@@ -86,10 +85,10 @@ Integration with prescient to sort proposals prefering last and frequently used 
 
 #+begin_src emacs-lisp
   
-  (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :custom
-    (lsp-ui-doc-position 'bottom))
+    (use-package lsp-ui
+      :hook (lsp-mode . lsp-ui-mode)
+      :custom
+      (lsp-ui-doc-enable nil))
   
 #+end_src
 
@@ -131,12 +130,31 @@ Search e.g. for class name in project with ~lsp-ivy~
 
 You need to install the language server for the particular language you use, have a look at https://emacs-lsp.github.io/lsp-mode/page/languages/
 
+** Rust
+
 #+begin_src emacs-lisp
-  
-  (use-package rust-mode
-    :hook (rust-mode . lsp))
+      
+      (use-package rustic ;; rustic improves rust-mode
+        :hook (rustic-mode . lsp)
+        :custom
+        (lsp-eldoc-hook nil)
+        (lsp-enable-symbol-highlighting nil)
+        (lsp-signature-auto-activate nil)
+        (lsp-rust-analyzer-cargo-watch-command "clippy")
+  )
+      
+      ;; ;; can also run it with C-c C-f manually
+      (setq rustic-format-on-save t)
+      ;; run clippy with rust-run-clippy
+      
+  #+end_src
+
+#+begin_src emacs-lisp
   
   (use-package ccls
     :hook ((c-mode c++-mode objc-mode cuda-mode) . lsp))
   
+  (add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
+  
 #+end_src
+  
