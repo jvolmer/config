@@ -44,14 +44,27 @@ Show commands I ran in a separate buffer
 
 Toggle command-log mode in all buffers with ~global-command-log-mode~. Show it with ~clm/toggle-command-log-buffer~ (~C-c o~).
 
-* My org files
+* My config files
 
+Open a config file
 #+begin_src emacs-lisp
   
-  (defun ec/open-org-files()
+  (defun ec/open-config-files()
     (interactive)
     (counsel-find-file "~/config/emacs/"))
   
-  (general-define-key "C-c h" 'ec/open-org-files)
+  (general-define-key "C-c h" 'ec/open-config-files)
+  
+#+end_src
+
+Update config files after changes that were pulled from git
+#+begin_src emacs-lisp
+  
+  (defun ec/tangle-config-files()
+    (interactive)
+    (dolist (item (directory-files (file-name-directory buffer-file-name) t "^[a-z].*\.org$"))
+      (org-babel-tangle-file item)))
+  
+  (general-define-key "C-c u" 'ec/tangle-config-files)
   
 #+end_src
