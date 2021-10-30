@@ -1,6 +1,7 @@
 #+TITLE: Main Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 
+* Start
 Reduce the number of times the garbage collector runs during startup by setting the threshould high
 
 #+begin_src emacs-lisp
@@ -9,7 +10,18 @@ Reduce the number of times the garbage collector runs during startup by setting 
 
 #+end_src
 
-Define all files that include emacs configuration code
+* Update config files
+This is important if files changed after pulled with git.
+
+#+begin_src emacs-lisp
+  
+  (require 'org)
+  (dolist (item (directory-files "~/config/emacs/" t "^[a-z].*\.org$"))
+      (org-babel-tangle-file item))
+  
+#+end_src
+
+* Define all files that include emacs configuration code
 
 #+begin_src emacs-lisp
   
@@ -39,6 +51,7 @@ Make sure that automatically saved configuration is stored in a different file
   
 #+end_src
 
+* End
 Show how long startup takes
 
 #+begin_src emacs-lisp
