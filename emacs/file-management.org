@@ -8,25 +8,25 @@
 #+end_src
 
 #+begin_src emacs-lisp
-    
-    (require 'dired-x)
-    (use-package dired
-      :ensure nil ;; because comes directly with emacs
-      :commands (dired dired-jump)
-      :bind (("C-x C-j" . dired-jump)
-             :map dired-mode-map
-             ("j" . dired-next-line)
-             ("k" . dired-previous-line)
-             ("h" . dired-up-directory)
-             ("l" . dired-find-file)
-             ("g" . dired-goto-file)
-             ("r" . revert-buffer)
-             ("e" . dired-do-kill-lines)
-             ("<RET>" . dired-open-file))
-      :custom
-      ;; define ls flags
-      (dired-listing-switches "-agho --group-directories-first"))
-    
+  
+  (require 'dired-x)
+  (use-package dired
+    :ensure nil ;; because comes directly with emacs
+    :commands (dired dired-jump)
+    :bind (("C-x C-j" . dired-jump)
+           :map dired-mode-map
+           ("j" . dired-next-line)
+           ("k" . dired-previous-line)
+           ("h" . dired-up-directory)
+           ("l" . dired-find-file)
+           ("J" . dired-goto-file)
+           ("g" . revert-buffer)
+           ("e" . dired-do-kill-lines)
+           ("<RET>" . dired-open-file))
+    :custom
+    ;; define ls flags
+    (dired-listing-switches "-agho --group-directories-first"))
+  
 #+end_src
 
 Open

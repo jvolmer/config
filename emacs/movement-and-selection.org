@@ -83,6 +83,7 @@ region: selection of text, area between active mark and the point
 | C-g          | cancel selection |
 
 ** Region
+How to create a region:
 - set active mark and move point
 - hold shift and move point
 - from deactivated mark to point: =C-x C-x=

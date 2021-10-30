@@ -78,8 +78,50 @@ Open magit
 Call ~magit-status~ with ~C-x g~
 
 In magit
-- get help in there with ~?~
-- TAB on files shows diffs
 - ~s~ and ~u~ to (un)stage file / hunk / hunk-part (define region for part with C-SPC mark C-SPC)
+For direct interaction with github or gitlab, forge can be an interesting package.
 
-  For direct interaction with github or gitlab, forge can be an interesting package.
+  ~magit-clone~ from anywhere
+    
+** Main panel navigation
+| C-n/p | move forward/backward by line             |
+| n/p   | move forward/backward by visible section  |
+|       | (e.g. go to next hunk)                    |
+| M-n/p | move forward/backward by sibling section  |
+|       | (e.g. between files/hunks/magit-sections) |
+| "^"   | move to parent section                    |
+| TAB   | Expand/Collapse                           |
+| M-TAB | Cycle through section visibility          |
+
+** State/Unstage
+| s/u   | Stage/unstage file/hunk/hunk-part  |
+| C-SPS | Mark region (Use before and after) |
+
+** Push/Pull
+| P p | Push (new) branch to remote                                  |
+| F p | Pull latest changes from remote version of current branch    |
+| F u | Pull latest changes from upstream version of current branch  |
+| F r | Turn on rebase option for pulling: when pulling, new commits |
+|     | will be replayed on to of pulled branch                      |
+| f p | Pull remote branch without changing you local one            |
+
+** Others
+| ?     | Help                   |
+| i ... | Add file to .gitignore |
+
+** Resolve conflicts
+*** With Smerge
+On conflicting file section
+| C-c ^ C-h RET | (while point is on a command name) docu |
+| C-c ^ m       | Keep mine (HEAD version)                |
+| C-c ^ o       | Keep other                              |
+| C-c ^ n       | move to next conflict                   |
+| k             | Asks which side to keep                 |
+
+*** With Ediff
+How: Press ~e~ with point on conflicting file
+| n/p | Navigate through conflicts |
+| a/b | Accept a version           |
+| "/" | Look at ancestor           |
+| q   | Quit                       |
+| ?   | Help                       |
