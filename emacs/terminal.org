@@ -87,7 +87,7 @@ Can run elisp commands directly in the shell
     (use-package eshell
       :hook (eshell-first-time-mode . ec/configure-eshell)
       :config
-      (eshell-git-prompt-use-theme 'powerline)
+      (eshell-git-prompt-use-theme 'robbyrussel)
       (with-eval-after-load 'esh-opt
         (setq eshell-destroy-buffer-when-process-dies t)
         ;; open these in term-mode

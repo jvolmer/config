@@ -95,11 +95,36 @@ Define fonts for default,  fixed and variable pitch types
 
 #+begin_src emacs-lisp
   
-  (defvar ec/default-font-size 110)
-  (set-face-attribute 'default nil :font "Fira Code Retina" :height ec/default-font-size)
-  (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height ec/default-font-size)
-  (set-face-attribute 'variable-pitch nil :font "Cantarell" :height ec/default-font-size :weight 'regular)
+  (defvar me/default-font-size 110)
+  (setq me/current-font-size me/default-font-size)
   
+  (defun me/define-height-for-basic-faces (height)
+    (interactive "Nheight: ")
+    (dolist (face '(default fixed-pitch variable-pitch))
+      (set-face-attribute face nil :height height))
+    (setq me/current-font-size height))
+  
+  (set-face-attribute 'default nil :font "Fira Code Retina")
+  (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina")
+  (set-face-attribute 'variable-pitch nil :font "Cantarell" :weight 'regular)
+  (me/define-height-for-basic-faces me/default-font-size)
+  
+#+end_src
+(see all faces with ~M-x list-faces-display~)
+
+Change font size
+#+begin_src emacs-lisp
+        
+    (me/leader-key
+      "f" '(me/hydra-font-size/body :which-key "fontsize"))
+    
+    (defhydra me/hydra-font-size ()
+      "Scale font size"
+      ("+" (me/define-height-for-basic-faces (+ me/current-font-size 20)) "increase")
+      ("-" (me/define-height-for-basic-faces (- me/current-font-size 20)) "shrink")
+      ("=" (me/define-height-for-basic-faces me/default-font-size) "default")
+      ("q" nil "quit" :exit t))
+    
 #+end_src
 
 Use rainbow brackets and emphasize open-close brackets in all programming modes

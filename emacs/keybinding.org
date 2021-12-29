@@ -50,20 +50,20 @@ Convenient method for binding keys, e.g. create your own leader-key and its menu
 #+begin_src emacs-lisp
   
   (use-package general
-    :demand
-    :config
-    (general-create-definer ec/leader-key
-      :prefix "C-c")
+      :demand)
   
-    ;; make my own menu
-    (ec/leader-key
-     "w" '(:ignore t :which-key "window")
-     "wt" '(transpose-frame :which-key "transpose")
-     "ws" '(:ignore t :which-key "size")
-     "wsh" '(hydra-horizontal-window-size/body :which-key "horizontal")
-     "wsv" '(hydra-vertical-window-size/body :which-key "vertical")
-     "wsb" '(balance-windows :which-key "balance")
-     "wss" '(shrink-window-if-larger-than-buffer :which-key "fit-to-size")))
+  (general-create-definer me/leader-key
+        :prefix "C-c")
+  
+  ;; make my own menu
+  (me/leader-key
+    "w" '(:ignore t :which-key "window")
+    "wt" '(transpose-frame :which-key "transpose")
+    "ws" '(:ignore t :which-key "size")
+    "wsh" '(hydra-horizontal-window-size/body :which-key "horizontal")
+    "wsv" '(hydra-vertical-window-size/body :which-key "vertical")
+    "wsb" '(balance-windows :which-key "balance")
+    "wss" '(shrink-window-if-larger-than-buffer :which-key "fit-to-size"))
   
 #+end_src
 
@@ -108,13 +108,13 @@ Define hydras
 #+begin_src emacs-lisp
   
   (defhydra hydra-horizontal-window-size ()
-    "scale text"
+    "Scale window horizontally"
     ("k" shrink-window-horizontally "shrink")
     ("l" enlarge-window-horizontally "enlarge")
     ("q" nil "quit" :exit t))
   
   (defhydra hydra-vertical-window-size ()
-    "scale text"
+    "Scale window vertically"
     ("k" (enlarge-window -1) "shrink")
     ("l" enlarge-window "enlarge")
     ("q" nil "quit" :exit t))

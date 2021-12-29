@@ -10,6 +10,7 @@ Get type of something with ~type-of~
 ** Evaluation
 
 Form: Any lisp object that can be evaluated
+How: Go to end of expression and ~C-x C-e~ or for any command ~M-:~ and then command
 Integer result gives you different representations: decimal (octal hexa character)
 
 *** Self-evaluating
@@ -54,6 +55,7 @@ E.g. some results of other evaluations
 Evaluate to something different than themselves
 Can contain alphanumeric characters plus many more ~- + = *  / _ ~ ! @ $ % ^ & : < > { } ?~
 There are separate namespaces for variables and functions, therefore you can have the same name for a variable and a function
+Make symbol out of expression by putting ' before it: Then the expression will not be evaluated, e.g. ~'(1 2 3)~ is just a list, no function, or ~'some-function~ is the name of a function, which is not evaluated at that point
 
 * Types
 
@@ -270,3 +272,155 @@ Switch-case / match
 
 * Loops
 ~while~, ~dotimes (count <N>)~, ~dolist (item '("one" "two"))~
+
+* Functions
+
+#+begin_src emacs-lisp
+  
+  (defun do-some-math (x y)
+    "Multiplies the result of math expressions on the arguments X and Y."
+    (* (+ x 20)
+       (- y 10)))
+  
+  (do-some-math 100 50)
+  
+#+end_src
+
+You can define last parameters as optional, e.g. ~(defun multiply-maybe (x &optional y z) ...)~, null if not set
+You can define rest variable, e.g. ~(defun multiply-many (x &rest operands) ...)~ and then loop over operands
+Docstring: example ~alist-get~ function
+Anonymous function: ~(lambda (x y) (+ x y))~
+
+** Invoking
+Equivalent:
+#+begin_src emacs-lisp
+  
+  (+ 2 2)
+  (funcall '+ 2 2)
+  (apply '+ '(2 2))
+  
+#+end_src
+
+** Commands
+Interactive functions are called command, are meant to be used directly by the user
+They provide a few benefits over normal functions
+
+-    They show up in M-x command list
+-   Can be used in key bindings
+-    Can have parameters sent via prefix arguments, C-u
+
+  #+begin_src emacs-lisp
+    
+    (defun my-first-command ()
+      (interactive)
+      (message "Hey, it worked!"))
+    
+  #+end_src
+
+If the command needs parameters, you have to define them in after interactive, such that they are requested.
+  #+begin_src emacs-lisp
+    
+    (defun do-some-math (x y)
+      "Multiplies the result of math expressions on the arguments X and Y."
+      (interactive "Nx: \nNy: ")
+      (message "The result is: %d"
+               (* (+ x 20)
+                  (- y 10))))
+    
+  #+end_src
+See which types (N stands here for a numeric parameter) are available at https://www.gnu.org/software/emacs/manual/html_node/elisp/Interactive-Codes.html#Interactive-Codes
+
+* Variables
+A variable is an association (binding) between a name (more specifically a symbol) and a value.
+
+Equivalent:
+#+begin_src emacs-lisp
+  
+  (setq tab-width 4)
+  (set 'tab-width 4) ;; set is a symbol
+  
+#+end_src
+
+You can also define several variables with setq: ~(setq a 1 b 2)~
+
+Define a variable with documentation (mostly for configuration and package documentation)
+#+begin_src emacs-lisp
+  
+  (defvar am-i-documented "yes"
+  "I will relieve my own concern by documenting myself")
+  
+#+end_src
+defvar only applies the default value if the binding doesn’t already exist, can be overwritten by evaluating function with ~eval-defun~
+
+** Buffer local variables
+
+~(setq-local tab-width 4)~
+
+If you set in same buffer ~tab-width~ later, you will only change the local value
+
+If you are writing an Emacs Lisp package and want to provide a buffer-local variable, this is the way to do it!
+#+begin_src emacs-lisp
+  
+  (defvar new-buffer-local-var 311)
+  (make-variable-buffer-local 'new-buffer-local-var)  
+  
+#+end_src
+Makes the variable local for all future buffers
+
+Set a default value for all buffer that have not define the variable locally yet: ~(setq-default not-local-yet nil)~ (Be aware of unexpected results when setting the default to a local variable)
+
+** Variable scope
+Most variables in the config are defined in the “global” scope, meaning that they are visible to any other code loaded in Emacs. A buffer-local variable can be thought of as a global variable for a particular buffer.
+
+*** Local scope
+~(let ((x 0)) ... )~, also with more variables ~(let ((y 5) (z 10)) ... )~
+let* allows you to use previous variables you’ve bound in subsequent binding expressions:
+#+begin_src emacs-lisp
+  
+  (let* ((y 5)
+         (z (+ y 5)))
+    (* y z))
+  
+#+end_src
+Because it is expanded to two nested let's.
+
+interesting: ~if-let~ and ~when-let~
+
+*** Dynamic scope
+
+value that is associated with a variable may change depending on where an expression gets evaluated
+
+is mostly used in emacs (other scoping model in Emacs is called “lexical scoping”)
+
+#+begin_src emacs-lisp
+  
+  (setq x 5)
+  
+  ;; x is considered a "free" variable
+  (defun do-some-math (y)
+    (+ x y))
+  
+  (do-some-math 10)     ;; 15
+  
+  (let ((x 15))
+    (do-some-math 10))  ;; 25
+  
+#+end_src
+
+** Customization variables
+
+show up in the customization UI (users can set them without code)
+
+*** Definition
+#+begin_src emacs-lisp
+  
+  (defcustom my-custom-variable 42
+  "A variable that you can customize")
+  
+#+end_src
+Can also define additional parameters, e.g. ~:type~, ~:group~ or ~:options~
+
+*** Setting
+With ~(customize-set-variable 'tab-width 2)~ or ~(use-package emacs :custom (tab-width 2))~
+
+You can check with ~(custom-variable-p 'tab-width)~ whether variable is customizable
