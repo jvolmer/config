@@ -14,7 +14,16 @@ Activate it
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
     :custom
-    (lsp-keymap-prefix "C-c l")  
+    (lsp-keymap-prefix "C-c l")
+  
+    ;; make it less flashy
+    (lsp-eldoc-hook nil)
+    (lsp-enable-symbol-highlighting nil)
+    (lsp-signature-auto-activate nil)
+  
+    (lsp-eldoc-render-all t)
+    (lsp-enable-on-type-formatting nil)
+  
     :config
     (lsp-enable-which-key-integration t))
   
@@ -47,6 +56,9 @@ using flymake
 
 *** Actions
 ~lsp-execute-code-action~ ( ~C-c l a a~)
+
+*** Documentation
+~lsp-describe-thing-at-point~
 
 * Improved completion
 
@@ -126,35 +138,122 @@ Search e.g. for class name in project with ~lsp-ivy~
     
 #+end_src
 
+* Errors
+
+#+begin_src emacs-lisp
+    
+    (use-package flycheck
+      :after lsp)
+    
+#+end_src
+
+Display list of errors and warnings with ~flycheck-list_errors~
+
 * Specific language
 
 You need to install the language server for the particular language you use, have a look at https://emacs-lsp.github.io/lsp-mode/page/languages/
 
 ** Rust
+https://robert.kra.hn/posts/2021-02-07_rust-with-emacs/
 
 #+begin_src emacs-lisp
-      
-      (use-package rustic ;; rustic improves rust-mode
-        :hook (rustic-mode . lsp)
-        :custom
-        (lsp-eldoc-hook nil)
-        (lsp-enable-symbol-highlighting nil)
-        (lsp-signature-auto-activate nil)
-        (lsp-rust-analyzer-cargo-watch-command "clippy")
-  )
-      
-      ;; ;; can also run it with C-c C-f manually
-      (setq rustic-format-on-save t)
-      ;; run clippy with rust-run-clippy
-      
+  
+  (use-package rustic ;; rustic improves rust-mode
+    :hook (rustic-mode . lsp)
+    :custom
+  
+    ;; what to use for checking on-save (default is 'check')
+    (lsp-rust-analyzer-cargo-watch-command "clippy") ;; run clippy with rust-run-clippy
+  
+    (rustic-format-on-save t))
+  
   #+end_src
+
+Possibly interesting commands:
+| lsp-rust-analyzer-status | Show analyzer status |
+| lsp-ui-imenu             | Open ui menu         |
+| flycheck-list-errors     |                      |
+
+Rustic commands under ~C-c C-c~ or ~C-c C-p~
+Add/remove/update dependencies with ~rustic-cargo-...~
+Others commands: ~rustic-cargo-...~ and ~lsp-rust...~
+M-. xref-find-definitions Find definition of identifier at point (~xref-find-references~)
+M-, xref-pop-marker-stack Pop back to where M-. was last invoked
+Perhaps: M-? for lsp-references and M-j for lsp-ui-imenu
+
+Only ~lsp-find-implementations~ has no xref version, for others use xref
+
+You can have inline-documentation
+  
+** C++
 
 #+begin_src emacs-lisp
   
   (use-package ccls
-    :hook ((c-mode c++-mode objc-mode cuda-mode) . lsp))
+    :hook ((c-mode c++-mode objc-mode cuda-mode) . lsp)
+    :custom
+    (ccls-args (list (concat "-init={"
+                             ;; find compile_commands.json in build directory
+                             "  \"compilationDatabaseDirectory\": \"build\","
+                             ;; cache to home instead of to each project separately
+                             "  \"cache\":{"
+                             "    \"directory\":"
+                             "      \"" (getenv "HOME") "/.cache/ccls\""
+                             "  }"
+                             "}"))))
   
   (add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
   
 #+end_src
+
+My own build menu
+#+begin_src emacs-lisp
   
+  (general-create-definer ec/cmake
+    :keymaps '(cmake-mode-map c++-mode-map c-mode-map)
+    :prefix "C-c m")
+  
+  (ec/cmake
+   "" '(:ignore t :which-key "cmake")
+   "c" '(me/c++/configure :which-key "configure")
+   "i" '(me/c++/install :which-key "install dependencies")
+   "m" '(me/c++/build :which-key "make")
+   "t" '(me/c++/test :which-key "test"))
+  
+  (defun me/c++/configure ()
+    "Generate build system"
+    (interactive)
+    (if (me/uses-conan-p) (me/c++/install))
+    (me/run-command-in-project-root "cmake -S . -B build"))
+  
+  (defun me/uses-conan-p ()
+    (file-exists-p (concat (me/project-root) "conanfile.txt")))
+  
+  (defun me/c++/install ()
+    "Install dependencies via conan"
+    (interactive)
+    (me/run-command-in-project-root "conan install --install-folder build ."))
+  
+  (defun me/c++/build ()
+    "Build project and create compile_commands.json"
+    (interactive)
+    (me/run-command-in-project-root "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES --build build"))
+  
+  (defun me/c++/test ()
+    "Run tests in project"
+    (interactive)
+    (me/run-command-in-project-root "cmake --build build --target test"))
+  
+  (defun me/run-command-in-project-root (command)
+    "Run command in project root"
+    (let ((default-directory (me/project-root)))
+      (shell-command command)))
+  
+  (defun me/project-root ()
+    "Return the current project root when applicable or nil."
+    (when-let (project (project-current))
+      (project-root project)))
+  
+#+end_src
+
+To reindent the contents of a single parenthetical grouping, position point before the beginning of the grouping: ~C-M-q~
