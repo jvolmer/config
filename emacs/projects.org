@@ -13,7 +13,6 @@
   
   (use-package projectile
     :diminish projectile-mode
-    :config (projectile-mode)
     :custom
     (projectile-completion-system 'ivy)
     (projectile-project-search-path
@@ -22,7 +21,11 @@
        "~/config"))
     ;; after selecting project start dired
     (projectile-switch-project-action #'projectile-dired)
-    :bind-keymap ("C-c p" . projectile-command-map))
+    :bind-keymap ("C-c p" . projectile-command-map)
+    :config
+    (projectile-mode)
+    (general-define-key "C-c p" '(:ignore t :which-key "projectile")))
+    
   
 #+end_src
 
@@ -84,14 +87,15 @@ For direct interaction with github or gitlab, forge can be an interesting packag
   ~magit-clone~ from anywhere
     
 ** Main panel navigation
-| C-n/p | move forward/backward by line             |
-| n/p   | move forward/backward by visible section  |
-|       | (e.g. go to next hunk)                    |
-| M-n/p | move forward/backward by sibling section  |
-|       | (e.g. between files/hunks/magit-sections) |
-| "^"   | move to parent section                    |
-| TAB   | Expand/Collapse                           |
-| M-TAB | Cycle through section visibility          |
+| TAB   | Expand/Collapse                  |
+| M-TAB | Cycle through section visibility |
+Through all visible hierachies:
+| C-j | beginning of next section |
+| C-k | beginning of section      |
+Consider one hierachy level:
+| gj / M-n | beginning of next sibling section (e.g. file) |
+| gk / M-p | beginning of prev sibling section             |
+| "^"      | beginning of parent section                   |
 
 ** State/Unstage
 | s/u   | Stage/unstage file/hunk/hunk-part  |
