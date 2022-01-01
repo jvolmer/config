@@ -11,38 +11,57 @@ Activate it
 
 #+begin_src emacs-lisp
   
-  (use-package lsp-mode
-    :commands (lsp lsp-deferred)
-    :custom
-    (lsp-keymap-prefix "C-c l")
+    (use-package lsp-mode
+      :commands (lsp lsp-deferred)
+      :custom
+      (lsp-keymap-prefix "C-c l")
   
-    ;; make it less flashy
-    (lsp-eldoc-hook nil)
-    (lsp-enable-symbol-highlighting nil)
-    (lsp-signature-auto-activate nil)
+      ;; headline
+      (lsp-headerline-breadcrump-enable t)
   
-    (lsp-eldoc-render-all t)
-    (lsp-enable-on-type-formatting nil)
+      ;; in code
+      (lsp-diagnostics-provider :flycheck) ;; undercurl errors
+      (lsp-enable-symbol-highlighting nil)
+      (lsp-lens-enable nil) ;; additional infos above classes and methods
+      (lsp-ui-doc-enable nil) ;; pop-up
+      (lsp-completion-provider :none) ;; manually with completion-at-point
+      (lsp-enable-on-type-formatting nil)
   
-    :config
-    (lsp-enable-which-key-integration t))
+      ;; sidebar
+      (lsp-ui-sideline-enable t)
+      (lsp-ui-sideline-show-code-actions t)
+      (lsp-ui-sideline-show-diagnostics t)
+      (lsp-ui-sideline-show-hover nil)
+  
+      ;; modeline
+      (lsp-modeline-diagnostics-enable t)
+      (lsp-modeline-code-actions-enable t)
+  
+      ;; minibuffer
+      (lsp-eldoc-enable-hover t) ;; one-line signature
+      (lsp-signature-auto-activate t)
+      (lsp-signature-render-documentation nil) 
+  
+      :config
+      (lsp-enable-which-key-integration t)
+      (general-define-key :keymaps 'lsp-mode-map
+        (concat lsp-keymap-prefix " g b") '(xref-pop-marker-stack :which-key "back")))
   
 #+end_src
+
 ** Features
 
-*** Completion
- ~completion-at-point~
- 
-*** Signatures
-Shows them in echo area a bottom
-Cycle through with ~M-p~ and ~M-n~
-
 *** Navigation
-~lsp-find-reference~ (~C-c l g r~)
-~lsp-find-definition~ (~C-c l g g~)
+Via ~C-c l g <..>~
+Go back: ~xref-pop-marker-stack~ (~M-,~)
+
+(or ~xref-find-definitions~, ~xref-find-references~)                              
 
 *** Refactoring
 ~lsp-rename~ (~C-c l r r~)
+
+*** Actions
+~lsp-execute-code-action~ ( ~C-c l a a~)
 
 *** Formatting
 ~lsp-format-buffer~ (~C-c l = =~)
@@ -50,15 +69,19 @@ Configurable via ~lsp-<language>-format~
 There can be better packages for each language individually
 
 *** Diagnostics
-using flymake
-- List: ~flymake-show-diagnostics-buffer~
+(see flycheck below)
 - Show warnings/errors at point ~C-h .~
 
-*** Actions
-~lsp-execute-code-action~ ( ~C-c l a a~)
-
 *** Documentation
-~lsp-describe-thing-at-point~
+Shows signature in minibuffer
+For full docu: ~lsp-describe-thing-at-point~ (~C-c l h h~)
+
+*** Information
+~lsp-ui-imenu~ (from lsp-ui package)
+
+*** Completion
+(see company package below)
+ ~completion-at-point~
 
 * Improved completion
 
@@ -71,12 +94,16 @@ using flymake
     (company-minimum-prefix-length 1)
     (company-idle-delay 0.0)
     ;; otherwise does not find clang executable
-    (company-clang-executable "/usr/bin/clang-8"))
+    ;; (company-clang-executable "/usr/bin/clang-8")
+    :bind
+    (:map company-active-map ("<tab>" . company-complete-selection))
+    (:map lsp-mode-map
+      ("<tab>" . company-indent-or-complete-common)
+      ("C-c l c" . completion-at-point)))
   
 #+end_src
 
 Nicer interface (with symbols)
-
 #+begin_src emacs-lisp
   
   (use-package company-box
@@ -85,7 +112,6 @@ Nicer interface (with symbols)
 #+end_src
 
 Integration with prescient to sort proposals prefering last and frequently used ones (no filtering)
-
 #+begin_src emacs-lisp
   
   (use-package company-prescient
@@ -98,19 +124,11 @@ Integration with prescient to sort proposals prefering last and frequently used 
 #+begin_src emacs-lisp
   
     (use-package lsp-ui
-      :hook (lsp-mode . lsp-ui-mode)
-      :custom
-      (lsp-ui-doc-enable nil))
+      :hook (lsp-mode . lsp-ui-mode))
   
 #+end_src
 
-There are different modules:
-- lsp-ui-sideline: shows information of symbols on the current line, also flycheck diagnostics and code actions
-- lsp-ui-peek: peek to definition or reference ~lsp-ui-peek-find-references~ (~C-c l G r~)
-- lsp-ui-doc: shows object documentation at point in a child frame (go in and out of frame with ~lsp-ui-doc-(un)focus-frame~ 
-- lsp-ui-imenu
-
-There are a lot of options and things you can toggle, have a look at https://github.com/emacs-lsp/lsp-iu. Toogles can also be changed with ~C-c l T~.
+More UI stuff, e.g. peeking or imenu (https://github.com/emacs-lsp/lsp-iu)
 
 * Treemacs
 
@@ -132,59 +150,28 @@ Possibly treemacs-projectile can be interesting.
 Search e.g. for class name in project with ~lsp-ivy~
 
 #+begin_src emacs-lisp
-    
-    (use-package lsp-ivy
-      :after lsp)
-    
+  
+  (use-package lsp-ivy
+    :after lsp)
+  
 #+end_src
 
-* Errors
+* Diagnostics
 
 #+begin_src emacs-lisp
     
     (use-package flycheck
       :after lsp)
     
+    ;; key is defined by flycheck-keymap-prefix
+    ;; (cannot be set in :config for some reason)
+    (general-define-key "C-c !" '(:ignore t :which-key "flycheck"))
+    
 #+end_src
 
-Display list of errors and warnings with ~flycheck-list_errors~
-
 * Specific language
-
 You need to install the language server for the particular language you use, have a look at https://emacs-lsp.github.io/lsp-mode/page/languages/
 
-** Rust
-https://robert.kra.hn/posts/2021-02-07_rust-with-emacs/
-
-#+begin_src emacs-lisp
-  
-  (use-package rustic ;; rustic improves rust-mode
-    :hook (rustic-mode . lsp)
-    :custom
-  
-    ;; what to use for checking on-save (default is 'check')
-    (lsp-rust-analyzer-cargo-watch-command "clippy") ;; run clippy with rust-run-clippy
-  
-    (rustic-format-on-save t))
-  
-  #+end_src
-
-Possibly interesting commands:
-| lsp-rust-analyzer-status | Show analyzer status |
-| lsp-ui-imenu             | Open ui menu         |
-| flycheck-list-errors     |                      |
-
-Rustic commands under ~C-c C-c~ or ~C-c C-p~
-Add/remove/update dependencies with ~rustic-cargo-...~
-Others commands: ~rustic-cargo-...~ and ~lsp-rust...~
-M-. xref-find-definitions Find definition of identifier at point (~xref-find-references~)
-M-, xref-pop-marker-stack Pop back to where M-. was last invoked
-Perhaps: M-? for lsp-references and M-j for lsp-ui-imenu
-
-Only ~lsp-find-implementations~ has no xref version, for others use xref
-
-You can have inline-documentation
-  
 ** C++
 
 #+begin_src emacs-lisp
@@ -194,17 +181,25 @@ You can have inline-documentation
     :custom
     (ccls-args (list (concat "-init={"
                              ;; find compile_commands.json in build directory
-                             "  \"compilationDatabaseDirectory\": \"build\","
+                             "  \"compilationDatabaseDirectory\": \"build\" "
                              ;; cache to home instead of to each project separately
-                             "  \"cache\":{"
-                             "    \"directory\":"
-                             "      \"" (getenv "HOME") "/.cache/ccls\""
-                             "  }"
+                             ;; " , "
+                             ;; "  \"cache\":{"
+                             ;; "    \"directory\":"
+                             ;; "      \"" (getenv "HOME") "/.cache/ccls\""
+                             ;; "  }"
                              "}"))))
   
   (add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
+  (setq c-default-style "stroustrup")
   
 #+end_src
+
+Helpful Commands
+| <0>                          |           |                                                     |
+| flycheck-copy-errors-as-kill | C-c ! C-w | Copy all messages of errors at point into kill ring |
+| projectile-find-other-file   | C-p p a   | Switch between header and source file               |
+| find-file-at-point          | g f       | Open file at point                                  |
 
 My own build menu
 #+begin_src emacs-lisp
@@ -257,3 +252,31 @@ My own build menu
 #+end_src
 
 To reindent the contents of a single parenthetical grouping, position point before the beginning of the grouping: ~C-M-q~
+
+** Rust
+https://robert.kra.hn/posts/2021-02-07_rust-with-emacs/
+
+#+begin_src emacs-lisp
+  
+  (use-package rustic ;; rustic improves rust-mode
+    :hook (rustic-mode . lsp)
+    :custom
+  
+    ;; what to use for checking on-save (default is 'check')
+    (lsp-rust-analyzer-cargo-watch-command "clippy") ;; run clippy with rust-run-clippy
+  
+    (rustic-format-on-save t)
+  
+    :config
+    (general-define-key "C-c C-c" '(:ignore t :which-key "rustic")))
+  
+  #+end_src
+
+Rustic commands under ~C-c C-c~ or show them in extra buffer with ~C-c C-p~
+Add/remove/update dependencies with ~rustic-cargo-...~
+Others commands: ~rustic-cargo-...~ and ~lsp-rust...~
+
+Possibly interesting: Show analyzer status with ~lsp-rust-analyzer-status~
+
+You can have inline-documentation
+  
