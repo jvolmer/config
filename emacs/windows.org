@@ -107,7 +107,7 @@ Have seperate workspaces: Each one has its own buffer list and window configurat
   (use-package perspective
     :bind (("C-x k" . persp-kill-buffer*) ;; kill buffer only in this perspective
            ("C-x b" . persp-ivy-switch-buffer)) ;; to only show buffers in current perspective
-    :custom (persp-initial-frame-name "start")
+    :custom (persp-initial-frame-name "emacs")
     :init (persp-mode))
   
 #+end_src

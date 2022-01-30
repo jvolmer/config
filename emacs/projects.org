@@ -74,7 +74,9 @@ Open magit
   (use-package magit
     :commands magit-status
     :custom
-    (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+    (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+    (magit-bury-buffer-function 'magit-restore-window-configuration)
+  )
   
 #+end_src
 
@@ -129,3 +131,18 @@ How: Press ~e~ with point on conflicting file
 | "/" | Look at ancestor           |
 | q   | Quit                       |
 | ?   | Help                       |
+
+* Ripgrep
+
+#+begin_src emacs-lisp
+  
+  (use-package rg
+    :after projectile
+    :config (rg-enable-default-bindings))
+  
+#+end_src
+
+Menu entry: ~C-c s~
+| C-c s r | Search for regex: regex, file type, directory |
+| C-c s t | same but for literals xoinstead of regex      |
+| C-c s p | Search in full project                        |

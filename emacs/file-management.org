@@ -7,6 +7,8 @@
   
 #+end_src
 
+* Dired
+
 #+begin_src emacs-lisp
   
   (require 'dired-x)
@@ -25,7 +27,9 @@
            ("<RET>" . dired-open-file))
     :custom
     ;; define ls flags
-    (dired-listing-switches "-agho --group-directories-first"))
+    (dired-listing-switches "-agho --group-directories-first")
+    ;; guess default target directory 
+    (dired-dwim-target t))
   
 #+end_src
 
@@ -34,7 +38,7 @@ Open
 | C-x d       | Open dired (choose where) |
 | C-x C-j (C) | Open dired in directory of current buffer |
 
-** Navigation
+*** Navigation
 
 | k/j (C) | up/down (or n/p)                                |
 | h/l (C) | go up/down in hierarchy (or ^/RET)              |
@@ -45,7 +49,7 @@ Open
 | i       | Show sub-dir at end of this buffer              |
 | &       | Launch external program on file                 |
 
-** Mark
+*** Mark
 
 | m     | Mark a file                                  |
 | u     | Unmark                                       |
@@ -57,14 +61,14 @@ Open
 |       | / for directories                            |
 |       | * for executables                            |
 
-** View
+*** View
 
 | e (C) | dont show marked files                           |
 | r (C) | revert buffer                                    |
 | s     | toggle between alphabetic and dat/time order     |
 | (     | toggle show only file names (without extra info) |
 
-** Copying and renaming
+*** Copying and renaming
 
 Does not need marking
 
@@ -78,24 +82,24 @@ Does not need marking
 
 If 2 windows are open, it defaults to copy to other open dired window folder
 
-** Deleting
+*** Deleting
 
-| Key | Desciption            |
-|-----+-----------------------|
-| D   | Delete marked file    |
-| d   | Mar file for deletion |
+| Key | Desciption                |
+|-----+---------------------------|
+| D   | Delete marked file        |
+| d   | Mark file for deletion    |
 | x   | Execute deletion of marks |
 
 Set ~delete-by-moving-to-trash~ to true to move to trash instead of deleting
 
-** Archives
+*** Archives
 
 | Z | Compress or uncompress to .tar.gz                          |
 | c | Compress selection to specific file (.zip will create zip) |
 
 Modify zip command or add one more to list ~dired-compress-files-alist~
 
-** Others
+*** Others
 
 | T       | Touch                                                 |
 | M       | Change file mode (Interface not that good)            |
@@ -106,7 +110,7 @@ Modify zip command or add one more to list ~dired-compress-files-alist~
 | C-x C-q | Edit dired buffer interactively                       |
 |         | could then use normal search and replace for renaming |
 
-* Appearance
+** Appearance
 
 Add file icons
 
@@ -128,7 +132,7 @@ Don't show dotfiles
   
 #+end_src
 
-* Behavior
+** Behavior
 
 Stay in same buffer when using these bindings for navigation:
 
@@ -145,15 +149,45 @@ Stay in same buffer when using these bindings for navigation:
 Open files with specific programs
 
 #+begin_src emacs-lisp
-        
-        (use-package dired-open
-          :commands (dired dired-jump)
-          :custom
-          (dired-open-extensions '(("png" . "feh")
-                                   ("mkv" . "mpv")
-                                   ("mp3" . "vlc")
-                                   ("m3u" . "vlc")
-                                   ("mp4" . "vlc"))))
-        
+  
+  (use-package dired-open
+    :commands (dired dired-jump)
+    :custom
+    (dired-open-extensions '(("png" . "feh")
+                             ("mkv" . "mpv")
+                             ("mp3" . "vlc")
+                             ("m3u" . "vlc")
+                             ("mp4" . "vlc")
+                             ("doc" . "libreoffice")
+                             ("xls" . "libreoffice")
+                             ("odt" . "libreoffice")
+                             ("ods" . "libreoffice"))))
+  
 #+end_src
 
+* Ediff
+
+#+begin_src emacs-lisp
+  
+  (use-package ediff
+    :custom
+    (ediff-split-window-function 'split-window-horizontally)
+    (ediff-window-setup-function 'ediff-setup-windows-plain))
+  
+#+end_src
+
+Customize colors
+#+begin_src emacs-lisp
+  
+  (custom-set-faces
+    '(ediff-current-diff-A ((t (:foreground "black" :background "SteelBlue1"))))
+    '(ediff-current-diff-B ((t (:foreground "black" :background "SteelBlue1"))))
+    '(ediff-fine-diff-A ((t (:foreground "black" :background "SlateBlue1"))))
+    '(ediff-fine-diff-B ((t (:foreground "black" :background "SlateBlue1")))))
+ 
+#+end_src
+
+| j/k   | Navigate between differences          |
+| v/V   | Scroll up/down both bufferes together |
+| a/b   | copy difference in a/b to b/a         |
+| ra/rb | restore current region in a/b         |

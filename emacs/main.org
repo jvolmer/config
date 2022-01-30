@@ -10,17 +10,6 @@ Reduce the number of times the garbage collector runs during startup by setting 
 
 #+end_src
 
-* Update config files
-This is important if files changed after pulled with git.
-
-#+begin_src emacs-lisp
-  
-  (require 'org)
-  (dolist (file (directory-files "~/config/emacs/" t "^[a-z].*\.org$"))
-      (org-babel-tangle-file file))
-  
-#+end_src
-
 * Define all files that include emacs configuration code
 
 #+begin_src emacs-lisp

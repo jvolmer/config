@@ -47,7 +47,9 @@ Counsel provides ivy-enhanced versions of comman emacs commands. (Ivy, swiper an
            ("C-x b" . counsel-ibuffer)
            ("C-x C-f" . counsel-find-file)
            :map minibuffer-local-map
-           ("C-r" . 'counsel-minibuffer-history)))
+           ("C-r" . 'counsel-minibuffer-history)
+           :map counsel-find-file-map
+           ("C-H" . (lambda() (interactive) (ivy--cd "~/"))))) ;; to directly open home
   
 #+end_src
 

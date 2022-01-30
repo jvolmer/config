@@ -4,7 +4,7 @@ I followed [[https://github.com/daviwil][David Wilson]]'s [[https://www.youtube.
 
 * Setup
 For better readability, I wrote all configuration in org-files. Emacs needs its configuration written in elisp files. Evaluate the expression in [[file:main.org::Update config files][this section]] to create these elisp files automatically.
-Currently this confuguration expects this repository in the folder ~~/config/emacs/~.
+Currently this configuration expects this repository in the folder ~~/config/emacs/~.
 
 ** Install once
 These are packages that you need to install upfront, eigther inside emacs or on your system

@@ -217,7 +217,8 @@ All : commands must be finished by <ENTER>
 | .   | repeat last action at current position |
 
 *** Motions
-| w         | end of word (e without space)                |
+| w         | start of next word                           |
+| e         | last letter of word                          |
 | b         | back a word                                  |
 | W         | next space (E without space)                 |
 |           |                                              |
@@ -249,6 +250,7 @@ All : commands must be finished by <ENTER>
 |      | (for a deleted line: under cursor)    |
 | r    | replace character under cursor        |
 | R    | replace more (goto insert)            |
+| a    | append (start editing one character ahead) |
 | [p   | paste in new line above               |
 | ]p   | paste in new line below               |
 | [SPC | add lines above                       |
