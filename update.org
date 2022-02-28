@@ -5,7 +5,7 @@ Execute this after you pulled this repo with git:
 #+begin_src emacs-lisp :tangle no
   
   (require 'org)
-  (dolist (file (directory-files-recursivly "~/config/" "^[a-z].*\.org$"))
+  (dolist (file (directory-files-recursively "~/config" "^[a-z].*\.org$"))
       (org-babel-tangle-file file))
   
 #+end_src

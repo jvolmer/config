@@ -1,0 +1,26 @@
+#+TITLE: Main Awesome Configuration
+#+PROPERTY: header-args:lua :tangle ~/.config/awesome/rc.lua
+
+* Define variables
+
+#+begin_src lua
+    
+  terminal = "konsole"
+  editor = "vim" or "nano"
+  editor_cmd = terminal .. " -e " .. editor
+    
+#+end_src
+
+* Include files
+
+#+begin_src lua
+  
+  require("error_handling")
+  require("appearance")
+  require("menu")
+  require("bar")
+  require("keybindings")
+  require("clients")
+  require("startup")
+
+#+end_src

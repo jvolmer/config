@@ -1,0 +1,17 @@
+#+TITLE:Startup
+#+PROPERTY: header-args:lua :tangle ~/.config/awesome/startup.lua
+
+#+begin_src lua
+  local awful = require("awful")
+#+end_src
+
+#+begin_src lua
+    
+  -- autostart applications
+  awful.spawn.with_shell("setxkbmap -layout 'us,de'")
+  awful.spawn.with_shell(changeUpDownKeys)
+  awful.spawn.with_shell("xrandr --output LVDS-1 --left-of DP-1 --size 1366x768 --pos 0x0 --output DP-1 --size 2560x1280 --right-of LVDS-1 --pos 768x0") 
+  -- for network-manager in status bar
+  awful.spawn.with_shell("nm-applet")
+    
+#+end_src
