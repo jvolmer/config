@@ -213,7 +213,7 @@ All : commands must be finished by <ENTER>
 
 *** Repetitions
 | u   | undo                                   |
-| C-u | redo                                   |
+| C-r | redo                                   |
 | .   | repeat last action at current position |
 
 *** Motions
@@ -237,30 +237,32 @@ All : commands must be finished by <ENTER>
 | gg        | beginning of buffer                          |
 | G         | end of buffer                                |
 |           |                                              |
+| <N>[[     | beginning of Nth prev section                |
+| <N>]]     | beginning of Nth next section                |
 | %         | matching brancket                            |
-| /<phrase> | search, again: n, opposite direction: N      |
+| /<phrase> | search, RET n: next, opposite direction: N   |
 | ?<phrase> | search backwards                             |
 | f, F      | find next (previous) character               |
 | t, T      | find next character (excluding new character |
 
 *** Actions
-| x    | Delete character under cursor         |
-| i    | insert (goto insert)                  |
-| p    | put last deletion after cursor        |
-|      | (for a deleted line: under cursor)    |
-| r    | replace character under cursor        |
-| R    | replace more (goto insert)            |
+| x    | Delete character under cursor              |
+| i    | insert (goto insert)                       |
+| p    | put last deletion after cursor             |
+|      | (for a deleted line: under cursor)         |
+| r    | replace character under cursor             |
+| R    | replace more (goto insert)                 |
 | a    | append (start editing one character ahead) |
-| [p   | paste in new line above               |
-| ]p   | paste in new line below               |
-| [SPC | add lines above                       |
-| ]SPC | add lines below                       |
-| [e   | move region/line up                   |
-|      |                                       |
-| o    | open line below this line goto insert |
-| O    | open line above this line goto insert |
-| A    | append to end of line                 |
-| I    | insert at start of line               |
+| [p   | paste in new line above                    |
+| ]p   | paste in new line below                    |
+| [SPC | add lines above                            |
+| ]SPC | add lines below                            |
+| [e   | move region/line up (down with ])          |
+|      |                                            |
+| o    | open line below this line goto insert      |
+| O    | open line above this line goto insert      |
+| A    | append to end of line                      |
+| I    | insert at start of line                    |
 
 Combined actions:
 [number] [verb] [noun] OR [verb] [number] [noun]
@@ -292,6 +294,30 @@ a instead of i includes surrounding white spaces
 
 For action on full line: press verb twice (e.g. dd to delete line)
 
+** Registers
+Can registers in Insert or Command mode
+Evalute expression: C-r =3+4 RET
+| :reg [<names of registers>] | show all registers with contents                       |
+| "ky<Noun>                   | Yank to register k                                     |
+| "Ky<Noun>                   | Append to register k                                   |
+| "kp                         | Normal mode: Paste from register k                     |
+| C-r k                       | Insert/Command mode: Paste from register k             |
+| C-r = <expr> RET            | Insert/Command mode: Evaluate <expr> and insert result |
+
+Special registers
+| 0   | default when yanking if no register is specified |
+| 1-9 | last 9 deleted texts, 1 newest, 9 oldest         |
+| +   | System clipboard                                 |
+| "   | Any text you delete or yank                      |
+| .   | last inserted text (read-only)                   |
+| %   | current file path (read-only)                    |
+| :   | most recently executed command (read-only)       |
+| /   | latest text you searched for (with / ? * or #)   |
+| =   | Expressions (evaluate expr in Insert/Command)    |
+
+Replace a word (repeatable):
+ciw C-r 0 ESC
+
 ** Advice
 - in actions: use text objects instead of motions
 - spelling: change entire word instead of correcting one character
@@ -300,13 +326,17 @@ For action on full line: press verb twice (e.g. dd to delete line)
 
 ** Comments
 #+begin_src emacs-lisp
-  
+
   (use-package evil-nerd-commenter
     :config (evilnc-default-hotkeys))
   
 #+end_src
 
-Evil-mode: ~,~ e.g. ~,ci~
+Evil-mode: ~,~
+| ,,9j | this and next 9 lines |
+| ,,,  | this line             |
+| ,cp  | full paragraph        |
+
 All modes: ~M-;~
 
 ** Switch buffer

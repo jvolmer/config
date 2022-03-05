@@ -41,7 +41,7 @@ Make sure that automatically saved configuration is stored in a different file
 #+end_src
 
 * End
-Show how long startup takes
+Show how long startup took
 
 #+begin_src emacs-lisp
     
@@ -63,3 +63,12 @@ Bring garbadge collection threshold down
     (setq gc-cons-threshold (* 2 1000 1000))
 
 #+end_src
+
+* Startup command
+
+#+begin_src shell
+  emacs 
+#+end_src
+
+| --quick       | -q        | don't load config from .emacs.d or .emacs |
+| --load <file> | -l <file> | load specific config file                 |

@@ -70,14 +70,15 @@ Commands:
 
 Open magit 
 #+begin_src emacs-lisp
-  
+
   (use-package magit
     :commands magit-status
+    :bind ("C-c g" . magit-file-dispatch)
     :custom
     (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
     (magit-bury-buffer-function 'magit-restore-window-configuration)
   )
-  
+
 #+end_src
 
 Call ~magit-status~ with ~C-x g~
@@ -132,14 +133,28 @@ How: Press ~e~ with point on conflicting file
 | q   | Quit                       |
 | ?   | Help                       |
 
+** Actions in a specific file
+
+Menu:
+| magit-file-dispatch | C-c g   |
+
+Interesting:
+| magit-log-buffer-file | C-c g l   | Show logs of current buffer                    |
+| magit-blame-addition  | C-c g b   | Opens new buffer: Show blame of each line      |
+|                       |           | RET for commit infos, ESC to go back to buffer |
+| magit-diff-range      | C-c g D r | Compare buffer to another branch / commit      |
+
+
 * Ripgrep
 
 #+begin_src emacs-lisp
-  
+
   (use-package rg
-    :after projectile
-    :config (rg-enable-default-bindings))
-  
+    :bind ("C-c s" . rg-menu)
+    :config (rg-enable-menu))
+
+  (define-key isearch-mode-map "\M-sr" 'rg-isearch-menu)
+
 #+end_src
 
 Menu entry: ~C-c s~

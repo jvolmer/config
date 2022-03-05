@@ -213,9 +213,9 @@ Set agenda file locations (Filenames will show up in agenda-list)
     
     (with-eval-after-load 'org  
       (setq org-agenda-files
-            '("~/documents/orgFiles/Tasks.org"))
+            '("~/docs/organization/tasks.org"))
       (setq org-refile-targets
-            '(("Archive.org" :maxlevel . 1))))
+            '(("archive.org" :maxlevel . 1))))
     
 #+end_src
 
