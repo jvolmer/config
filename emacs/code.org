@@ -168,17 +168,99 @@ Search e.g. for class name in project with ~lsp-ivy~
 
 Menu: =C-c !=
 
+* Debugging
+
+Need to install =lldb= for that.
+
+#+begin_src emacs-lisp
+  
+  (use-package dap-mode
+    :config
+    (require 'dap-lldb)
+    (general-define-key
+      :keymaps 'lsp-mode-map
+      :prefix lsp-keymap-prefix
+      "d" '(dap-hydra t :wk "debugger"))
+  
+    :custom
+    ;; don't show any additional dap windows (then configure (dap-ui-mode 1) for minimal features)
+    ;; (lsp-enable-dap-auto-configure nil)
+    ;; choose enabled features (can choose which panels to show)
+    (dap-auto-configure-features '(tooltip))
+    ;; don't show output buffer
+    (dap-auto-show-output nil)
+  
+    ;; show hydra when stopping at a breakpoint
+    ;; :hook (dap-stopped . (lambda (arg) (call-interactively #'dap-hydra)))
+  )
+  
+#+end_src
+
+** Actions
+| dap-debug                  | Start debugging - asks for config   |
+| dap-debug-last             | Start debugging with last config    |
+| dap-disconnect             | Stop debugging                      |
+| dap-debug-restart          | Restart session                     |
+|                            |                                     |
+| dap-next                   | go to next line                     |
+
+** Breakpoints
+| dap-breakpoint-toggle      | toggle bp on current line           |
+| dap-breakpoint-delete-all  | delete all                          |
+| dap-breakpoint-log-message | print message at this bp (needs bp) |
+|                            | use {...} to print out vars         |
+|                            | prints instead of breaking          |
+|                            | can be added at runtime             |
+| dap-breakpoint-condition   | break only if cond is met           |
+Be aware: setting some of them might clear others
+
+** Views
+*** Additional panels / buffers
+| dap-ui-breakpoints     | Breakpoints                                         |
+| dap-ui-locals          | Local variables                                     |
+| dap-ui-expressions     | Watched expressions                                 |
+| dap-ui-sessions        | Active sessions with stacktrace                     |
+| dap-go-to-ouput-buffer | Program output                                      |
+| dap-tooltip-at-point   | show value of var at point (needs dap-tooltip-mode) |
+| dap-ui-repl            | Start REPL or current language at current point     |
+
+*** Watch expressions
+| dap-ui-expressions-add    | watch a variable                                |
+| dap-ui-expressions-remove | remove watch                                    |
+
+** Create a debug template
+=dap-register-debug-template=
+#+begin_src emacs-lisp :tangle no
+  
+  (dap-register-debug-template
+    "LLDB::Run"
+    (list :type "lldb-vscode"
+          :request "launch"
+          :program nil
+          :cwd nil))
+  
+#+end_src
+Paste into =debug.el= in root of project folder
+
+** Keybindings
+=dap-hydra= pulls up keybinding menu
+
 * Specific language
 You need to install the language server for the particular language you use, have a look at https://emacs-lsp.github.io/lsp-mode/page/languages/
 
 ** C++
 
 #+begin_src emacs-lisp
-
-   (add-hook 'c++-mode-hook #'lsp)
-   (add-hook 'c-mode-hook #'lsp)
-   (add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
-   ;; (setq c-default-style "stroustrup")
+  
+  (add-hook 'c++-mode-hook #'lsp)
+  (add-hook 'c-mode-hook #'lsp)
+  (add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
+  ;; (setq c-default-style "stroustrup")
+  
+  ;; for dap-mode
+  (customize-set-variable 'dap-lldb-debug-program '("/usr/bin/lldb-vscode-10"))
+  ;;; ask user for executable to debug if not specified explicitly (c++)
+  (customize-set-variable 'dap-lldb-debugged-program-function (lambda () (read-file-name "Select file to debug.")))
 
 #+end_src
 
@@ -243,7 +325,7 @@ My own build menu
 
 *** Language server
 
-Currently I use clangd
+Currently I use clangd - just install it, no config needed
 
 **** Config for ccls (not used at the moment)
 
