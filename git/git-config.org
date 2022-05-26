@@ -1,11 +1,12 @@
 #+TITLE: Git Config
 
 #+begin_src shell
-  
+
   git config --global core.editor vi
   git config --global push.default upstream
   git config --global format.pretty oneline 
   git config --global merge.conflictstyle diff3
   git config --global fetch.prune true
-  
+  git config --global pull.rebase true
+
 #+end_src

@@ -46,7 +46,9 @@ Activate it
     (lsp-enable-which-key-integration t)
     (general-define-key :keymaps 'lsp-mode-map
       (concat lsp-keymap-prefix " g b") '(xref-go-back :which-key "back"))
-    (add-hook 'lsp-mode-hook (lambda () (add-hook 'before-save-hook #'lsp-format-buffer))))
+    (add-hook 'lsp-mode-hook (lambda ()
+      ;; (unless (derived-mode-p 'typescript-mode) ;; to add exception
+        (add-hook 'before-save-hook #'lsp-format-buffer))))
 
 #+end_src
 
@@ -95,7 +97,7 @@ For full docu: ~lsp-describe-thing-at-point~ (~C-c l h h~)
     (company-minimum-prefix-length 1)
     (company-idle-delay 0.0)
     ;; otherwise does not find clang executable
-    ;; (company-clang-executable "/usr/bin/clang-8")
+    (company-clang-executable "/usr/bin/clang")
     :bind
     (:map company-active-map ("<tab>" . company-complete-selection))
     (:map lsp-mode-map
@@ -130,6 +132,17 @@ Integration with prescient to sort proposals prefering last and frequently used 
 #+end_src
 
 More UI stuff, e.g. peeking or imenu (https://github.com/emacs-lsp/lsp-iu)
+
+* Define basic code format with editorconfig
+
+#+begin_src emacs-lisp
+
+  (use-package editorconfig
+    :ensure t
+    :config
+    (editorconfig-mode 1))
+
+#+end_src
 
 * Treemacs
 
@@ -255,6 +268,7 @@ You need to install the language server for the particular language you use, hav
   (add-hook 'c++-mode-hook #'lsp)
   (add-hook 'c-mode-hook #'lsp)
   (add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
   ;; (setq c-default-style "stroustrup")
   
   ;; for dap-mode
