@@ -28,6 +28,14 @@ Define package archives
   
 #+end_src
 
+Set package installation directory
+
+#+begin_src emacs-lisp
+
+  (setq package-user-dir "/usr/local/share/emacs/site-lisp/elpa/")
+
+#+end_src
+
 Initialize packages and refresh package list contents if no archive exists yet
 
 #+begin_src emacs-lisp
