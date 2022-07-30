@@ -4,8 +4,25 @@ Execute this after you pulled this repo with git:
 
 #+begin_src emacs-lisp :tangle no
   
+  ;; Default settings
+  (setq me/system-settings
+    '((awesome/xrandr . "--output HDMI --mode 1366x768")
+      (awesome/additional-startup . "")
+      (awesome/emacs . "emacs")))
+  
+  ;; Load specific settings if available
+  (setq me/specific-system-settings '())
+  (when (file-exists-p "system-variables.el")
+    (load-file "system-variables.el")
+      (setq me/system-settings
+        (map-merge 'alist
+          me/system-settings
+          me/specific-system-settings)))
+  
   (require 'org)
   (dolist (file (directory-files-recursively "~/config" "^[a-z].*\.org$"))
-      (org-babel-tangle-file file))
+    (org-babel-tangle-file file))
   
 #+end_src
+
+Define your specific system settings in a file "system-variables.el" in this directory. You can overwrite all default system settings.

@@ -1,6 +1,11 @@
 #+TITLE:Keybindings 
 #+PROPERTY: header-args:lua :tangle ~/.config/awesome/keybindings.lua
 
+#+NAME: emacs
+#+begin_src emacs-lisp
+  (alist-get 'awesome/emacs me/system-settings)
+#+end_src
+
 #+begin_src lua
   local awful = require("awful")
   local gears = require("gears")
@@ -10,13 +15,8 @@
   require("awful.hotkeys_popup.keys")
 #+end_src
 
-#+begin_src lua
+#+begin_src lua :noweb yes
     
-  -- Default modkey.
-  -- Usually, Mod4 is the key with a logo between Control and Alt.
-  -- If you do not like this or do not have such a key,
-  -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
-  -- However, you can use another modifier like Mod1, but it may interact with others.
   modkey = "Mod4"
   
   -- {{{ Mouse bindings
@@ -37,7 +37,7 @@
         {description = "keyboard layout de", group = "keyboard"}),
      awful.key({ "Control", "Mod1" }, "e", function () awful.spawn.with_shell("setxkbmap us && " .. changeUpDownKeys) end,
         {description = "keyboard layout us", group = "keyboard"}),
-     awful.key({ modkey,           }, "e", function () awful.spawn.with_shell("snap run emacs") end,
+     awful.key({ modkey,           }, "e", function () awful.spawn.with_shell("<<emacs()>>") end,
         {description="Emacs", group="programs"}),
      awful.key({ modkey,           }, "f", function () awful.spawn.with_shell("firefox") end,
         {description="Firefox", group="programs"}),
