@@ -22,8 +22,9 @@ Activate it
     ;; in code
     (lsp-diagnostics-provider :flycheck) ;; undercurl errors
     (lsp-enable-symbol-highlighting t)
-    (lsp-lens-enable nil) ;; additional infos above classes and methods
-    (lsp-ui-doc-enable nil) ;; pop-up
+    (lsp-lens-enable nil) ;; no additional infos above classes and methods
+    (lsp-ui-doc-enable nil) ;; no pop-up on hover 
+    (lsp-ui-doc-position 'at-point)
     (lsp-completion-provider :none) ;; manually with completion-at-point
     (lsp-enable-on-type-formatting nil)
 
@@ -38,8 +39,9 @@ Activate it
     (lsp-modeline-code-actions-enable t)
 
     ;; minibuffer
-    (lsp-eldoc-enable-hover t) ;; one-line signature
-    (lsp-signature-auto-activate t)
+    (lsp-eldoc-enable-hover t) ;; show signature on hover
+    (lsp-eldoc-render-all nil) ;; show only one line on hover (customize with lsp-ui)
+    (lsp-signature-auto-activate t) ;; show signature when using function
     (lsp-signature-render-documentation nil) 
 
     :config
@@ -47,8 +49,8 @@ Activate it
     (general-define-key :keymaps 'lsp-mode-map
       (concat lsp-keymap-prefix " g b") '(xref-go-back :which-key "back"))
     (add-hook 'lsp-mode-hook (lambda ()
-      ;; (unless (derived-mode-p 'typescript-mode) ;; to add exception
-        (add-hook 'before-save-hook #'lsp-format-buffer))))
+      (unless (derived-mode-p 'typescript-mode) ;; to add exception
+        (add-hook 'before-save-hook #'lsp-format-buffer)))))
 
 #+end_src
 
@@ -131,7 +133,7 @@ Integration with prescient to sort proposals prefering last and frequently used 
   
 #+end_src
 
-More UI stuff, e.g. peeking or imenu (https://github.com/emacs-lsp/lsp-iu)
+More UI stuff, e.g. peeking or imenu (https://github.com/emacs-lsp/lsp-ui)
 
 * Define basic code format with editorconfig
 
@@ -363,6 +365,8 @@ Currently I use clangd - just install it, no config needed
 
 ** Rust
 https://robert.kra.hn/posts/2021-02-07_rust-with-emacs/
+
+Language-server: rust-analyzer
 
 #+begin_src emacs-lisp
   

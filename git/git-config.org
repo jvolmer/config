@@ -1,5 +1,7 @@
 #+TITLE: Git Config
 
+* Global configurations
+will be stored into ~/.gitconfig
 #+begin_src shell
 
   git config --global core.editor vi
@@ -8,5 +10,15 @@
   git config --global merge.conflictstyle diff3
   git config --global fetch.prune true
   git config --global pull.rebase true
+  git config --global core.excludefile "~/.gitignore_global"
+  git config --global push.followTags true
 
+#+end_src
+
+* Conditional configuration for a specific git-dir
+Define specific configuration in <path-to-private-gitconfig> file
+At the end of ~/.gitconfig add
+#+begin_src shell
+  [includeIf "gitdir:<path-to-gitdir>"]
+          path = <path-to-private-gitconfig>
 #+end_src
