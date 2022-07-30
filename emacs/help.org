@@ -31,6 +31,8 @@ Get advanced help for functions, variables and keys (and commands if there is a 
   
 #+end_src
 
+Use describe-symbol ~C-h o~ to search for function and variable
+
 * Helpers
 
 Show commands I ran in a separate buffer

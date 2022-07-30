@@ -32,7 +32,7 @@
 | scroll-other-window      | M-pgdn    |                     |
 |                          | C-M-v     |                     |
 | scroll-other-window-down | M-pgup    |                     |
-|                          | C-S-M-v   |                     |
+|                          | C-S-M-v   |                     
 
 ** Select specific window
 

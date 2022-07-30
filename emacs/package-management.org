@@ -107,13 +107,76 @@ Make sure that if a package is called with use-package and it does not exist, it
     :hook ;; load this package when inside specific modes
     (<mode> <mode> ...)
   
-    :commands (<command> <command> ...) ;; activate package when one of there commands is executed
+    :commands (<command> <command> ...) ;; activate package when one of there commands is executed (= register an autoload for these functions)
+    ;; Needed if autoload is not defined for this command inside the package.
   
     :diminish <package-name>-mode ;; hide mode from mode-line
   
     :after <package> ;; load this package after <package> is loaded
   
+    :defer t ;; defer loading of package until a function of it is used (this function needs to be registered as an autoload)
+    :defer 5 ;; defer loading until 5 seconds after emacs is idle after startup
+  
     :demand ;; force loading at startup (overriding :bind or :mode or :commands for lazy loading)
     )
   
 #+end_src
+
+Usage of =:commands=, =:hook= and =:bind= imply =:defer t=
+They all define an 'autoload': The autoload facility lets you register the existence of a function or macro, but put off loading the file that defines it.
+(Autoload is not needed if it is defined inside the package in front of the function with a magic comment)
+
+** Convert use-package definition into plain elisp
+#+begin_src emacs-lisp :tangle no
+  ;; install package
+  (unless (package-installed-p 'name) (package-install 'name))
+  (init)
+  ;; load package
+  (require 'name)
+  (config)
+#+end_src
+
+*** Custom
+#+begin_src emacs-lisp :tangle no
+  (custom-set-variables '(variable1 value1) '(variable2 value2))
+#+end_src
+
+*** After
+#+begin_src emacs-lisp :tangle no
+  (with-eval-after-load after-package
+    ;; init
+    (require 'name)
+    ;; config, custom, ...
+  )
+#+end_src
+
+*** Commands
+#+begin_src emacs-lisp :tangle no
+  ;; if funcion is already defined, file is already loaded
+  (unless (fboundp 'funcion-or-command)
+    (autoload #'function-or-command "package" nil t))
+    ;; t for the function to be a command
+#+end_src
+Then require expression is not needed because package is loaded whenever the command is called.
+All other stuff needs to go into an =with-eval-after-load= block
+
+*** Hooks
+#+begin_src emacs-lisp :tangle no
+  (add-hook 'existing-hook #'function-to-add)
+#+end_src
+Possibly add autoload and use =with-eval-after-load=
+
+*** Defer t
+Does not need a =require= because it implies that an autoload is generated for this function which requires the package automatically when this function is called.
+Use =with-eval-after-load= for all other stuff
+
+*** Defer 5
+#+begin_src emacs-lisp :tangle no
+  (run-with-idle-timer 5 nil #'require 'package)
+#+end_src
+Use =with-eval-after-load= for all other stuff
+
+*** Bind
+Just define keys normally.
+Use before require to use keybinding to call an autoload function
+Then possibly add autoload and use =with-eval-after-load=

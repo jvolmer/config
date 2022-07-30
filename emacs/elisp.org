@@ -10,8 +10,10 @@ Get type of something with ~type-of~
 ** Evaluation
 
 Form: Any lisp object that can be evaluated
-How: Go to end of expression and ~C-x C-e~ or for any command ~M-:~ and then command
+How: Inside expression ~C-M-x~ or go to end of expression and ~C-x C-e~ or for any command ~M-:~ and then command
 Integer result gives you different representations: decimal (octal hexa character)
+
+Completion: ~completion-at-point~ ~C-M-i~
 
 *** Self-evaluating
 Primitive data types

@@ -499,3 +499,5 @@ Tangle specified files  when saving
 Before code block use ~#+NAME: variable-name~
 
 Use that value in another block with property ~:noweb yes~ via  ~<<variable-name>>~ (Brackets () after name will evaluate expression
+
+Can possibly append block to a variable with property ~:noweb-ref <variable-name> :noweb-sep ""i~ 

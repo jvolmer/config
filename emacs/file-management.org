@@ -110,6 +110,8 @@ Modify zip command or add one more to list ~dired-compress-files-alist~
 | C-x C-q | Edit dired buffer interactively                       |
 |         | could then use normal search and replace for renaming |
 
+Find pattern in directory recursively =find-name-dired=
+
 ** Appearance
 
 Add file icons

@@ -43,6 +43,15 @@ Set keybindings only in specific keymap (e.g. a mode)
   
 #+end_src
 
+Inside <keymap>, use key of <command> to call <newcommand>
+
+#+begin_src emacs-lisp :tangle no
+
+  (define-key <keymap> [remap <command>] '<newcommand>)
+
+#+end_src
+Only works for a single level
+
 * General package
 
 Convenient method for binding keys, e.g. create your own leader-key and its menu
