@@ -22,9 +22,9 @@ Use basic package management functions
 Define package archives
 
 #+begin_src emacs-lisp
-  
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("elpa" . "https://elpa.gnu.org/packages/")))
+
+  (add-to-list 'package-archives '("stable" . "https://stable.melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
   
 #+end_src
 
@@ -32,7 +32,7 @@ Set package installation directory
 
 #+begin_src emacs-lisp
 
-  (setq package-user-dir "/usr/local/share/emacs/site-lisp/elpa/")
+;;  (setq package-user-dir "/usr/local/share/emacs/site-lisp/elpa/")
 
 #+end_src
 

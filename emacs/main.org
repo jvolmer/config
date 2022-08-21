@@ -2,11 +2,41 @@
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 
 * Start
+** Garbage collection
 Reduce the number of times the garbage collector runs during startup by setting the threshould high
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
   
     (setq gc-cons-threshold (* 50 1000 1000))
+
+#+end_src
+
+** Native compilation
+Make sure that native compilation happens asynchronously and silence compiler warnings
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+
+  (when (featurep 'native-compile)
+    (setq native-comp-deferred-compilation t)
+    (setq native-comp-async-report-warnings-errors nil))
+
+#+end_src
+
+** UI Improvements
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+
+  (setq inhibit-startup-message t)
+  (push '(tool-bar-lines . 0) default-frame-alist)
+  (push '(menu-bar-lines . 0) default-frame-alist)
+  (push '(vertical-scroll-bars) default-frame-alist)
+  (push '(mouse-color . "white") default-frame-alist)
+  
+  ;; Loads a nice blue theme, avoids the white screen flash on startup.
+  (load-theme 'wombat  t)
+
+  ;; Make the initial buffer load faster by setting its mode to fundamental-mode
+  (customize-set-variable 'initial-major-mode 'fundamental-mode)
 
 #+end_src
 
@@ -15,7 +45,7 @@ Reduce the number of times the garbage collector runs during startup by setting 
 #+begin_src emacs-lisp
   
   (add-to-list 'load-path (concat user-emacs-directory "lisp"))
-  (require 'package-management)
+  (require 'package-management) ;; needs to be first
   (require 'keybinding)
   (require 'completion)
   (require 'appearance)
@@ -30,7 +60,8 @@ Reduce the number of times the garbage collector runs during startup by setting 
   
 #+end_src
 
-Make sure that automatically saved configuration is stored in a different file
+** UI Customization
+Make sure that automatically saved configuration (via UI)  is stored in a different file
 
 #+begin_src emacs-lisp
     
@@ -41,21 +72,18 @@ Make sure that automatically saved configuration is stored in a different file
 #+end_src
 
 * End
-Show how long startup took
+** Show how long startup took
 
 #+begin_src emacs-lisp
-    
-  (defun efs/display-startup-time ()
-    (message "Emacs loaded in %s with %d garbage collections."
-             (format "%.2f seconds"
-                     (float-time
-                      (time-subtract after-init-time before-init-time)))
-             gcs-done))
   
-  (add-hook 'emacs-startup-hook #'efs/display-startup-time)
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (message "Crafted Emacs loaded in %s."
+                       (emacs-init-time))))
   
 #+end_src
 
+** Garbage collection
 Bring garbadge collection threshold down
 
 #+begin_src emacs-lisp
