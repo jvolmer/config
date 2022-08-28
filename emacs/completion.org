@@ -8,91 +8,85 @@
   
 #+end_src
 
-* Ivy
+* Completion UI
 
 #+begin_src emacs-lisp
   
-  (use-package ivy
-    :diminish
-    :bind (("C-s" . swiper) ;; add keybindings, but also other stuff
-           :map ivy-minibuffer-map ;; specific to a mode
-           ("TAB" . ivy-alt-done)	
-           ("C-l" . ivy-alt-done)
-           ("C-j" . ivy-next-line)
-           ("C-k" . ivy-previous-line)
-           :map ivy-switch-buffer-map
-           ("C-k" . ivy-previous-line)
-           ("C-l" . ivy-done)
-           ("C-d" . ivy-switch-buffer-kill)
-           :map ivy-reverse-i-search-map
-           ("C-k" . ivy-previous-line)
-           ("C-d" . ivy-reverse-i-search-kill))
-    :init (ivy-mode 1))
+  (use-package vertico
+    :init (vertico-mode)
+    :bind (:map vertico-map
+                ("C-j" . vertico-next)
+                ("C-k" . vertico-previous)
+                ("C-f" . vertico-exit)
+            :map minibuffer-local-map
+                ("M-h" . vertico-directory-up))
+    :custom (vertico-cycle t))
+  
+  (vertico-multiform-mode)
+  
+  (setq vertico-multiform-categories
+    '((consult-grep buffer indexed)))
   
 #+end_src
+
+Todo: How to define a command and a keybinding for a specific cateogy, something like:
+  ;;          :map counsel-find-file-map
+  ;;          ("C-H" . (lambda() (interactive) (ivy--cd "~/"))))) ;; to directly open home
+
+* Annotations / Metainformation 
+
+#+begin_src emacs-lisp
+
+  (use-package marginalia
+    :after vertico
+    :custom
+    (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+    :init
+    (marginalia-mode))
+
+#+end_src
+
+* Search and navigation commands
+
+#+begin_src emacs-lisp
+  
+  (use-package consult
+    :bind (("C-s" . consult-line)
+           :map minibuffer-local-map
+           ("C-r" . consult-history)))
+  
+#+end_src
+
+In buffer completions with vertico:
+(setq completion-in-region-function #'consult-completion-in-region)
+Possibly set ~consult-ripgrep~ to a keybinding
+Possibly set ~consult-project-root-function~ to ~projectile-project-root~
+
+* Completion style
+
+#+begin_src emacs-lisp
+  (use-package orderless
+    :custom
+    (completion-styles '(orderless))
+    (completion-category-overrides '((file (styles . (partial-completion))))))
+  
+#+end_src
+
+* Sorting
+
+#+begin_src emacs-lisp
+
+  (use-package savehist
+    :ensure nil
+    :init
+    (savehist-mode))
+
+#+end_src
+ 
+* Ivy
 
 In an  list provided by ivy, ~ivy-dispatching-done~ (~M-o~) gives all available actions for one entry.
 
 Put current list in a new buffer with ~ivy-occur~ (~C-c C-o~). Here, use ~o~ for actions, ~q~ to close.
 
 Don't use one of the ivy options but my own: ~ivy-immediate-done~ (~C-M-j~)
-
-* Counsel
-
-Counsel provides ivy-enhanced versions of comman emacs commands. (Ivy, swiper and counsel are very narrowly intertwinded)
-
-#+begin_src emacs-lisp
-  
-  (use-package counsel
-    :bind (("M-x" . counsel-M-x)
-           ("C-x b" . counsel-ibuffer)
-           ("C-x C-f" . counsel-find-file)
-           :map minibuffer-local-map
-           ("C-r" . 'counsel-minibuffer-history)
-           :map counsel-find-file-map
-           ("C-H" . (lambda() (interactive) (ivy--cd "~/"))))) ;; to directly open home
-  
-#+end_src
-
-* Ivy rich
-
-Provide more information in ivy and counsel lists, e.g. short description of functions for ~C-h f~.
-
-#+begin_src emacs-lisp
-  
-  (use-package ivy-rich
-    :after ivy
-    :init (ivy-rich-mode 1))
-  
-#+end_src
-
-* Prescient
-
-Sort candidates to prefer last used and frequently used once
-
-#+begin_src emacs-lisp
-  
-  (use-package prescient
-    :after counsel
-    :config (prescient-persist-mode 1))
-  
-  (use-package ivy-prescient
-    :after prescient
-    :config
-    (ivy-prescient-mode 1)
-    (prescient-persist-mode 1)) ;; persist over sessions
-  
-#+end_src
-
-Works for
-- ~counsel-M-x~
-- ~counsel-find-file~
-- ~counsel-describe-variable~
-Not for
-- ~counsel-switch-buffer~ (Want to keep buffer behavior)
-
-Exclude certain commands from sorting with ~ivy-prescient-sort-commands~
-
-Does sorting by length, checkout var ~prescient-sort-length-enable~
-
-Does also filtering, check var ~prescient-filter-method~ and disable it with setting ~ivy-prescient-enable-filtering~ to nil.

@@ -21,14 +21,14 @@ Get advanced help for functions, variables and keys (and commands if there is a 
   
   (use-package helpful
     :commands (helpful-callable helpful-variable helpful-command helpful-key)
-    :custom
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
     :bind
-    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-function] . helpful-callable)
     ([remap describe-command] . helpful-command)
-    ([remap describe-variable] . counsel-describe-variable)
-    ([remap describe-key] . helpful-key))
+    ([remap describe-variable] . helpful-variable)
+    ([remap describe-key] . helpful-key)
+    ([remap describe-symbol] . helpful-symbol)
+    ("C-h F" . helpful-function)
+    ("C-h K" . describe-keymap))
   
 #+end_src
 
@@ -53,7 +53,7 @@ Toggle command-log mode in all buffers with ~global-command-log-mode~. Show it w
   
   (defun ec/open-config-files()
     (interactive)
-    (counsel-find-file "~/config/emacs/"))
+    (consult-find "~/config/emacs/"))
   
   (general-define-key "C-c h" 'ec/open-config-files)
   
