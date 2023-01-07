@@ -12,11 +12,11 @@
 
 #+begin_src emacs-lisp
     
-    (use-package which-key
-      :demand
-      :diminish which-key-mode
-      :custom (which-key-idle-delay 0.3)
-      :init (which-key-mode))
+    ;; (use-package which-key
+    ;;   :demand
+    ;;   :diminish which-key-mode
+    ;;   :custom (which-key-idle-delay 0.3)
+      ;; :init (which-key-mode))
     
 #+end_src
 
