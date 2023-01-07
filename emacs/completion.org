@@ -61,6 +61,8 @@ In buffer completions with vertico:
 Possibly set ~consult-ripgrep~ to a keybinding
 Possibly set ~consult-project-root-function~ to ~projectile-project-root~
 
+~consult-find~ to find files with a specific name
+
 * Completion style
 
 #+begin_src emacs-lisp
@@ -82,6 +84,49 @@ Possibly set ~consult-project-root-function~ to ~projectile-project-root~
 
 #+end_src
  
+* Context menu
+
+Context specific ations on current target (cycle through targets with embark-act when several targets are present at location)
+#+begin_src emacs-lisp
+  
+  (use-package embark
+    :ensure t
+    :bind
+    ("C-." . embark-act)
+    ("M-." . embark-dwim)
+    ;; ("C-h B" . embark-bindings)) ;; alternative for describe-bindings
+    ;; TODO get rid of which-key, use better names for keybinded fcts ;;      then do next line instead of previous
+    ([remap describe-bindings] . embark-bindings)
+    :init
+    (setq prefix-help-command #'embark-prefix-help-command))
+  
+#+end_src
+
+** Keybinding help
+When setting ~prefix-help-command~ to ~embark-prefix-help-command~ (and switch off which-key) you can press a prefix, e.g. ~C-x~, and then ~C-h~ to get all options in a minibuffer (searchable now) including nested keybindings - use @ to search for key instead of name
+
+** Context action menu
+- In ~embark-act~, use ~C-h~ to show all actions.
+- In ~embark-act~, use any command to run on target, e.g. ~M-x~ or ~C-x b~
+- Pressing ~C-u~ before ~embark-act~ leaves minibuffer open after action, therefore you can do multiple actions
+- You can replace the current action defining command with embark: E.g. ~C-x k~, then ~embark-act~, then ~C-x b~ to change to buffer instead of killing it
+- There are different key maps for types of targets, e.g. ~embark-file-map~, ~embark-buffer-map~
+
+** Quick actions
+Execute a default action specific to a target: ~embark-dwin~ (do what I mean)
+
+** Change current minibuffer command
+After ~embark-act~ do ~B~ and then choose the minibuffer action type: e.g. initially you were in change buffer (~C-x b~) and now you want to create that file, so press ~C-x C-f~.  You can also directly bind ~embark-become~ which would combine ~embark-act~ and ~B~
+
+** Gather completions
+- Export minibuffer to an apropriate buffer: ~embark-act E~. Another option is collect.
+
+  #+begin_src emacs-lisp
+    
+    (use-package embark-consult
+      :after (embark consult))
+    
+  #+end_src
 * Ivy
 
 In an  list provided by ivy, ~ivy-dispatching-done~ (~M-o~) gives all available actions for one entry.
