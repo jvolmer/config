@@ -19,6 +19,7 @@
   
   -- autostart applications
   awful.spawn.with_shell("setxkbmap -layout 'us,de'")
+  awful.spawn.with_shell("xautolock -time 15 -locker \"i3lock -d -c 000070\" -detectsleep")
   awful.spawn.with_shell("xrandr <<xrandr-config()>>")
   awful.spawn.with_shell("<<additional-startup()>>")
   

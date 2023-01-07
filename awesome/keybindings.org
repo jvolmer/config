@@ -41,6 +41,8 @@
         {description="Emacs", group="programs"}),
      awful.key({ modkey,           }, "f", function () awful.spawn.with_shell("firefox") end,
         {description="Firefox", group="programs"}),
+     awful.key({ modkey, "Control" }, "l", function () awful.util.spawn("xautolock -locknow") end,
+        {description="Screenlock", group="system"}),
   
      
       awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
