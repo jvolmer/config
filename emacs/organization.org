@@ -490,3 +490,73 @@ Before code block use ~#+NAME: variable-name~
 Use that value in another block with property ~:noweb yes~ via  ~<<variable-name>>~ (Brackets () after name will evaluate expression
 
 Can possibly append block to a variable with property ~:noweb-ref <variable-name> :noweb-sep ""i~ 
+
+* Presentation
+
+To be able to export org-mode to latex beamer
+#+begin_src emacs-lisp
+  (require 'ox-beamer)
+#+end_src
+
+#+begin_src emacs-lisp
+
+  (use-package org-present
+    :config (setq org-present-text-scale 3))
+
+  (defun my/org-present-start ()
+     ;; font
+     (setq-local face-remapping-alist '((header-line (:height 4.0) variable-pitch)
+                                        (org-document-title (:height 3.5) org-document-title)
+                                        (org-level-1 (:height 1.75) org-level-1)
+                                        (org-level-2 (:height 1.5) org-level-2)))
+
+    (org-present-big)
+    (variable-pitch-mode 1)
+
+    ;; space
+    ;; Set a blank header line string to create blank space at the top
+    (setq header-line-format "")
+    ;; Add empty space left and right
+    (setq visual-fill-column-width 30)
+
+    ;; specials
+    (evil-normal-state)
+    ;; get rid of mode line
+    (setq mode-line-format nil)
+    (org-present-hide-cursor)
+    ;; Display inline images automatically
+    (org-display-inline-images))
+
+    ;; TODO have no split frames
+    ;; TODO how to navigate between rows with j and k 
+
+  (defun my/org-present-end ()
+    ;; font
+    (setq-local face-remapping-alist '((default variable-pitch default)))
+    (org-present-small)
+
+    ;; space
+    ;; Clear the header line string so that it isn't displayed
+    (setq header-line-format nil)
+    ;; Have same left and right space as before
+    (ec/org-mode-visual-fill)
+
+    ;; specials
+    ;; get back mode line
+    (doom-modeline-mode 1)
+    (org-present-show-cursor)
+    ;; Stop displaying inline images
+    (org-remove-inline-images))
+
+  ;; Register hooks with org-present
+  (add-hook 'org-present-mode-hook 'my/org-present-start)
+  (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
+
+#+end_src
+
+|         | org-present                     | start presentation           |
+| q       | org-present-quit                | stop presentation            |
+| C-j     | org-present-next                | go to next slide             |
+| C-k     | org-present-previous            | go to previous slide         |
+| C-c C-1 | org-present-toggle-one-big-page | Show everything in one slide |
+|         |                                 | (                            |
