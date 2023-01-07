@@ -47,6 +47,8 @@ Shows number of window in modeline
 
 ~C-x w <window number>~
 
+Use ace-window to always choose a window by a number before doing an action (you use ace-window command, then choose the window, then choose the action, e.g. split horizontally)
+
 ** Window configuration
 Move to window left/right/above/below: ~windmove-up/down/left/right~
 Swap buffers in windows: ~windmove-swap-states-up/down/left/right~

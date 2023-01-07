@@ -2,11 +2,12 @@
 
 * Emulator: Alacritty
 
-#+begin_src yaml :tangle ~/.config/alacritty/alacritty.yml
-
-  key_bindings:
-    - { key: Return, mods: Control|Shift, action: SpawnNewInstance }
-
+#+begin_src yaml
+  #:tangle ~/.config/alacritty/alacritty.yml
+  
+    key_bindings:
+      - { key: Return, mods: Control|Shift, action: SpawnNewInstance }
+  
 #+end_src
 
 Move around with vi-keybindings: =C-S-SPC=, Select with =v= and copy to clipboard with =y=

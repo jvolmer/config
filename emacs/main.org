@@ -57,6 +57,7 @@ Make sure that native compilation happens asynchronously and silence compiler wa
   (require 'code)
   (require 'terminal)
   (require 'documents)
+  (require 'security)
   
 #+end_src
 

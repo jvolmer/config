@@ -12,20 +12,18 @@
 #+begin_src emacs-lisp
   
   (use-package projectile
-    :diminish projectile-mode
     :custom
     (projectile-completion-system 'ivy)
     (projectile-project-search-path
-     '("~/code/projects"
-       "~/code/projects/arduino"
-       "~/config"))
+     '("~/code/projects/"
+       "~/help/"
+       "~/config/"))
     ;; after selecting project start dired
     (projectile-switch-project-action #'projectile-dired)
-    :bind-keymap ("C-c p" . projectile-command-map)
-    :config
-    (projectile-mode)
-    (general-define-key "C-c p" '(:ignore t :which-key "projectile")))
-    
+    :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map))
+    :init
+    (projectile-mode 1))
   
 #+end_src
 
@@ -144,6 +142,20 @@ Interesting:
 |                       |           | RET for commit infos, ESC to go back to buffer |
 | magit-diff-range      | C-c g D r | Compare buffer to another branch / commit      |
 
+#+begin_src emacs-lisp
+  
+  (use-package forge
+    :after magit)
+  
+  (use-package code-review
+    :hook (code-review-mode . emojify-mode)
+    :custom 
+    (code-review-fill-column 80)
+    (code-review-new-buffer-window-strategy #'switch-to-buffer)
+    (code-review-download-dir "/tmp/code-review/")
+    (code-review-auth-login-marker 'forge))
+
+#+end_src
 
 * Ripgrep
 
@@ -161,3 +173,7 @@ Menu entry: ~C-c s~
 | C-c s r | Search for regex: regex, file type, directory |
 | C-c s t | same but for literals xoinstead of regex      |
 | C-c s p | Search in full project                        |
+
+Inside search buffer
+| i | Make search results editable via wgrep (abort C-c C-k, done C-c C-c) |
+| s | Save rg-buffer to unique new name (C-c s s from outside buffer)      |

@@ -271,6 +271,7 @@ You need to install the language server for the particular language you use, hav
   (add-hook 'c-mode-hook #'lsp)
   (add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
   ;; (setq c-default-style "stroustrup")
   
   ;; for dap-mode

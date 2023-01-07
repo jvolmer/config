@@ -1,0 +1,12 @@
+#+TITLE: Security
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/security.el
+
+#+begin_src emacs-lisp
+  
+  (provide 'security)
+  
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq auth-sources '("~/.authinfo.gpg"))
+#+end_src
