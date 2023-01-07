@@ -142,6 +142,9 @@ Interesting:
 |                       |           | RET for commit infos, ESC to go back to buffer |
 | magit-diff-range      | C-c g D r | Compare buffer to another branch / commit      |
 
+* Code review
+
+Need a Github API token in ~/.authinfo.gpg for that
 #+begin_src emacs-lisp
   
   (use-package forge
@@ -154,6 +157,24 @@ Interesting:
     (code-review-new-buffer-window-strategy #'switch-to-buffer)
     (code-review-download-dir "/tmp/code-review/")
     (code-review-auth-login-marker 'forge))
+
+#+end_src
+
+* Jira
+
+Need a Jira API token in ~/.authinfo.gpg for that
+#+begin_src emacs-lisp
+
+  (use-package org-jira
+    :custom
+    (jiralib-url "https://arangodb.atlassian.net")
+    (org-jira-working-dir "~/docs/organization/jira/")
+    (org-jira-boards-default-limit 500)
+    (org-jira-custom-jqls '(
+      (:jql " project = PREG and parent = PREG-53 order by created DESC "
+        :filename "udf")))
+    (org-jira-progress-issue-flow '(("Backlog" . "To Do") ("To Do" . "In Progress") ("In Progress" . "Review") ("Review" . "Done")))
+    (org-jira-jira-status-to-org-keyword-alist '(("Backlog" . "BACKLOG") ("To Do" . "TODO") ("In Progress" . "IN PROGRESS") ("Review" . "REVIEW") ("Done" . "DONE") ("OnHold" . "ONHOLD"))))
 
 #+end_src
 

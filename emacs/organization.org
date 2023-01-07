@@ -213,7 +213,7 @@ Set agenda file locations (Filenames will show up in agenda-list)
     
     (with-eval-after-load 'org  
       (setq org-agenda-files
-            '("~/docs/organization/tasks.org"))
+            '("~/docs/organization/tasks.org" "~/.org-jira/"))
       (setq org-refile-targets
             '(("archive.org" :maxlevel . 1))))
     
@@ -227,7 +227,7 @@ Define TODO states and  workflows (left of "|" are acive states)
   
   (with-eval-after-load 'org
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+          '((sequence "BACKLOG(b)" "TODO(t)" "IN PROGRESS(p)" "REVIEW(r)" "ONHOLD(h)" "|" "DONE(d!)")
             (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANCELLED(k@)"))))
   
 #+end_src
@@ -264,7 +264,7 @@ Define different views that can be selected via org-agenda
               (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
   
             ("n" "Next Tasks"
-             ((todo "NEXT"
+             ((todo "TODO"
                     ((org-agenda-overriding-header "Next Tasks")))))
   
             ("W" "Work Tasks" tags-todo "+work")
@@ -273,34 +273,23 @@ Define different views that can be selected via org-agenda
              ((org-agenda-overriding-header "Low Effort Tasks")
               (org-agenda-max-todos 20)
               (org-agenda-files org-agenda-files)))
-  
-            ("w" "Workflow Status"
-             ((todo "WAIT"
-                    ((org-agenda-overriding-header "Waiting on External")
-                     (org-agenda-files org-agenda-files)))
+
+            ("j" "Jira Board"
+             ((todo "BACKLOG"
+                    ((org-agenda-overriding-header "Backlog")
+                     (org-agenda-todo-list-sublevels nil)))
+                     ;; (org-agenda-files '("~/.org-jira/udf.org"))))
+              (todo "TODO"
+                    ((org-agenda-overriding-header "Todo")))
+              (todo "IN PROGRESS"
+                    ((org-agenda-overriding-header "In Progress")))
               (todo "REVIEW"
-                    ((org-agenda-overriding-header "In Review")
-                     (org-agenda-files org-agenda-files)))
-              (todo "PLAN"
-                    ((org-agenda-overriding-header "In Planning")
-                     (org-agenda-todo-list-sublevels nil)
-                     (org-agenda-files org-agenda-files)))
-              (todo "BACKLOG"
-                    ((org-agenda-overriding-header "Project Backlog")
-                     (org-agenda-todo-list-sublevels nil)
-                     (org-agenda-files org-agenda-files)))
-              (todo "READY"
-                    ((org-agenda-overriding-header "Ready for Work")
-                     (org-agenda-files org-agenda-files)))
-              (todo "ACTIVE"
-                    ((org-agenda-overriding-header "Active Projects")
-                     (org-agenda-files org-agenda-files)))
-              (todo "COMPLETED"
-                    ((org-agenda-overriding-header "Completed Projects")
-                     (org-agenda-files org-agenda-files)))
-              (todo "CANC"
-                    ((org-agenda-overriding-header "Cancelled Projects")
-                     (org-agenda-files org-agenda-files))))))))
+                    ((org-agenda-overriding-header "In Review")))
+              (todo "DONE"
+                    ((org-agenda-overriding-header "Done")))
+              (todo "ONHOLD"
+                    ((org-agenda-overriding-header "On Hold")
+                     (org-agenda-todo-list-sublevels nil))))))))
   
 #+end_src
 
