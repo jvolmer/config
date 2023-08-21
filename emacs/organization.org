@@ -462,7 +462,7 @@ Write <sh TAB to create shell source block
 
 ** Write code blocks to file with tangle
 
-~org-babel~tangle~
+~org-babel-tangle~
 
 For one code block: ~:tangle <file> [:mkdirp yes]~
 For full file: ~#+PROPERTY: header-args:emacs-lisp :tangle <file>~

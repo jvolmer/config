@@ -47,6 +47,11 @@ Initialize packages and refresh package list contents if no archive exists yet
   
 #+end_src
 
+** Update packages
+=list-packages= updates package indexes and shows list of packages
+Then =U= marks all upgradable packages
+Then =x= installs them
+
 * Easier package management with use-package
 
 ** Configuration

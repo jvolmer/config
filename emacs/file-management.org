@@ -24,6 +24,7 @@
            ("J" . dired-goto-file)
            ("g" . revert-buffer)
            ("e" . dired-do-kill-lines)
+           ("/" . dired-goto-file)
            ("<RET>" . dired-open-file))
     :custom
     ;; define ls flags

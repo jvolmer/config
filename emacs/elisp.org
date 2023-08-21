@@ -307,9 +307,9 @@ Equivalent:
 Interactive functions are called command, are meant to be used directly by the user
 They provide a few benefits over normal functions
 
--    They show up in M-x command list
--   Can be used in key bindings
--    Can have parameters sent via prefix arguments, C-u
+- They show up in M-x command list
+- Can be used in key bindings
+- Can have parameters sent via prefix arguments, C-u
 
   #+begin_src emacs-lisp
     
