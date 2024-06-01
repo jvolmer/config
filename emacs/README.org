@@ -10,11 +10,10 @@ Currently this configuration expects this repository in the folder ~~/config/ema
 These are packages that you need to install upfront, eigther inside emacs or on your system
 
 *** emacs
-- cyberpunk-theme
-- all-the-icons and run all-the-icons-install-fonts
 - transpose-frame
+- =nerd-icons-install-fonts=
 
 *** system
-- Cantarell
-- Fira Code Retina
-- ripgrep
+- Cantarell (=apt install fonds-cantarell=)
+- Fira Code Retina (=apt install fonts-firacode=)
+- ripgrep (=apt install ripgrep=)

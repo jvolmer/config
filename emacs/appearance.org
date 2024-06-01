@@ -12,10 +12,17 @@
 Define a theme. Switch themes with ~counsel-load-theme~, more themes are e.g. available with package doom-themes.
 
 #+begin_src emacs-lisp
+  
+  (load-theme 'dichromacy t)
 
-  (use-package cyberpunk-theme)
-  (load-theme 'cyberpunk t)
+#+end_src
 
+Setup icons library
+
+#+begin_src emacs-lisp
+  
+  (use-package nerd-icons)
+  
 #+end_src
 
 Set up visible bell

@@ -10,8 +10,7 @@ Setup
 Emacs
 - Execute all in package-management
 - Install org
-- apt install fonts-cantarell and fonts-firacode and ripgrep
-
+- See README in emacs
 
 TODO
 - add .bashrc to config
