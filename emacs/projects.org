@@ -1,5 +1,6 @@
 #+TITLE: Setup projects
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/projects.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

@@ -1,5 +1,6 @@
 #+TITLE:Clients
 #+PROPERTY: header-args:lua :tangle ~/.config/awesome/clients.lua
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src lua
   local awful = require("awful")

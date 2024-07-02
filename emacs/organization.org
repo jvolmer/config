@@ -1,5 +1,6 @@
 #+TITLE: Define Org-Mode
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/organization.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

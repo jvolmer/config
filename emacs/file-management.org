@@ -1,5 +1,6 @@
 #+TITLE: File management
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/file-management.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

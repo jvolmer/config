@@ -1,5 +1,6 @@
 #+TITLE: Improve appearance
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/appearance.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

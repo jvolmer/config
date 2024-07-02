@@ -1,5 +1,6 @@
 #+TITLE: Package Management
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/package-management.el
+#+PROPERTY: header-args :mkdirp yes
 
 Make this configuration available under name ~package-management~
 

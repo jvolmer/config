@@ -1,5 +1,6 @@
 #+TITLE: Customize keybindings
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/keybinding.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

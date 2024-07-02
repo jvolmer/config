@@ -1,5 +1,6 @@
 #+TITLE: Error Handling 
 #+PROPERTY: header-args:lua :tangle ~/.config/awesome/error_handling.lua
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src lua
   local naughty = require("naughty")

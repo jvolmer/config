@@ -1,5 +1,6 @@
 #+TITLE: Define completion packages
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/completion.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

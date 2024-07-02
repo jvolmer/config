@@ -1,5 +1,6 @@
 #+TITLE: Documents
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/documents.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

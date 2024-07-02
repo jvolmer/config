@@ -1,5 +1,6 @@
 #+TITLE: Main Awesome Configuration
 #+PROPERTY: header-args:lua :tangle ~/.config/awesome/rc.lua
+#+PROPERTY: header-args :mkdirp yes
 
 * Define variables
 

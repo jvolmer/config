@@ -1,5 +1,6 @@
 #+TITLE: Menu
 #+PROPERTY: header-args:lua :tangle ~/.config/awesome/menu.lua
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src lua
   local awful = require("awful")

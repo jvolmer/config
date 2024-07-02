@@ -1,5 +1,6 @@
 #+TITLE: Bar
 #+PROPERTY: header-args:lua :tangle ~/.config/awesome/bar.lua
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src lua
   local wibox = require("wibox")

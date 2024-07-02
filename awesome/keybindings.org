@@ -1,5 +1,6 @@
 #+TITLE:Keybindings 
 #+PROPERTY: header-args:lua :tangle ~/.config/awesome/keybindings.lua
+#+PROPERTY: header-args :mkdirp yes
 
 #+NAME: emacs
 #+begin_src emacs-lisp

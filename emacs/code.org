@@ -1,5 +1,6 @@
 #+TITLE: Use emacs as an IDE
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/code.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

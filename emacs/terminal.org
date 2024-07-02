@@ -1,5 +1,6 @@
 #+TITLE: Terminal modes
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/terminal.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

@@ -1,5 +1,6 @@
 #+TITLE:Startup
 #+PROPERTY: header-args:lua :tangle ~/.config/awesome/startup.lua
+#+PROPERTY: header-args :mkdirp yes
 
 #+NAME: xrandr-config
 #+begin_src emacs-lisp

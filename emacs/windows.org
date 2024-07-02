@@ -1,5 +1,6 @@
 #+TITLE: Window Management
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/windows.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   

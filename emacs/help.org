@@ -1,5 +1,6 @@
 #+TITLE: Improve getting help
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/helpinfo.el
+#+PROPERTY: header-args :mkdirp yes
 
 #+begin_src emacs-lisp
   
