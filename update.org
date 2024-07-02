@@ -20,7 +20,7 @@ Execute this after you pulled this repo with git:
           me/specific-system-settings)))
   
   (require 'org)
-  (dolist (file (directory-files-recursively "~/config" "^[a-z].*\.org$"))
+  (dolist (file (directory-files-recursively "." "^[a-z].*\.org$"))
     (org-babel-tangle-file file))
   
 #+end_src

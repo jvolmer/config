@@ -3,17 +3,29 @@
 I followed [[https://github.com/daviwil][David Wilson]]'s [[https://www.youtube.com/playlist?list=PLEoMzSkcN8oPH1au7H6B7bBJ4ZO7BXjSZ]["Emacs From Scratch" youtube series]] to create it, check it out if you are interested.
 
 * Setup
-For better readability, I wrote all configuration in org-files. Emacs needs its configuration written in elisp files. Evaluate the expression in [[file:main.org::Update config files][this section]] to create these elisp files automatically.
-Currently this configuration expects this repository in the folder ~~/config/emacs/~.
 
-** Install once
-These are packages that you need to install upfront, eigther inside emacs or on your system
+** First installation
 
-*** emacs
-- transpose-frame
-- =nerd-icons-install-fonts=
-
-*** system
-- Cantarell (=apt install fonds-cantarell=)
+*** System installation
+- Cantarell (=apt install fonts-cantarell=)
 - Fira Code Retina (=apt install fonts-firacode=)
 - ripgrep (=apt install ripgrep=)
+
+*** Install basics
+Install the bare minimum by hand
+- Execute all lines in =package-management.org=
+- Install =org= package
+
+*** Create elisp files
+For better readability, I wrote all configuration in org-files. Emacs needs its configuration written in elisp files. Evaluate the expression in [[file:~/config/update.org][this section]] to create these elisp files automatically.
+
+*** Install all dependencies
+Open a new emacs session. This loads the configuration files and directly installs all requirements defined in them.
+
+*** Post stuff
+Some stuff you just need to do once after installation
+- Install an icon font with =nerd-icons-install-fonts=
+
+** Updates in the org-files
+
+When an org-file is updated - e.g. via git - these changes have to be inserted into the elisp config files. This can be done automatically by evaluating the expression in [[file:~/config/update.org][this section]].

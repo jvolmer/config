@@ -66,6 +66,8 @@ Convenient method for binding keys, e.g. create your own leader-key and its menu
       (general-create-definer me/leader-key
         :prefix "C-c"))
   
+  (use-package transpose-frame)
+  
   ;; make my own menu
   (me/leader-key
     "w" '(:ignore t :which-key "window")
