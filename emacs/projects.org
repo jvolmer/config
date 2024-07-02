@@ -195,6 +195,6 @@ Menu entry: ~C-c s~
 | C-c s t | same but for literals xoinstead of regex      |
 | C-c s p | Search in full project                        |
 
-Inside search buffer
+Inside search buffer - TODO different keybindings in evil-mode
 | i | Make search results editable via wgrep (abort C-c C-k, done C-c C-c) |
 | s | Save rg-buffer to unique new name (C-c s s from outside buffer)      |

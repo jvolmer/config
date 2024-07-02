@@ -496,6 +496,7 @@ Can possibly append block to a variable with property ~:noweb-ref <variable-name
 To be able to export org-mode to latex beamer
 #+begin_src emacs-lisp
   (require 'ox-beamer)
+  (require 'ox-md)
 #+end_src
 
 #+begin_src emacs-lisp
