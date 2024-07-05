@@ -7,6 +7,7 @@ I followed [[https://github.com/daviwil][David Wilson]]'s [[https://www.youtube.
 ** First installation
 
 *** System installation
+- Emacs
 - Cantarell (=apt install fonts-cantarell=)
 - Fira Code Retina (=apt install fonts-firacode=)
 - ripgrep (=apt install ripgrep=)

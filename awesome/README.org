@@ -1,0 +1,25 @@
+#+TITLE: Awesome Configuration
+
+* Setup
+
+** First installation
+
+*** System installation
+- Awesome
+- Konsole
+- Vim
+
+*** Set you system variables
+Define the values of your system. This file defines the configuration variables with some default values. Create a file =system-variables.el= in the same directory that defines the specific system settings with content
+#+begin_src emacs-lisp
+  (setq me/specific-system-settings
+    <<define all variables with your system-specific values here>>>)
+#+end_src
+
+*** Create lua files
+For better readability, I wrote all configuration in org-files. Emacs needs its configuration written in elisp files. Evaluate the expression in [[file:~/config/update.org][this section]] to create these elisp files automatically.
+  
+** Updates in the org-files
+
+When an org-file is updated - e.g. via git - these changes have to be inserted into the lua config files. This can be done automatically by evaluating the expression in [[file:~/config/update.org][this section]].
+ 
