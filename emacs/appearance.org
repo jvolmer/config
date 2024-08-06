@@ -71,7 +71,19 @@ Add line numbers, except in some modes
 
   (global-display-line-numbers-mode t)
   (setq display-line-numbers-type 'relative)
+#+end_src
 
+Toggle between line number types
+
+#+begin_src emacs-lisp
+  
+  (defun change-line-numbers-type ()
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (cond ((eq display-line-numbers 'relative) (setq display-line-numbers t))
+            ((eq display-line-numbers t) (setq display-line-numbers 'relative))))))
+  
 #+end_src
 
 * Mode line
