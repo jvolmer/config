@@ -1,0 +1,21 @@
+#+TITLE: Use emacs as an IDE
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/lisp/environment.el
+#+PROPERTY: header-args :mkdirp yes
+
+#+begin_src emacs-lisp
+  
+  (provide 'environment)
+  
+#+end_src
+
+Make sure that environment variables inside emacs are the same as inside the shell
+
+#+begin_src emacs-lisp
+
+  (use-package exec-path-from-shell
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+
+#+end_src
+

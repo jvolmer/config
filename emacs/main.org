@@ -44,9 +44,10 @@ Make sure that native compilation happens asynchronously and silence compiler wa
 * Define all files that include emacs configuration code
 
 #+begin_src emacs-lisp
-  
+
   (add-to-list 'load-path (concat user-emacs-directory "lisp"))
   (require 'package-management) ;; needs to be first
+  (require 'environment)
   (require 'keybinding)
   (require 'completion)
   (require 'appearance)
@@ -59,7 +60,7 @@ Make sure that native compilation happens asynchronously and silence compiler wa
   (require 'terminal)
   (require 'documents)
   (require 'security)
-  
+
 #+end_src
 
 ** UI Customization

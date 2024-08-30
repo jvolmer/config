@@ -50,8 +50,10 @@ Activate it
     (general-define-key :keymaps 'lsp-mode-map
       (concat lsp-keymap-prefix " g b") '(xref-go-back :which-key "back"))
     (add-hook 'lsp-mode-hook (lambda ()
-      (unless (derived-mode-p 'typescript-mode) ;; to add exception
-        (add-hook 'before-save-hook #'lsp-format-buffer)))))
+        (add-hook 'before-save-hook #'lsp-format-buffer 1)
+    ))
+      ;; (unless (derived-mode-p 'typescript-mode) ...) ;; to add exception
+)
 
 #+end_src
 
@@ -345,24 +347,10 @@ My own build menu
 
 Currently I use clangd - just install it, no config needed
 
-**** Config for ccls (not used at the moment)
+#+begin_src emacs-lisp
 
-#+begin_src emacs-lisp :tangle no
-
-  (use-package ccls
-    :hook ((c-mode c++-mode objc-mode cuda-mode) . lsp))
-    :custom
-    (ccls-args (list (concat "-init={"
-                             ;; find compile_commands.json in build directory
-                             "  \"compilationDatabaseDirectory\": \"build\" "
-                             ;; cache to home instead of to each project separately
-                             ;; " , "
-                             ;; "  \"cache\":{"
-                             ;; "    \"directory\":"
-                             ;; "      \"" (getenv "HOME") "/.cache/ccls\""
-                             ;; "  }"
-                             "}"))))
-
+  (use-package clang-format)
+    
 #+end_src
 
 ** Rust
@@ -397,7 +385,7 @@ You can have inline-documentation
 
 #+end_src
 
-Language server: Currently I use ts-ls (need to install typescript-language-server and typescript packages
+Language server: Currently I use ts-ls (need to install typescript-language-server and typescript packages with =npm install -g typescript-language-server typescript=
 
 ** Elixir
 
