@@ -1,16 +1,15 @@
 Install
-- keepass
+- keepassxc
 - vim
-- emacs
+- firefox
+- okular
 
 Setup
 - Firefox: extensions startpage, addblocker
+- Firefox: copy profile directory
 - Git: generate key
-
-Emacs
-- Execute all in package-management
-- Install org
-- See README in emacs
+- GPG keys
 
 TODO
 - add .bashrc to config
+- create a config for konsole

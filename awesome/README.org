@@ -8,6 +8,7 @@
 - Awesome
 - Konsole
 - Vim
+- i3lock
 
 *** Set you system variables
 Define the values of your system. This file defines the configuration variables with some default values. Create a file =system-variables.el= in the same directory that defines the specific system settings with content
