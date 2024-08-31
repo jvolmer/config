@@ -161,9 +161,6 @@ Config is copied from example setion of github readme
   ;; Both < and C-+ work reasonably well.
   (setq consult-narrow-key "<") ;; "C-+"
 
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
 )
   
 #+end_src
@@ -207,7 +204,6 @@ Context specific ations on current target (cycle through targets with embark-act
     ("C-." . embark-act)
     ("M-." . embark-dwim)
     ;; ("C-h B" . embark-bindings)) ;; alternative for describe-bindings
-    ;; TODO get rid of which-key, use better names for keybinded fcts ;;      then do next line instead of previous
     ([remap describe-bindings] . embark-bindings)
     :init
     (setq prefix-help-command #'embark-prefix-help-command))
@@ -215,7 +211,7 @@ Context specific ations on current target (cycle through targets with embark-act
 #+end_src
 
 ** Keybinding help
-When setting ~prefix-help-command~ to ~embark-prefix-help-command~ (and switch off which-key) you can press a prefix, e.g. ~C-x~, and then ~C-h~ to get all options in a minibuffer (searchable now) including nested keybindings - use @ to search for key instead of name
+When setting ~prefix-help-command~ to ~embark-prefix-help-command~ you can press a prefix, e.g. ~C-x~, and then ~C-h~ to get all options in a minibuffer (searchable now) including nested keybindings - use @ to search for key instead of name
 
 Make sure that this also works for help (~C-h C-h~ is per default bound to ~help-for-help~ command)
 #+begin_src emacs-lisp

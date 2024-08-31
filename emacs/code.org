@@ -46,9 +46,8 @@ Activate it
     (lsp-signature-render-documentation nil) 
 
     :config
-    (lsp-enable-which-key-integration t)
     (general-define-key :keymaps 'lsp-mode-map
-      (concat lsp-keymap-prefix " g b") '(xref-go-back :which-key "back"))
+      (concat lsp-keymap-prefix " g b") '(xref-go-back))
     (add-hook 'lsp-mode-hook (lambda ()
         (add-hook 'before-save-hook #'lsp-format-buffer 1)
     ))
@@ -285,16 +284,16 @@ Helpful Commands
 My own build menu
 #+begin_src emacs-lisp
   
-  (general-create-definer ec/cmake
+  (general-create-definer me/cmake
     :keymaps '(cmake-mode-map c++-mode-map c-mode-map)
     :prefix "C-c m")
   
-  (ec/cmake
-   "" '(:ignore t :which-key "cmake")
-   "c" '(me/c++/configure :which-key "configure")
-   "i" '(me/c++/install :which-key "install dependencies")
-   "m" '(me/c++/build :which-key "make")
-   "t" '(me/c++/test :which-key "test"))
+  (me/cmake
+   "" '(:ignore t)
+   "c" '(me/c++/configure)
+   "i" '(me/c++/install)
+   "m" '(me/c++/build)
+   "t" '(me/c++/test))
   
   (defun me/c++/configure ()
     "Generate build system"

@@ -35,6 +35,32 @@
 | scroll-other-window-down | M-pgup    |                     |
 |                          | C-S-M-v   |                     
 
+** Sizes
+
+#+begin_src emacs-lisp
+  (use-package transpose-frame)
+
+  (me/leader-key
+    "wt" 'transpose-frame
+    "wsh" 'me/hydra-horizontal-window-size/body
+    "wsv" 'me/hydra-vertical-window-size/body
+    "wsb" 'balance-windows
+    "wss" 'shrink-window-if-larger-than-buffer)
+
+  (defhydra me/hydra-horizontal-window-size ()
+    "Scale window horizontally"
+    ("k" shrink-window-horizontally "shrink")
+    ("l" enlarge-window-horizontally "enlarge")
+    ("q" nil "quit" :exit t))
+  
+  (defhydra me/hydra-vertical-window-size ()
+    "Scale window vertically"
+    ("k" (enlarge-window -1) "shrink")
+    ("l" enlarge-window "enlarge")
+    ("q" nil "quit" :exit t))
+ 
+#+end_src
+
 ** Select specific window
 
 Shows number of window in modeline
