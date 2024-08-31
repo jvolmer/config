@@ -96,7 +96,7 @@ For full docu: ~lsp-describe-thing-at-point~ (~C-c l h h~)
 #+begin_src emacs-lisp
   
   (use-package company
-    :after lsp-mode ;; use this for lsp completion, otherwise ivy
+    :after lsp-mode ;; use this for lsp completion
     :hook (prog-mode . company-mode)
     :custom
     (company-minimum-prefix-length 1)
@@ -163,17 +163,6 @@ See file system with ~treemacs~
 See symbols with ~lsp-treemacs-symbols~
 
 Possibly treemacs-projectile can be interesting.
-
-* Search symbol in project
-
-Search e.g. for class name in project with ~lsp-ivy~
-
-#+begin_src emacs-lisp
-  
-  (use-package lsp-ivy
-    :after lsp)
-  
-#+end_src
 
 * Diagnostics
 

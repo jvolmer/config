@@ -130,6 +130,11 @@ Make sure that this also works for help (~C-h C-h~ is per default bound to ~help
 - You can replace the current action defining command with embark: E.g. ~C-x k~, then ~embark-act~, then ~C-x b~ to change to buffer instead of killing it
 - There are different key maps for types of targets, e.g. ~embark-file-map~, ~embark-buffer-map~
 
+Make sure that =embark-act= works everywhere
+#+begin_src emacs-lisp
+  (define-key evil-normal-state-map (kbd "C-.") nil)
+#+end_src
+
 ** Quick actions
 Execute a default action specific to a target: ~embark-dwin~ (do what I mean)
 
@@ -138,17 +143,3 @@ After ~embark-act~ do ~B~ and then choose the minibuffer action type: e.g. initi
 
 ** Gather completions
 - Export minibuffer to an apropriate buffer: ~embark-act E~. Another option is collect.
-
-  #+begin_src emacs-lisp
-    
-    (use-package embark-consult
-      :after (embark consult))
-    
-  #+end_src
-* Ivy
-
-In an  list provided by ivy, ~ivy-dispatching-done~ (~M-o~) gives all available actions for one entry.
-
-Put current list in a new buffer with ~ivy-occur~ (~C-c C-o~). Here, use ~o~ for actions, ~q~ to close.
-
-Don't use one of the ivy options but my own: ~ivy-immediate-done~ (~C-M-j~)
