@@ -47,7 +47,7 @@
 \newcommand{\bulletsquare}{\textcolor{gray}{\raisebox{0ex}{\rule{1ex}{1ex}}}}
 
 \newenvironment{datelines}
- {\begin{tabular}{@{}p{.4\textwidth} @{}>{\footnotesize}p{.45\textwidth} @{}R{.15\textwidth}}}{\end{tabular}}
+ {\begin{tabular}{@{}p{.45\textwidth} @{}>{\footnotesize}p{.4\textwidth} @{}R{.15\textwidth}}}{\end{tabular}}
 
 \newenvironment{accomplishments}
 {\vspace{\itemheaderskip}\begin{itemize}[left=0pt .. .5cm, label=\bulletsquare, nosep, topsep=0cm]\small}{\end{itemize}}
@@ -73,12 +73,12 @@
 \newenvironment{jobs}
 {\section\begin{itemize}[left=0pt, label={}, nosep, itemsep=\subsectionskip, topsep=0cm, leftmargin=0cm]}{\end{itemize}}
 
-\newcommand{\job}[5]{%
+\newcommand{\job}[4]{%
   \begin{datelines}
-    #2 & #3, #4 & #1
+    #2 & #3 & #1
   \end{datelines}%
   \begin{accomplishments}
-    #5%
+    #4%
   \end{accomplishments}
 }
 
