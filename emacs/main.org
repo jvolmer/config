@@ -52,7 +52,7 @@ Make sure that native compilation happens asynchronously and silence compiler wa
   (require 'windows)
   (require 'file-management)
   (require 'projects)
-  (require 'organization)
+  (require 'workflow)
   (require 'code)
   (require 'terminal)
   (require 'documents)

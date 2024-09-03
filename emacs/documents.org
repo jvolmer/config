@@ -30,3 +30,323 @@
     (setq-default pdf-view-display-size 'fit-width))
   
 #+end_src
+
+* Org-mode
+:CUSTOM_ID: org-mode
+
+** Basics
+
+#+begin_src emacs-lisp
+  
+  (defun ec/org-mode-setup ()
+    (org-indent-mode)
+    (variable-pitch-mode 1)
+    (visual-line-mode 1))    ;; line breaks
+  
+  (use-package org
+    :commands (org-capture org-agenda)
+    :hook (org-mode . ec/org-mode-setup)
+    :bind
+    ("C-c a" . org-agenda)
+    ("C-c c" . org-capture)
+    :custom
+    (org-ellipsis " ▾"))  ;; show at end when section is reduced
+  
+#+end_src
+
+** Movement
+| C-j | move to next item on same level |
+| C-k | move to prev item               |
+| M-} | move to next item               |
+| M-{ | move to prev item               |
+
+** Modifications
++------------+--------------+--------------------------------------+
+| Command    | Key          | Description                          |
++------------+--------------+--------------------------------------+
+|            | S-TAB        |Shift between heading views           |
++------------+--------------+--------------------------------------+
+|            | C-ENTER      |Create item at same level under       |
+|            |              |existing one                          |
++------------+--------------+--------------------------------------+
+|            | M-ENTER      |Create item at same level directly    |
+|            |              |under existing heading                |
++------------+--------------+--------------------------------------+
+|            | S-M-ENTER    |Create new todo item                  |
++------------+--------------+--------------------------------------+
+|            | M-UP         |Move one item up                      |
++------------+--------------+--------------------------------------+
+|            | S-M-UP       |Move one line up                      |
++------------+--------------+--------------------------------------+
+|            | M-Right/Left |Promote/Demote headings in region     |
++------------+--------------+--------------------------------------+
+| org-insert | C-c C-l      |                                      |
+|   -link    |              |                                      |
++------------+--------------+--------------------------------------+
+|  org-open  | C-c C-o      |                                      |
+| -at-point  |              |                                      |
++------------+--------------+--------------------------------------+
+| org-toggle | C-c C-x C-b  |                                      |
+| -checkbox  |              |                                      |
++------------+--------------+--------------------------------------+
+| org-todo   | C-c C-t      |Toggle status of task (TODO in        |
+|            |  OR          |heading)                              |
+|            | S-LEFT/RIGHT |                                      |
++------------+--------------+--------------------------------------+
+
+Tables (table.el):
+- Convert org-table into table.el: ~C-c ~~
+- Modify this table: ~C-c '~
+- Descrease column size ~C-c C-c <~
+- Insert row above current row (~C-u 1~) ~M-S-down~, below with additional prefix
+- Re-align table ~C-c C-c~
+
+** Evil
+#+begin_src emacs-lisp
+  
+  (use-package evil-org
+    :hook (org-mode . evil-org-mode)
+    :config
+    (evil-org-set-key-theme))
+  
+#+end_src
+
+*** Motions
+| org-forward-sentence   | (  | previous cell in table |
+| org-backward-sentence  | )  | next cell              |
+| org-backward-paragraph | {  | beginning of table     |
+| org-forward-paragraph  | }  | end of table           |
+| org-element-up         | gh | parent of element      |
+| org-forward-element    | gj | next element           |
+| org-backward-element   | gk | previous element       |
+| org-down-element       | gl | first subelement       |
+| evil-org-top           | gH | top-level heading      |
+
+*** Actions
+| evil-org-< | < | promote |
+| evil-org-> | > | demote  |
+
+*** Text objects
+| ae / ie | evil-org-an/inner-object          | link, markup, table cell         |
+| aE / iE | evil-org-an/inner-element         | paragraph, code block, table row |
+| ar / ir | evil-org-an/inner-greater-element | item list, table                 |
+| aR / iR | evil-org-an/inner-subtree         | subtree starting with a header   |
+
+** Improve appearance
+
+*** Bullets
+
+#+begin_src emacs-lisp
+
+  (use-package org-bullets
+    :hook (org-mode . org-bullets-mode)
+    :custom
+    (org-bullets-bullet-list '("●")))
+    
+#+end_src
+
+Replace list hyphen with dot
+
+#+begin_src emacs-lisp
+  
+  (with-eval-after-load 'org
+    (font-lock-add-keywords 'org-mode
+                            '(("^ *\\([-]\\) "
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•")))))))
+  
+#+end_src
+
+**** Headings
+
+#+begin_src emacs-lisp
+  
+  (with-eval-after-load 'org
+    (require 'org-indent)
+    (custom-set-faces
+     '(org-level-1 ((t (:inherit outline-1 :height 1.2))))
+     '(org-level-2 ((t (:inherit outline-2 :height 1.1))))
+     '(org-level-3 ((t (:inherit outline-3 :height 1.05))))
+     '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
+     '(org-level-5 ((t (:inherit outline-5 :height 1.0))))))
+  
+#+end_src
+
+**** Fonts
+
+Set fixed-pitched font modes
+
+#+begin_src emacs-lisp
+  
+  (with-eval-after-load 'org
+    (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+    (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+  
+#+end_src
+
+**** Window
+
+Add space left and right
+
+#+begin_src emacs-lisp
+  
+  (defun ec/org-mode-visual-fill()
+    (setq visual-fill-column-width 100
+          visual-fill-column-center-text t)
+    (visual-fill-column-mode 1))
+  (use-package visual-fill-column
+    :hook (org-mode . ec/org-mode-visual-fill))
+  
+#+end_src
+
+** Babel
+
+Create and execute code blocks in org files, similar to jupyternotebooks
+
+Execute: ~C-c C-c~
+Give return value below: ~:results value~
+Give printout below: ~:results output~
+
+#+begin_src emacs-lisp
+    
+    (with-eval-after-load 'org
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((emacs-lisp . t)
+         (shell . t)))
+    
+      (push '("conf-unix" . conf-unix) org-src-lang-modes))
+    
+#+end_src
+
+Not confirm before evaluation (can be a security issue)
+
+#+begin_src emacs-lisp
+  
+  (with-eval-after-load 'org
+    (setq org-confirm-babel-evaluate nil))
+  
+#+end_src
+
+*** Define templates for auto-completion
+
+#+begin_src emacs-lisp
+  
+  (with-eval-after-load 'org
+    (require 'org-tempo) ;; for completions
+  
+    (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+    (add-to-list 'org-structure-template-alist '("rs" . "src rust"))
+    (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
+    (add-to-list 'org-structure-template-alist '("lua" . "src lua")))
+  
+#+end_src
+
+Write <sh TAB to create shell source block
+
+*** Write code blocks to file with tangle
+
+~org-babel-tangle~
+
+For one code block: ~:tangle <file> [:mkdirp yes]~
+For full file: ~#+PROPERTY: header-args:emacs-lisp :tangle <file>~
+Exclude one block: ~:tangle no~
+
+Tangle specified files  when saving
+
+#+begin_src emacs-lisp
+  
+  (defun jv/org-babel-tangle-config ()
+    (when (string-prefix-p (expand-file-name "~/config/")
+                           (file-name-directory buffer-file-name))
+      (let ((org-confirm-babel-evaluate nil))
+        (org-babel-tangle))))
+  
+  ;; this hook is loaded for each org-mode buffer
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'jv/org-babel-tangle-config)))
+  
+#+end_src
+
+*** Define variables in code blocks
+
+Before code block use ~#+NAME: variable-name~
+
+Use that value in another block with property ~:noweb yes~ via  ~<<variable-name>>~ (Brackets () after name will evaluate expression
+
+Can possibly append block to a variable with property ~:noweb-ref <variable-name> :noweb-sep ""i~ 
+
+** Presentation
+
+To be able to export org-mode to latex beamer
+#+begin_src emacs-lisp
+  (require 'ox-beamer)
+  (require 'ox-md)
+#+end_src
+
+#+begin_src emacs-lisp
+
+  (use-package org-present
+    :config (setq org-present-text-scale 3))
+
+  (defun my/org-present-start ()
+     ;; font
+     (setq-local face-remapping-alist '((header-line (:height 4.0) variable-pitch)
+                                        (org-document-title (:height 3.5) org-document-title)
+                                        (org-level-1 (:height 1.75) org-level-1)
+                                        (org-level-2 (:height 1.5) org-level-2)))
+
+    (org-present-big)
+    (variable-pitch-mode 1)
+
+    ;; space
+    ;; Set a blank header line string to create blank space at the top
+    (setq header-line-format "")
+    ;; Add empty space left and right
+    (setq visual-fill-column-width 30)
+
+    ;; specials
+    (evil-normal-state)
+    ;; get rid of mode line
+    (setq mode-line-format nil)
+    (org-present-hide-cursor)
+    ;; Display inline images automatically
+    (org-display-inline-images))
+
+    ;; TODO have no split frames
+    ;; TODO how to navigate between rows with j and k 
+
+  (defun my/org-present-end ()
+    ;; font
+    (setq-local face-remapping-alist '((default variable-pitch default)))
+    (org-present-small)
+
+    ;; space
+    ;; Clear the header line string so that it isn't displayed
+    (setq header-line-format nil)
+    ;; Have same left and right space as before
+    (ec/org-mode-visual-fill)
+
+    ;; specials
+    ;; get back mode line
+    (doom-modeline-mode 1)
+    (org-present-show-cursor)
+    ;; Stop displaying inline images
+    (org-remove-inline-images))
+
+  ;; Register hooks with org-present
+  (add-hook 'org-present-mode-hook 'my/org-present-start)
+  (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
+
+#+end_src
+
+|         | org-present                     | start presentation           |
+| q       | org-present-quit                | stop presentation            |
+| C-j     | org-present-next                | go to next slide             |
+| C-k     | org-present-previous            | go to previous slide         |
+| C-c C-1 | org-present-toggle-one-big-page | Show everything in one slide |

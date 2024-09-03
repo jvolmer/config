@@ -170,3 +170,9 @@ Use rainbow brackets and emphasize open-close brackets in all programming modes
     :init (show-paren-mode 1))
   
 #+end_src
+
+* Scratch Buffer
+
+#+begin_src emacs-lisp
+  (setq initial-scratch-message "")
+#+end_src
