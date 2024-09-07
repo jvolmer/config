@@ -37,12 +37,12 @@
 ** Basics
 
 #+begin_src emacs-lisp
-  
+
   (defun ec/org-mode-setup ()
     (org-indent-mode)
     (variable-pitch-mode 1)
     (visual-line-mode 1))    ;; line breaks
-  
+
   (use-package org
     :commands (org-capture org-agenda)
     :hook (org-mode . ec/org-mode-setup)
@@ -50,8 +50,11 @@
     ("C-c a" . org-agenda)
     ("C-c c" . org-capture)
     :custom
+    (org-hide-emphasis-markers t)
+    (org-pretty-entities t)
+    (org-hidden-keywords '(title))
     (org-ellipsis " ▾"))  ;; show at end when section is reduced
-  
+
 #+end_src
 
 ** Movement
@@ -134,6 +137,30 @@ Tables (table.el):
 
 ** Improve appearance
 
+*** Show hidden elements in insert mode
+
+#+begin_src emacs-lisp
+  (use-package org-appear
+    :custom
+    (org-appear-trigger 'manual)
+    (org-appear-autoemphasis t)
+    (org-appear-autolinks t)
+    (org-appear-autosubmarkers t)
+    (org-appear-autoentities t)
+    (org-appear-autokeywords t)
+    :config
+    (add-hook 'org-mode-hook 'org-appear-mode)
+    (add-hook 'org-mode-hook (lambda ()
+      (add-hook 'evil-insert-state-entry-hook
+        #'org-appear-manual-start
+        nil
+        t)
+      (add-hook 'evil-insert-state-exit-hook
+        #'org-appear-manual-stop
+        nil
+        t))))
+#+end_src
+
 *** Bullets
 
 #+begin_src emacs-lisp
@@ -156,7 +183,7 @@ Replace list hyphen with dot
   
 #+end_src
 
-**** Headings
+*** Headings
 
 #+begin_src emacs-lisp
   
@@ -171,7 +198,7 @@ Replace list hyphen with dot
   
 #+end_src
 
-**** Fonts
+*** Fonts
 
 Set fixed-pitched font modes
 
@@ -189,7 +216,7 @@ Set fixed-pitched font modes
   
 #+end_src
 
-**** Window
+*** Window
 
 Add space left and right
 
