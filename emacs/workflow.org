@@ -42,24 +42,26 @@ Repeated date: e.g. every year <date +1y>
 Set agenda file locations (Filenames will show up in agenda-list)
 
 #+begin_src emacs-lisp
-    
-    (with-eval-after-load 'org  
-      (setq org-agenda-files
-            '("~/docs/organization/tasks.org" "~/.org-jira/"))
-      (setq org-refile-targets
-            '(("archive.org" :maxlevel . 1))))
-    
+
+  (with-eval-after-load 'org
+    (setq org-agenda-files
+          '("~/org/org-roam/journal.org" "~/org/org-agenda/Tasks.org"))
+    (setq org-refile-targets
+          '(("archive.org" :maxlevel . 1))))
+
 #+end_src
 
 ** Workflows
 
 Define TODO states and  workflows (left of "|" are active states)
 
+! in brackets after short version adds time-logging when state changes into the specific state, @ adds a note, @/! adds both
+
 #+begin_src emacs-lisp
   
   (with-eval-after-load 'org
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+          '((sequence "WAIT(w!)" "TODO(t)" "NEXT(n)" "|" "DONE(d)")
             (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANCELLED(k@)"))))
   
 #+end_src
@@ -159,7 +161,7 @@ Logging setup
   (with-eval-after-load 'org
     (setq org-agenda-start-with-log-mode t) ;; present log of a day
     (setq org-log-done 'time) ;; store time when log is done
-    (setq org-log-into-drawer t)) ;; fold in collapsable drawer
+    (setq org-log-into-drawer t)) ;; fold annotations (e.g. state changes) in collapsable drawer
   
 #+end_src
 
@@ -249,15 +251,25 @@ Shortcut to journal capture
 Creating a personal knowledge base of interlinked nodes, including daily notes.
 
 #+begin_src emacs-lisp
+  (defun org-roam-node-insert-immediate (arg &rest args)
+    (interactive "P")
+    (let ((args (cons arg args))
+          (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                    '(:immediate-finish t)))))
+      (apply #'org-roam-node-insert args)))
+#+end_src
+
+#+begin_src emacs-lisp
   (use-package org-roam
     :init
     (setq org-roam-v2-ack t)
     :custom
-    (org-roam-directory "~/docs/org-roam")
+    (org-roam-directory "~/org/org-roam")
     (org-roam-completion-everywhere t)
     :bind (("C-c n l" . org-roam-buffer-toggle)
            ("C-c n f" . org-roam-node-find)
            ("C-c n i" . org-roam-node-insert)
+           ("C-c n I" . org-roam-node-insert-immediate)
            :map org-mode-map
            ("C-M-i" . completion-at-point)
            :map org-roam-dailies-map
@@ -270,4 +282,31 @@ Creating a personal knowledge base of interlinked nodes, including daily notes.
     (org-roam-db-autosync-mode))
 #+end_src
 
+Add filetags with ~org-roam-tag-add~
 
+** Dailies
+
+| C-c n d n | org-roam-dailies-capture-today      |
+| C-c n d d | org-roam-dailies-goto-today         |
+| C-c n d Y | org-roam-dailies-capture-yesterday  |
+| C-c n d y | org-roam-dailies-goto-yesterday     |
+| C-c n d T | org-roam-dailies-capture-tomorrow   |
+| C-c n d t | org-roam-dailies-goto-tomorrow      |
+| C-c n d v | org-roam-dailies-capture-date       |
+| C-c n d c | org-roam-dailies-goto-date          |
+| C-c n d b | org-roam-dailies-goto-next-note     |
+| C-c n d f | org-roam-dailies-goto-previous-note |
+* Journal
+
+#+begin_src emacs-lisp
+  (use-package org-journal
+    :commands (org-journal-new-entry)
+    :custom
+    (org-journal-file-type 'yearly)
+    (org-journal-enable-agenda-integration t)
+    :init
+    (setq org-journal-prefix-key "C-c j")
+    :config
+    (setq org-journal-dir "~/org/journal/"
+      org-journal-date-format "%A, %d %B %Y"))
+#+end_src
