@@ -281,6 +281,11 @@ Helpful Commands
 | goto-last-change             | g ;       | go to last change in current buffer             |
 | goto-last-change-reverse     | g ,       | go to next change in current buffer             |
 
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :defer)
+#+end_src
+
 My own build menu
 #+begin_src emacs-lisp
   

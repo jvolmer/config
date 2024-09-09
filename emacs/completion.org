@@ -12,25 +12,12 @@
 
 #+begin_src emacs-lisp
 
-   (defun me/minibuffer-backward-kill (arg)
-    "Delete parent folder when completion is a directory.
-
-  ARG is the thing being completed in the minibuffer."
-    (interactive "p")
-    (if minibuffer-completing-file-name
-        (if (string-match-p "/$" (minibuffer-contents))
-            (zap-up-to-char (- arg) ?/) 
-            (kill-backward-chars arg))
-      (kill-backward-chars arg)))
-
   (use-package vertico
     :init (vertico-mode)
     :bind (:map vertico-map
                 ("C-j" . vertico-next)
                 ("C-k" . vertico-previous)
-                ("C-f" . vertico-exit)
-            :map minibuffer-local-map
-                ("<backspace>" . me/minibuffer-backward-kill)) 
+                ("C-f" . vertico-exit))
     :custom (vertico-cycle t))
   
   (vertico-multiform-mode)
@@ -38,6 +25,16 @@
   (setq vertico-multiform-categories
     ;; use indexed buffer for consult grep commands
     '((consult-grep buffer indexed)))
+
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
   
 #+end_src
 
@@ -207,7 +204,10 @@ Context specific ations on current target (cycle through targets with embark-act
     ([remap describe-bindings] . embark-bindings)
     :init
     (setq prefix-help-command #'embark-prefix-help-command))
-  
+
+  (use-package embark-consult
+    :after (embark consult))
+
 #+end_src
 
 ** Keybinding help
