@@ -42,6 +42,13 @@ Todo: How to define a command and a keybinding for a specific cateogy, something
   ;;          :map counsel-find-file-map
   ;;          ("C-H" . (lambda() (interactive) (ivy--cd "~/"))))) ;; to directly open home
 
+Disable case-sensitivity for file and buffer matching
+#+begin_src emacs-lisp
+  (setq read-file-name-completion-ignore-case t
+        read-buffer-completion-ignore-case t
+        completion-ignore-case t)
+#+end_src
+
 * Annotations / Metainformation 
 
 #+begin_src emacs-lisp
