@@ -14,7 +14,6 @@
   
   (use-package projectile
     :custom
-    (projectile-completion-system 'ivy)
     (projectile-project-search-path
      '("~/code/projects/"
        "~/help/"
@@ -25,16 +24,6 @@
               ("C-c p" . projectile-command-map))
     :init
     (projectile-mode 1))
-  
-#+end_src
-
-Provide additional actions in ivy with ~M-o~
-
-#+begin_src emacs-lisp
-  
-  (use-package counsel-projectile
-    :after projectile
-    :init (counsel-projectile-mode))
   
 #+end_src
 
@@ -60,9 +49,6 @@ Commands:
 |                            |           |                            |
 |                            |           |                            |
 |                            |           |                            |
-+----------------------------+-----------+----------------------------+
-| counsel-projectile-rg      | C-c p s r |Ripgrep search through all  |
-|                            |           |files in the directory      |
 +----------------------------+-----------+----------------------------+
 
 * Magit

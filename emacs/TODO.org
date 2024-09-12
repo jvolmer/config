@@ -1,0 +1,5 @@
+#+TITLE: TODOs
+
+* Exchange perspectives with tab-bar-mode and tabspaces
+
+* Exchange hydra with transient

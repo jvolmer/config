@@ -10,21 +10,10 @@
 
 * Help
 
-#+begin_src emacs-lisp
-    
-    (use-package which-key
-      :demand
-      :diminish which-key-mode
-      :custom (which-key-idle-delay 0.3)
-      :init (which-key-mode))
-    
-#+end_src
-
 | describe-personal-keybindings | see all personal bindings      |
 | describe-mode                 | show current buffer modes      |
 |                               | (including keys)               |
 | describe-bindings             | show all bindings              |
-| which-key-show-keymap         | show bindings of specified map |
 
 * Set keybindings
 
@@ -66,18 +55,6 @@ Convenient method for binding keys, e.g. create your own leader-key and its menu
       (general-create-definer me/leader-key
         :prefix "C-c"))
   
-  (use-package transpose-frame)
-  
-  ;; make my own menu
-  (me/leader-key
-    "w" '(:ignore t :which-key "window")
-    "wt" '(transpose-frame :which-key "transpose")
-    "ws" '(:ignore t :which-key "size")
-    "wsh" '(hydra-horizontal-window-size/body :which-key "horizontal")
-    "wsv" '(hydra-vertical-window-size/body :which-key "vertical")
-    "wsb" '(balance-windows :which-key "balance")
-    "wss" '(shrink-window-if-larger-than-buffer :which-key "fit-to-size"))
-  
 #+end_src
 
 Define keys (equivalent to ~global-set-key~)
@@ -110,29 +87,13 @@ Define keys in a specific keymap
 Tie related commands together into a family of short bindings that can be called easily successively
 
 #+begin_src emacs-lisp
-      
-      (use-package hydra
-        :defer)
-      
-#+end_src
-
-Define hydras
-
-#+begin_src emacs-lisp
   
-  (defhydra hydra-horizontal-window-size ()
-    "Scale window horizontally"
-    ("k" shrink-window-horizontally "shrink")
-    ("l" enlarge-window-horizontally "enlarge")
-    ("q" nil "quit" :exit t))
-  
-  (defhydra hydra-vertical-window-size ()
-    "Scale window vertically"
-    ("k" (enlarge-window -1) "shrink")
-    ("l" enlarge-window "enlarge")
-    ("q" nil "quit" :exit t))
+  (use-package hydra
+     :defer)
   
 #+end_src
+
+Define hydras: search for usage of =defhydra= in files.
 
 Entry point for the definitions is ~<hydra-name>/body~.
 You can directly define a keybinding for each ~defhydra~ with ~(<keymap> "<key>")~ in the brackets.
@@ -354,7 +315,7 @@ All modes: ~M-;~
 ** Switch buffer
 #+begin_src emacs-lisp
   
-  (general-define-key
-    "C-M-j" 'counsel-switch-buffer)
+  ;; (general-define-key
+  ;;   "C-M-j" 'counsel-switch-buffer)
   
 #+end_src
