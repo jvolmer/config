@@ -43,7 +43,7 @@ Activate it
     (lsp-eldoc-enable-hover t) ;; show signature on hover
     (lsp-eldoc-render-all nil) ;; show only one line on hover (customize with lsp-ui)
     (lsp-signature-auto-activate t) ;; show signature when using function
-    (lsp-signature-render-documentation nil) 
+    (lsp-signature-render-documentation nil)  ;; show only signature, not documention when using function
 
     :config
     (general-define-key :keymaps 'lsp-mode-map
@@ -55,6 +55,8 @@ Activate it
 )
 
 #+end_src
+
+See https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
 
 ** Features
 
@@ -89,42 +91,6 @@ For full docu: ~lsp-describe-thing-at-point~ (~C-c l h h~)
 *** Completion
 (see company package below)
  ~completion-at-point~
-
-* Improved completion
-
-#+begin_src emacs-lisp
-  
-  (use-package company
-    :after lsp-mode ;; use this for lsp completion
-    :hook (prog-mode . company-mode)
-    :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.0)
-    ;; otherwise does not find clang executable
-    (company-clang-executable "/usr/bin/clang")
-    :bind
-    (:map company-active-map ("<tab>" . company-complete-selection))
-    (:map lsp-mode-map
-      ("<tab>" . company-indent-or-complete-common)
-      ("C-c l c" . completion-at-point)))
-  
-#+end_src
-
-Nicer interface (with symbols)
-#+begin_src emacs-lisp
-  
-  (use-package company-box
-    :hook (company-mode . company-box-mode))
-  
-#+end_src
-
-Integration with prescient to sort proposals prefering last and frequently used ones (no filtering)
-#+begin_src emacs-lisp
-  
-  (use-package company-prescient
-    :hook (company-mode . company-prescient-mode))
-  
-#+end_src
 
 * Higher level UI features
 
@@ -356,7 +322,11 @@ Language-server: rust-analyzer, install via
 
 #+begin_src emacs-lisp
 
-  (use-package rust-mode)
+  ;; (use-package rust-mode)
+  (use-package rustic
+    :custom
+    ;; make rust-analyzer work with ESP projects
+    (rustic-analyzer-command (list (substring (shell-command-to-string "rustup which --toolchain stable rust-analyzer") 0 -1))))
 
   #+end_src
 
