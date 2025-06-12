@@ -11,11 +11,11 @@
 * Latex
 
 #+begin_src emacs-lisp
-  
+
   (use-package auctex
     :hook tex-mode
     :custom (TeX-auto-save t))
-  
+
 #+end_src
 
 * Pdf
@@ -52,16 +52,19 @@
     :custom
     (org-hide-emphasis-markers t)
     (org-pretty-entities t)
+    (org-id-link-to-org-use-id t) ;; prefer id for linking
     (org-hidden-keywords '(title))
     (org-ellipsis " ▾"))  ;; show at end when section is reduced
 
 #+end_src
 
 ** Movement
-| C-j | move to next item on same level |
-| C-k | move to prev item               |
-| M-} | move to next item               |
-| M-{ | move to prev item               |
+| C-j     | move to next item on same level |
+| C-k     | move to prev item               |
+| M-}     | move to next item               |
+| M-{     | move to prev item               |
+| C-c C-n | org-next-visible-heading        |
+| C-c C-p | org-previous-visible-heading    |
 
 ** Modifications
 +------------+--------------+--------------------------------------+
@@ -223,13 +226,16 @@ Add space left and right
 #+begin_src emacs-lisp
   
   (defun ec/org-mode-visual-fill()
-    (setq visual-fill-column-width 100
+    (setq visual-fill-column-width 200
           visual-fill-column-center-text t)
     (visual-fill-column-mode 1))
   (use-package visual-fill-column
     :hook (org-mode . ec/org-mode-visual-fill))
   
 #+end_src
+
+** Export to other file formats
+=C-c C-e=
 
 ** Babel
 
@@ -240,24 +246,25 @@ Give return value below: ~:results value~
 Give printout below: ~:results output~
 
 #+begin_src emacs-lisp
-    
-    (with-eval-after-load 'org
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((emacs-lisp . t)
-         (shell . t)))
-    
-      (push '("conf-unix" . conf-unix) org-src-lang-modes))
-    
+
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (shell . t)))
+
+    (push '("conf-unix" . conf-unix) org-src-lang-modes))
+
 #+end_src
 
 Not confirm before evaluation (can be a security issue)
 
 #+begin_src emacs-lisp
-  
+
   (with-eval-after-load 'org
-    (setq org-confirm-babel-evaluate nil))
-  
+    (setq org-confirm-babel-evaluate nil
+          org-src-preserve-indentation t ;; do not put two spaces on the left
+          org-src-tab-acts-natively t))
 #+end_src
 
 *** Define templates for auto-completion
@@ -275,6 +282,8 @@ Not confirm before evaluation (can be a security issue)
   
 #+end_src
 
+Write <s TAB for a generic source block
+
 Write <sh TAB to create shell source block
 
 *** Write code blocks to file with tangle
@@ -288,16 +297,16 @@ Exclude one block: ~:tangle no~
 Tangle specified files  when saving
 
 #+begin_src emacs-lisp
-  
-  (defun jv/org-babel-tangle-config ()
-    (when (string-prefix-p (expand-file-name "~/config/")
-                           (file-name-directory buffer-file-name))
+
+  (defun jv/org-babel-tangle-config (directory-or-file-name)
+    (when (string-prefix-p (expand-file-name directory-or-file-name)
+                           buffer-file-name)
       (let ((org-confirm-babel-evaluate nil))
         (org-babel-tangle))))
-  
+
   ;; this hook is loaded for each org-mode buffer
-  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'jv/org-babel-tangle-config)))
-  
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook (lambda () (jv/org-babel-tangle-config "~/config/")))))
+
 #+end_src
 
 *** Define variables in code blocks
@@ -319,7 +328,11 @@ To be able to export org-mode to latex beamer
 #+begin_src emacs-lisp
 
   (use-package org-present
-    :config (setq org-present-text-scale 3))
+    :config (setq org-present-text-scale 3)
+    :bind (:map org-present-mode-keymap
+           ;; < and > should not change slides, also in insert-mode
+           ("<right>" . evil-forward-char)
+           ("<left>" . evil-backward-char)))
 
   (defun my/org-present-start ()
      ;; font
@@ -366,9 +379,20 @@ To be able to export org-mode to latex beamer
     ;; Stop displaying inline images
     (org-remove-inline-images))
 
+(defun my/org-present-prepare-slide (buffer-name heading)
+  ;; Show only top-level headlines
+  (org-overview)
+
+  ;; Unfold the current entry
+  (org-show-entry)
+
+  ;; Show only direct subheadings of the slide but don't expand them
+  (org-show-children))
+
   ;; Register hooks with org-present
   (add-hook 'org-present-mode-hook 'my/org-present-start)
   (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
+  (add-hook 'org-present-after-navigate-functions 'my/org-present-prepare-slide)
 
 #+end_src
 

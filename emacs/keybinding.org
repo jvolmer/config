@@ -136,6 +136,7 @@ Improved undo actions: undo and redo are clearly separated
     (setq evil-want-integration t) ;; 
     (setq evil-want-keybinding nil) ;; use evil-collection instead
     (setq evil-want-C-u-scroll t) ;; use C-u for scrolling instead of
+    (setq evil-want-c-i-jump nil)
     (evil-mode 1)
     :config
     (general-define-key :states 'insert "C-g" 'evil-normal-state)
