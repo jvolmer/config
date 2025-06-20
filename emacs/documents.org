@@ -298,14 +298,15 @@ Tangle specified files  when saving
 
 #+begin_src emacs-lisp
 
-  (defun jv/org-babel-tangle-config (directory-or-file-name)
-    (when (string-prefix-p (expand-file-name directory-or-file-name)
-                           buffer-file-name)
-      (let ((org-confirm-babel-evaluate nil))
-        (org-babel-tangle))))
+  (defun jv/org-babel-tangle-config (directory-or-file-name-list)
+    (dolist (directory-or-file-name directory-or-file-name-list)
+      (when (string-prefix-p (expand-file-name directory-or-file-name)
+                             buffer-file-name)
+        (let ((org-confirm-babel-evaluate nil))
+          (org-babel-tangle)))))
 
   ;; this hook is loaded for each org-mode buffer
-  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook (lambda () (jv/org-babel-tangle-config "~/config/")))))
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook (lambda () (jv/org-babel-tangle-config '("~/config/"))))))
 
 #+end_src
 
