@@ -220,23 +220,24 @@ All : commands must be finished by <ENTER>
 | t, T      | find next character (excluding new character |
 
 *** Actions
-| x    | Delete character under cursor              |
-| i    | insert (goto insert)                       |
-| p    | put last deletion after cursor             |
-|      | (for a deleted line: under cursor)         |
-| r    | replace character under cursor             |
-| R    | replace more (goto insert)                 |
-| a    | append (start editing one character ahead) |
-| [p   | paste in new line above                    |
-| ]p   | paste in new line below                    |
-| [SPC | add lines above                            |
-| ]SPC | add lines below                            |
-| [e   | move region/line up (down with ])          |
-|      |                                            |
-| o    | open line below this line goto insert      |
-| O    | open line above this line goto insert      |
-| A    | append to end of line                      |
-| I    | insert at start of line                    |
+| x          | Delete character under cursor                                  |
+| i          | insert (goto insert)                                           |
+| p          | put last deletion after cursor                                 |
+|            | (for a deleted line: under cursor)                             |
+| r          | replace character under cursor                                 |
+| s          | replace character under cursor and stay in insert (substitute) |
+| R          | replace more (goto insert)                                     |
+| a          | append (start editing one character ahead)                     |
+| [p         | paste in new line above                                        |
+| ]p         | paste in new line below                                        |
+| [SPC       | add lines above                                                |
+| ]SPC       | add lines below                                                |
+| [e         | move region/line up (down with ])                              |
+|            |                                                                |
+| o          | open line below this line goto insert                          |
+| O          | open line above this line goto insert                          |
+| A          | append to end of line                                          |
+| I          | insert at start of line                                        |
 
 Combined actions:
 [number] [verb] [noun] OR [verb] [number] [noun]
@@ -301,11 +302,22 @@ ciw C-r 0 ESC
 ** Comments
 #+begin_src emacs-lisp
 
-  (use-package evil-nerd-commenter
-    :config (evilnc-default-hotkeys))
+  (use-package evil-commentary
+     :config (evil-commentary-mode)) 
   
 #+end_src
+| gcc        | comment line      |
+| gc<motion> | comment motion    |
+| gcap       | comment paragraph |
 
+there is some weird thing happening with my cursor when reverting
+
+*** old comments package
+does not work in presenting mode of =org-present=
+#+begin_src emacs-lisp
+  ;; (use-package evil-nerd-commenter
+  ;;   :config (evilnc-default-hotkeys))
+#+end_src
 Evil-mode: ~,~
 | ,,9j | this and next 9 lines |
 | ,,,  | this line             |

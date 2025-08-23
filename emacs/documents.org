@@ -330,6 +330,7 @@ To be able to export org-mode to latex beamer
 
   (use-package org-present
     :config (setq org-present-text-scale 3)
+            (setq org-image-actual-width nil) ;; you can now define img width with preceeding #+ATTR_ORG: :width 1000
     :bind (:map org-present-mode-keymap
            ;; < and > should not change slides, also in insert-mode
            ("<right>" . evil-forward-char)

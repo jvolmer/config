@@ -3,3 +3,7 @@
 * Exchange perspectives with tab-bar-mode and tabspaces
 
 * Exchange hydra with transient
+
+* Slides improvements
+** Code in headings should be as large as non-code letters
+** In normal mode the cursor should not blink
