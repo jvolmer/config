@@ -337,6 +337,9 @@ Others commands: ~rustic-cargo-...~ and ~lsp-rust...~
 Possibly interesting: Show analyzer status with ~lsp-rust-analyzer-status~
 
 You can have inline-documentation
+
+| C-c C-c C-r | Run main  |
+| C-c C-c C-t | Run tests |
   
 ** Javascript
 

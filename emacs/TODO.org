@@ -1,9 +1,14 @@
 #+TITLE: TODOs
 
-* Exchange perspectives with tab-bar-mode and tabspaces
+* Package switches
+** Exchange perspectives with tab-bar-mode and tabspaces
+** Exchange hydra with transient
 
 * Exchange hydra with transient
 
 * Slides improvements
 ** Code in headings should be as large as non-code letters
 ** In normal mode the cursor should not blink
+
+* User-experience
+** In dired, be able to start a shell (e.g. Konsole) in the current directory

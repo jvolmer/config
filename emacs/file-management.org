@@ -103,6 +103,10 @@ Set ~delete-by-moving-to-trash~ to true to move to trash instead of deleting
 
 Modify zip command or add one more to list ~dired-compress-files-alist~
 
+*** Executing
+
+| M-! | Execute a shell command in the current directory |
+
 *** Others
 
 | T       | Touch                                                 |
