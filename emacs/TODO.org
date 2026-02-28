@@ -9,6 +9,27 @@
 * Slides improvements
 ** Code in headings should be as large as non-code letters
 ** In normal mode the cursor should not blink
+** in presentation mode we should not see property annotations
+e.g.
+#+begin_src emacs-lisp
+:PROPERTIES:
+:CUSTOM_ID: bla
+:END:
+#+end_src
 
 * User-experience
 ** In dired, be able to start a shell (e.g. Konsole) in the current directory
+
+* Evil-mode: improve line numbering
+Show relative line numbers only in insert mode, possibly after started to type
+
+* Presentations
+** make lsp work (showing errors and suggestions) when compiling file with rust-script
+** make this also work inside babel in org-mode
+
+* Interesting packages
+** eat for terminal-emulation
+can also use eat inside eshell
+** denote for note-taking
+** claude code
+https://systemcrafters.net/live-streams/august-22-2025/

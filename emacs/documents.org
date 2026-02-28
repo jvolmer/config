@@ -335,6 +335,7 @@ To be able to export org-mode to latex beamer
            ;; < and > should not change slides, also in insert-mode
            ("<right>" . evil-forward-char)
            ("<left>" . evil-backward-char)))
+           ;; TODO set <normal state> r to nil
 
   (defun my/org-present-start ()
      ;; font
