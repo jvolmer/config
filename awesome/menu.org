@@ -8,6 +8,8 @@
   local menubar = require("menubar")
   local debian = require("debian.menu")
   local has_fdo, freedesktop = pcall(require, "freedesktop")
+  local hotkeys_popup = require("awful.hotkeys_popup").widget
+  require("awful.hotkeys_popup.keys")
 #+end_src
 
 #+begin_src lua
