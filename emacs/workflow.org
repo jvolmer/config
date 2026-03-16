@@ -45,7 +45,7 @@ Set agenda file locations (Filenames will show up in agenda-list)
 
   (with-eval-after-load 'org
     (setq org-agenda-files
-          '("~/org/org-roam/journal.org" "~/org/org-agenda/Tasks.org"))
+          '("~/org/journal.org" "~/org/org-agenda/Tasks.org"))
     (setq org-refile-targets
           '(("archive.org" :maxlevel . 1))))
 
@@ -61,7 +61,7 @@ Define TODO states and  workflows (left of "|" are active states)
   
   (with-eval-after-load 'org
     (setq org-todo-keywords
-          '((sequence "WAIT(w!)" "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+          '((sequence "WAIT(w!)" "TODO(t)" "NEXT(n)" "DOING(n)" "|" "DONE(d)")
             (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANCELLED(k@)"))))
   
 #+end_src
