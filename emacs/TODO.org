@@ -27,6 +27,12 @@ Show relative line numbers only in insert mode, possibly after started to type
 ** make lsp work (showing errors and suggestions) when compiling file with rust-script
 ** make this also work inside babel in org-mode
 
+* TODOS and workflow
+I want to have one file per project. This file includes one caption per ticket I work on, subcaptions are todos.
+- When I decide to work on one todo, there is a special key to add this caption into my journal file for today, only the caption and a link to the caption in this document.
+- When I finish this todo, I set it to done in the project-file. Then automatically  journal entry is added for today or if it already exists its state is set to done.
+- At the end of the day I check what I finished, and get rid of all "TODO" for today
+
 * Interesting packages
 ** eat for terminal-emulation
 can also use eat inside eshell
