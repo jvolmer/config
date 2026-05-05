@@ -14,7 +14,6 @@
   
   (use-package projectile
     :custom
-    (projectile-completion-system 'ivy)
     (projectile-project-search-path
      '("~/code/projects/"
        "~/help/"
@@ -25,16 +24,6 @@
               ("C-c p" . projectile-command-map))
     :init
     (projectile-mode 1))
-  
-#+end_src
-
-Provide additional actions in ivy with ~M-o~
-
-#+begin_src emacs-lisp
-  
-  (use-package counsel-projectile
-    :after projectile
-    :init (counsel-projectile-mode))
   
 #+end_src
 
@@ -60,9 +49,6 @@ Commands:
 |                            |           |                            |
 |                            |           |                            |
 |                            |           |                            |
-+----------------------------+-----------+----------------------------+
-| counsel-projectile-rg      | C-c p s r |Ripgrep search through all  |
-|                            |           |files in the directory      |
 +----------------------------+-----------+----------------------------+
 
 * Magit
@@ -143,6 +129,10 @@ Interesting:
 |                       |           | RET for commit infos, ESC to go back to buffer |
 | magit-diff-range      | C-c g D r | Compare buffer to another branch / commit      |
 
+** Revisions
+How to see two revisions side-by-side:
+Normally magit reuses revision buffers, if you want to keep a revision buffer, execute =magit-toggle-buffer-lock= on it, then load the other revision.
+
 * Code review
 
 Need a Github API token in ~/.authinfo.gpg for that
@@ -199,3 +189,4 @@ Menu entry: ~C-c s~
 Inside search buffer - TODO different keybindings in evil-mode
 | i | Make search results editable via wgrep (abort C-c C-k, done C-c C-c) |
 | s | Save rg-buffer to unique new name (C-c s s from outside buffer)      |
+| S | Save rg-buffer to a defined name buffer                              |

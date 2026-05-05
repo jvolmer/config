@@ -43,12 +43,11 @@ Activate it
     (lsp-eldoc-enable-hover t) ;; show signature on hover
     (lsp-eldoc-render-all nil) ;; show only one line on hover (customize with lsp-ui)
     (lsp-signature-auto-activate t) ;; show signature when using function
-    (lsp-signature-render-documentation nil) 
+    (lsp-signature-render-documentation nil)  ;; show only signature, not documention when using function
 
     :config
-    (lsp-enable-which-key-integration t)
     (general-define-key :keymaps 'lsp-mode-map
-      (concat lsp-keymap-prefix " g b") '(xref-go-back :which-key "back"))
+      (concat lsp-keymap-prefix " g b") '(xref-go-back))
     (add-hook 'lsp-mode-hook (lambda ()
         (add-hook 'before-save-hook #'lsp-format-buffer 1)
     ))
@@ -56,6 +55,8 @@ Activate it
 )
 
 #+end_src
+
+See https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
 
 ** Features
 
@@ -90,42 +91,6 @@ For full docu: ~lsp-describe-thing-at-point~ (~C-c l h h~)
 *** Completion
 (see company package below)
  ~completion-at-point~
-
-* Improved completion
-
-#+begin_src emacs-lisp
-  
-  (use-package company
-    :after lsp-mode ;; use this for lsp completion, otherwise ivy
-    :hook (prog-mode . company-mode)
-    :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.0)
-    ;; otherwise does not find clang executable
-    (company-clang-executable "/usr/bin/clang")
-    :bind
-    (:map company-active-map ("<tab>" . company-complete-selection))
-    (:map lsp-mode-map
-      ("<tab>" . company-indent-or-complete-common)
-      ("C-c l c" . completion-at-point)))
-  
-#+end_src
-
-Nicer interface (with symbols)
-#+begin_src emacs-lisp
-  
-  (use-package company-box
-    :hook (company-mode . company-box-mode))
-  
-#+end_src
-
-Integration with prescient to sort proposals prefering last and frequently used ones (no filtering)
-#+begin_src emacs-lisp
-  
-  (use-package company-prescient
-    :hook (company-mode . company-prescient-mode))
-  
-#+end_src
 
 * Higher level UI features
 
@@ -163,17 +128,6 @@ See file system with ~treemacs~
 See symbols with ~lsp-treemacs-symbols~
 
 Possibly treemacs-projectile can be interesting.
-
-* Search symbol in project
-
-Search e.g. for class name in project with ~lsp-ivy~
-
-#+begin_src emacs-lisp
-  
-  (use-package lsp-ivy
-    :after lsp)
-  
-#+end_src
 
 * Diagnostics
 
@@ -293,19 +247,24 @@ Helpful Commands
 | goto-last-change             | g ;       | go to last change in current buffer             |
 | goto-last-change-reverse     | g ,       | go to next change in current buffer             |
 
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :defer)
+#+end_src
+
 My own build menu
 #+begin_src emacs-lisp
   
-  (general-create-definer ec/cmake
+  (general-create-definer me/cmake
     :keymaps '(cmake-mode-map c++-mode-map c-mode-map)
     :prefix "C-c m")
   
-  (ec/cmake
-   "" '(:ignore t :which-key "cmake")
-   "c" '(me/c++/configure :which-key "configure")
-   "i" '(me/c++/install :which-key "install dependencies")
-   "m" '(me/c++/build :which-key "make")
-   "t" '(me/c++/test :which-key "test"))
+  (me/cmake
+   "" '(:ignore t)
+   "c" '(me/c++/configure)
+   "i" '(me/c++/install)
+   "m" '(me/c++/build)
+   "t" '(me/c++/test))
   
   (defun me/c++/configure ()
     "Generate build system"
@@ -363,7 +322,11 @@ Language-server: rust-analyzer, install via
 
 #+begin_src emacs-lisp
 
-  (use-package rust-mode)
+  ;; (use-package rust-mode)
+  (use-package rustic
+    :custom
+    ;; make rust-analyzer work with ESP projects
+    (rustic-analyzer-command (list (substring (shell-command-to-string "rustup which --toolchain stable rust-analyzer") 0 -1))))
 
   #+end_src
 
@@ -374,6 +337,9 @@ Others commands: ~rustic-cargo-...~ and ~lsp-rust...~
 Possibly interesting: Show analyzer status with ~lsp-rust-analyzer-status~
 
 You can have inline-documentation
+
+| C-c C-c C-r | Run main  |
+| C-c C-c C-t | Run tests |
   
 ** Javascript
 

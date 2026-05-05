@@ -26,3 +26,18 @@ Execute this after you pulled this repo with git:
 #+end_src
 
 Define your specific system settings in a file "system-variables.el" in this directory. You can overwrite all default system settings.
+
+* Setup
+
+Latex
+#+begin_src shell
+  mkdir -p ~/.texmf/tex/latex/commonstuff/
+  cp ./latex/*.cls ~/.texmf/tex/latex/commonstuff/
+  echo 'export TEXMFHOME="~/.texmf/"' >> ~/.bashrc
+  kpsewhich -var-value=TEXMFHOME
+#+end_src
+
+Search for latex-packages in apt index:
+#+begin_src shell
+  apt-file search <package.sty>
+#+end_src

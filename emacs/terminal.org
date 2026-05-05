@@ -79,11 +79,7 @@ Can run elisp commands directly in the shell
             eshell-buffer-maximum-lines 10000
             ;; same commands in sequence are not saved
             eshell-hist-ignoredups t
-            eshell-scroll-to-bottom-on-input t)
-    
-      (general-define-key
-       :keymap 'eshell-mode-map "C-r" 'counsel-esh-history)
-    )
+            eshell-scroll-to-bottom-on-input t))
     
     (use-package eshell
       :hook (eshell-first-time-mode . ec/configure-eshell)

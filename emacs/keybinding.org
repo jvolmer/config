@@ -10,21 +10,10 @@
 
 * Help
 
-#+begin_src emacs-lisp
-    
-    (use-package which-key
-      :demand
-      :diminish which-key-mode
-      :custom (which-key-idle-delay 0.3)
-      :init (which-key-mode))
-    
-#+end_src
-
 | describe-personal-keybindings | see all personal bindings      |
 | describe-mode                 | show current buffer modes      |
 |                               | (including keys)               |
 | describe-bindings             | show all bindings              |
-| which-key-show-keymap         | show bindings of specified map |
 
 * Set keybindings
 
@@ -66,18 +55,6 @@ Convenient method for binding keys, e.g. create your own leader-key and its menu
       (general-create-definer me/leader-key
         :prefix "C-c"))
   
-  (use-package transpose-frame)
-  
-  ;; make my own menu
-  (me/leader-key
-    "w" '(:ignore t :which-key "window")
-    "wt" '(transpose-frame :which-key "transpose")
-    "ws" '(:ignore t :which-key "size")
-    "wsh" '(hydra-horizontal-window-size/body :which-key "horizontal")
-    "wsv" '(hydra-vertical-window-size/body :which-key "vertical")
-    "wsb" '(balance-windows :which-key "balance")
-    "wss" '(shrink-window-if-larger-than-buffer :which-key "fit-to-size"))
-  
 #+end_src
 
 Define keys (equivalent to ~global-set-key~)
@@ -110,29 +87,13 @@ Define keys in a specific keymap
 Tie related commands together into a family of short bindings that can be called easily successively
 
 #+begin_src emacs-lisp
-      
-      (use-package hydra
-        :defer)
-      
-#+end_src
-
-Define hydras
-
-#+begin_src emacs-lisp
   
-  (defhydra hydra-horizontal-window-size ()
-    "Scale window horizontally"
-    ("k" shrink-window-horizontally "shrink")
-    ("l" enlarge-window-horizontally "enlarge")
-    ("q" nil "quit" :exit t))
-  
-  (defhydra hydra-vertical-window-size ()
-    "Scale window vertically"
-    ("k" (enlarge-window -1) "shrink")
-    ("l" enlarge-window "enlarge")
-    ("q" nil "quit" :exit t))
+  (use-package hydra
+     :defer)
   
 #+end_src
+
+Define hydras: search for usage of =defhydra= in files.
 
 Entry point for the definitions is ~<hydra-name>/body~.
 You can directly define a keybinding for each ~defhydra~ with ~(<keymap> "<key>")~ in the brackets.
@@ -175,6 +136,7 @@ Improved undo actions: undo and redo are clearly separated
     (setq evil-want-integration t) ;; 
     (setq evil-want-keybinding nil) ;; use evil-collection instead
     (setq evil-want-C-u-scroll t) ;; use C-u for scrolling instead of
+    (setq evil-want-c-i-jump nil)
     (evil-mode 1)
     :config
     (general-define-key :states 'insert "C-g" 'evil-normal-state)
@@ -258,23 +220,24 @@ All : commands must be finished by <ENTER>
 | t, T      | find next character (excluding new character |
 
 *** Actions
-| x    | Delete character under cursor              |
-| i    | insert (goto insert)                       |
-| p    | put last deletion after cursor             |
-|      | (for a deleted line: under cursor)         |
-| r    | replace character under cursor             |
-| R    | replace more (goto insert)                 |
-| a    | append (start editing one character ahead) |
-| [p   | paste in new line above                    |
-| ]p   | paste in new line below                    |
-| [SPC | add lines above                            |
-| ]SPC | add lines below                            |
-| [e   | move region/line up (down with ])          |
-|      |                                            |
-| o    | open line below this line goto insert      |
-| O    | open line above this line goto insert      |
-| A    | append to end of line                      |
-| I    | insert at start of line                    |
+| x          | Delete character under cursor                                  |
+| i          | insert (goto insert)                                           |
+| p          | put last deletion after cursor                                 |
+|            | (for a deleted line: under cursor)                             |
+| r          | replace character under cursor                                 |
+| s          | replace character under cursor and stay in insert (substitute) |
+| R          | replace more (goto insert)                                     |
+| a          | append (start editing one character ahead)                     |
+| [p         | paste in new line above                                        |
+| ]p         | paste in new line below                                        |
+| [SPC       | add lines above                                                |
+| ]SPC       | add lines below                                                |
+| [e         | move region/line up (down with ])                              |
+|            |                                                                |
+| o          | open line below this line goto insert                          |
+| O          | open line above this line goto insert                          |
+| A          | append to end of line                                          |
+| I          | insert at start of line                                        |
 
 Combined actions:
 [number] [verb] [noun] OR [verb] [number] [noun]
@@ -339,11 +302,22 @@ ciw C-r 0 ESC
 ** Comments
 #+begin_src emacs-lisp
 
-  (use-package evil-nerd-commenter
-    :config (evilnc-default-hotkeys))
+  (use-package evil-commentary
+     :config (evil-commentary-mode)) 
   
 #+end_src
+| gcc        | comment line      |
+| gc<motion> | comment motion    |
+| gcap       | comment paragraph |
 
+there is some weird thing happening with my cursor when reverting
+
+*** old comments package
+does not work in presenting mode of =org-present=
+#+begin_src emacs-lisp
+  ;; (use-package evil-nerd-commenter
+  ;;   :config (evilnc-default-hotkeys))
+#+end_src
 Evil-mode: ~,~
 | ,,9j | this and next 9 lines |
 | ,,,  | this line             |
@@ -354,7 +328,7 @@ All modes: ~M-;~
 ** Switch buffer
 #+begin_src emacs-lisp
   
-  (general-define-key
-    "C-M-j" 'counsel-switch-buffer)
+  ;; (general-define-key
+  ;;   "C-M-j" 'counsel-switch-buffer)
   
 #+end_src

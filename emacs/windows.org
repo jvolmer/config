@@ -35,6 +35,32 @@
 | scroll-other-window-down | M-pgup    |                     |
 |                          | C-S-M-v   |                     
 
+** Sizes
+
+#+begin_src emacs-lisp
+  (use-package transpose-frame)
+
+  (me/leader-key
+    "wt" 'transpose-frame
+    "wsh" 'me/hydra-horizontal-window-size/body
+    "wsv" 'me/hydra-vertical-window-size/body
+    "wsb" 'balance-windows
+    "wss" 'shrink-window-if-larger-than-buffer)
+
+  (defhydra me/hydra-horizontal-window-size ()
+    "Scale window horizontally"
+    ("k" shrink-window-horizontally "shrink")
+    ("l" enlarge-window-horizontally "enlarge")
+    ("q" nil "quit" :exit t))
+  
+  (defhydra me/hydra-vertical-window-size ()
+    "Scale window vertically"
+    ("k" (enlarge-window -1) "shrink")
+    ("l" enlarge-window "enlarge")
+    ("q" nil "quit" :exit t))
+ 
+#+end_src
+
 ** Select specific window
 
 Shows number of window in modeline
@@ -109,10 +135,12 @@ Have seperate workspaces: Each one has its own buffer list and window configurat
 
   (use-package perspective
     :bind (("C-x k" . persp-kill-buffer*) ;; kill buffer only in this perspective
-           ("C-x b" . persp-ivy-switch-buffer) ;; to only show buffers in current perspective
-           ("C-x C-b" . persp-list-buffers)) ;; only show buffers in current perspective (without ivy)
-    :custom ((persp-initial-frame-name "emacs")
-             (persp-mode-prefix-key (kbd "C-x x"))) ;; shadows buffer related commands, perhaps better choice: C-z
+           ("C-x b" . persp-switch-to-buffer*) ;; to only show buffers in current perspective
+           ("C-x C-b" . persp-list-buffers)) ;; only show buffers in current perspective
+    :custom
+    (persp-initial-frame-name "start")
+    (persp-mode-prefix-key (kbd "C-x x")) ;; shadows buffer related commands, perhaps better choice: C-z
+
     :init (persp-mode))
 
 #+end_src

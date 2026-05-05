@@ -33,9 +33,6 @@ Make sure that native compilation happens asynchronously and silence compiler wa
   (push '(vertical-scroll-bars) default-frame-alist)
   (push '(mouse-color . "white") default-frame-alist)
   
-  ;; Loads a nice blue theme, avoids the white screen flash on startup.
-  (load-theme 'wombat  t)
-
   ;; Make the initial buffer load faster by setting its mode to fundamental-mode
   (customize-set-variable 'initial-major-mode 'fundamental-mode)
 
@@ -48,14 +45,14 @@ Make sure that native compilation happens asynchronously and silence compiler wa
   (add-to-list 'load-path (concat user-emacs-directory "lisp"))
   (require 'package-management) ;; needs to be first
   (require 'environment)
-  (require 'keybinding)
+  (require 'keybinding) ;; should come before most others
   (require 'completion)
   (require 'appearance)
   (require 'helpinfo)
   (require 'windows)
   (require 'file-management)
   (require 'projects)
-  (require 'organization)
+  (require 'workflow)
   (require 'code)
   (require 'terminal)
   (require 'documents)

@@ -150,9 +150,9 @@ Change font size
 #+begin_src emacs-lisp
         
     (me/leader-key
-      "f" '(me/hydra-font-size/body :which-key "fontsize"))
+      "f" 'me/adapt-font-size/body)
     
-    (defhydra me/hydra-font-size ()
+    (defhydra me/adapt-font-size ()
       "Scale font size"
       ("+" (me/define-height-for-basic-faces (+ me/current-font-size 20)) "increase")
       ("-" (me/define-height-for-basic-faces (- me/current-font-size 20)) "shrink")
@@ -169,4 +169,10 @@ Use rainbow brackets and emphasize open-close brackets in all programming modes
     :hook (prog-mode . rainbow-delimiters-mode)
     :init (show-paren-mode 1))
   
+#+end_src
+
+* Scratch Buffer
+
+#+begin_src emacs-lisp
+  (setq initial-scratch-message "")
 #+end_src

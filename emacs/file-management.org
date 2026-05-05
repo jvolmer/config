@@ -11,7 +11,7 @@
 * Dired
 
 #+begin_src emacs-lisp
-  
+
   (require 'dired-x)
   (use-package dired
     :ensure nil ;; because comes directly with emacs
@@ -27,12 +27,14 @@
            ("e" . dired-do-kill-lines)
            ("/" . dired-goto-file)
            ("<RET>" . dired-open-file))
+    :config
     :custom
+    (dired-kill-when-opening-new-dired-buffer t)
     ;; define ls flags
     (dired-listing-switches "-agho --group-directories-first")
     ;; guess default target directory 
     (dired-dwim-target t))
-  
+
 #+end_src
 
 Open
@@ -101,6 +103,10 @@ Set ~delete-by-moving-to-trash~ to true to move to trash instead of deleting
 
 Modify zip command or add one more to list ~dired-compress-files-alist~
 
+*** Executing
+
+| M-! | Execute a shell command in the current directory |
+
 *** Others
 
 | T       | Touch                                                 |
@@ -137,18 +143,6 @@ Don't show dotfiles
 #+end_src
 
 ** Behavior
-
-Stay in same buffer when using these bindings for navigation:
-
-#+begin_src emacs-lisp
-  
-  (use-package dired-single
-    :commands (dired dired-jump)
-    :bind (:map dired-mode-map
-           ("h" . dired-single-up-directory)
-           ("l" . dired-single-buffer)))
-  
-#+end_src
 
 Open files with specific programs
 
