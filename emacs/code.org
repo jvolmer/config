@@ -48,9 +48,10 @@ Activate it
     :config
     (general-define-key :keymaps 'lsp-mode-map
       (concat lsp-keymap-prefix " g b") '(xref-go-back))
-    (add-hook 'lsp-mode-hook (lambda ()
-        (add-hook 'before-save-hook #'lsp-format-buffer 1)
-    ))
+    ;; (add-hook 'lsp-mode-hook (lambda ()
+    ;;    (unless (derived-mode-p 'javascript-mode)  ;; to add exception
+    ;;     (add-hook 'before-save-hook #'lsp-format-buffer 1))
+    ;; ))
       ;; (unless (derived-mode-p 'typescript-mode) ...) ;; to add exception
 )
 
@@ -324,9 +325,10 @@ Language-server: rust-analyzer, install via
 
   ;; (use-package rust-mode)
   (use-package rustic
-    :custom
-    ;; make rust-analyzer work with ESP projects
-    (rustic-analyzer-command (list (substring (shell-command-to-string "rustup which --toolchain stable rust-analyzer") 0 -1))))
+    ;; :custom
+    ;; ;; make rust-analyzer work with ESP projects
+    ;; (rustic-analyzer-command (list (substring (shell-command-to-string "rustup which --toolchain stable rust-analyzer") 0 -1)))
+    )
 
   #+end_src
 
@@ -360,6 +362,6 @@ Download latest release and unzip it in directory =~/bin/elixir-ls-v0.16.0/=
 
   (use-package elixir-mode
        :hook (elixir-mode . lsp)
-       :custom (lsp-elixir-server-command '("~/bin/elixir-ls-v0.16.0/language_server.sh")))
+       :custom (lsp-elixir-server-command '("~/bin/elixir-ls/language_server.sh")))
 
 #+end_src

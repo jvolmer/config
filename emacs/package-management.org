@@ -186,3 +186,9 @@ Use =with-eval-after-load= for all other stuff
 Just define keys normally.
 Use before require to use keybinding to call an autoload function
 Then possibly add autoload and use =with-eval-after-load=
+
+* Upgrading
+
+#+begin_src emacs-lisp
+(setq package-install-upgrade-built-in t)
+#+end_src

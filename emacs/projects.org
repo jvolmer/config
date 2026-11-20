@@ -138,16 +138,16 @@ Normally magit reuses revision buffers, if you want to keep a revision buffer, e
 Need a Github API token in ~/.authinfo.gpg for that
 #+begin_src emacs-lisp
   
-  (use-package forge
-    :after magit)
+  ;; (use-package forge
+  ;;   :after magit)
   
-  (use-package code-review
-    :hook (code-review-mode . emojify-mode)
-    :custom 
-    (code-review-fill-column 80)
-    (code-review-new-buffer-window-strategy #'switch-to-buffer)
-    (code-review-download-dir "/tmp/code-review/")
-    (code-review-auth-login-marker 'forge))
+  ;; (use-package code-review
+  ;;   :hook (code-review-mode . emojify-mode)
+  ;;   :custom 
+  ;;   (code-review-fill-column 80)
+  ;;   (code-review-new-buffer-window-strategy #'switch-to-buffer)
+  ;;   (code-review-download-dir "/tmp/code-review/")
+  ;;   (code-review-auth-login-marker 'forge))
 
 #+end_src
 
